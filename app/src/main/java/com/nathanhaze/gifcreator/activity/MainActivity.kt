@@ -1,4 +1,4 @@
-package com.nathanhaze.gifcreator
+package com.nathanhaze.gifcreator.activity
 
 import android.Manifest
 import android.app.Activity
@@ -23,16 +23,32 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.amazon.device.ads.AdLayout
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.initialization.InitializationStatus
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.nathanhaze.gifcreator.GifCreatorApp
+import com.nathanhaze.gifcreator.R
+import com.nathanhaze.gifcreator.manager.Utils
 import mehdi.sakout.fancybuttons.FancyButton
 import org.greenrobot.eventbus.EventBus
+
+
+import android.text.Html
+import android.util.Log
+import android.widget.Button
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.PurchaseHistoryResponseListener
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import org.greenrobot.eventbus.Subscribe
+
+
 
 class MainActivity : AppCompatActivity() {
 
     private var pd: ProgressDialog? = null
-    private var app: GifCreatorApp? = null
     private var amazonAd: AdLayout? = null
     private var mAdView: AdView? = null
 
@@ -54,7 +70,6 @@ class MainActivity : AppCompatActivity() {
         MobileAds.initialize(this, object : OnInitializationCompleteListener() {
             fun onInitializationComplete(initializationStatus: InitializationStatus?) {}
         })
-        app = GifCreatorApp().getInstance()
         val btnVideoPicker = findViewById<View>(R.id.button_pick_video) as LinearLayout
         btnVideoPicker.setOnClickListener { importVideo() }
 
@@ -80,13 +95,13 @@ class MainActivity : AppCompatActivity() {
         val act: Activity = this
         removeAds!!.setOnClickListener { startActivity(Intent(act, GoingProActivity::class.java)) }
         val llAd = findViewById<View>(R.id.ll_ads) as LinearLayout
-        if (!VideoEditingApp.getInstance().getPurchased()) {
+        if (Utils.getPurchased(this)) {
             llAd.visibility = View.VISIBLE
-            mAdView = app.getAdmobAd(this)
+            mAdView = Utils.getAdmobAd(this)
             removeAds!!.visibility = View.VISIBLE
             llAd.addView(mAdView, 0)
             mAdView.setAdListener(object : AdListener() {
-                fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     super.onAdFailedToLoad(loadAdError)
                     mAdView.setVisibility(View.GONE)
                     amazonAd.setVisibility(View.VISIBLE)

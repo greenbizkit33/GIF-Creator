@@ -117,6 +117,8 @@
     <!--toast messages-->
     <string name="toast_getting_path" tools:ignore="MissingTranslation">Error while getting path to the video</string>
     <string name="toast_valid_file" tools:ignore="MissingTranslation">Error occurred, was this a valid file?</string>
+    <string name="preference_purchased">key purchased</string>
+    <string name="preference_app">project pref</string>
 
 
 </resources>
