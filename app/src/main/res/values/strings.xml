@@ -119,6 +119,7 @@
     <string name="toast_valid_file" tools:ignore="MissingTranslation">Error occurred, was this a valid file?</string>
     <string name="preference_purchased">key purchased</string>
     <string name="preference_app">project pref</string>
+    <string name="preference_path">key path</string>
 
 
 </resources>

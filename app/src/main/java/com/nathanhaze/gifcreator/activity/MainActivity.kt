@@ -133,8 +133,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleVideo(path: String) {
-        app.setVideoPath(path)
-        startActivity(Intent(this, VideoViewActivity::class.java))
+        Utils.setVideoPath(path, this)
+        startActivity(Intent(this, GifCreatorActivity::class.java))
     }
 
     private fun getVideoLength(path: String): Long {

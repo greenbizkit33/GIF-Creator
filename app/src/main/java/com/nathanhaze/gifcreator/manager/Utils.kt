@@ -18,10 +18,19 @@ object Utils {
         return sharedPref.getBoolean(activity.getString(R.string.preference_purchased), false)
     }
 
+
+    fun setVideoPath(path: String, activity: Activity) {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putString(activity.getString(R.string.preference_path), path)
+            apply()
+        }
+    }
+
     @SuppressLint("MissingPermission")
     fun getAdmobAd(activity: Activity?): AdView? {
         val adView = AdView(activity)
-        adView.adSize = activity?.let { getAdSize(it) }
+        adView.adSize = activity?.let { getAdSize(activity) }
         if (activity != null) {
             adView.adUnitId = activity.getString(R.string.banner_ad_unit_id)
         }
