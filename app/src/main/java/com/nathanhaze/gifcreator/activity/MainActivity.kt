@@ -1,5 +1,6 @@
 package com.nathanhaze.gifcreator.activity
 
+
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
@@ -22,28 +23,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.amazon.device.ads.AdLayout
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.initialization.InitializationStatus
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.nathanhaze.gifcreator.GifCreatorApp
 import com.nathanhaze.gifcreator.R
 import com.nathanhaze.gifcreator.manager.Utils
 import mehdi.sakout.fancybuttons.FancyButton
 import org.greenrobot.eventbus.EventBus
-
-
-import android.text.Html
-import android.util.Log
-import android.widget.Button
-import com.android.billingclient.api.BillingClient
-import com.android.billingclient.api.PurchaseHistoryResponseListener
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import org.greenrobot.eventbus.Subscribe
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -51,8 +41,6 @@ class MainActivity : AppCompatActivity() {
     private var pd: ProgressDialog? = null
     private var amazonAd: AdLayout? = null
     private var mAdView: AdView? = null
-
-    private val TAG = "FFmpeg"
 
     private val MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 0
     private val GALLERY_INTENT_CALLED = 1
@@ -67,8 +55,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //MobileAds.initialize(this, getResources().getString(R.string.admob_account));
-        MobileAds.initialize(this, object : OnInitializationCompleteListener() {
-            fun onInitializationComplete(initializationStatus: InitializationStatus?) {}
+        MobileAds.initialize(this, object : OnInitializationCompleteListener {
+            override fun onInitializationComplete(initializationStatus: InitializationStatus?) {}
         })
         val btnVideoPicker = findViewById<View>(R.id.button_pick_video) as LinearLayout
         btnVideoPicker.setOnClickListener { importVideo() }
@@ -91,28 +79,22 @@ class MainActivity : AppCompatActivity() {
         pd!!.setCancelable(false)
         pd!!.setCanceledOnTouchOutside(false)
         amazonAd = findViewById<View>(R.id.adview_amazon) as AdLayout
-        removeAds = findViewById<View>(R.id.tv_remove_ads) as TextView
         val act: Activity = this
-        removeAds!!.setOnClickListener { startActivity(Intent(act, GoingProActivity::class.java)) }
         val llAd = findViewById<View>(R.id.ll_ads) as LinearLayout
         if (Utils.getPurchased(this)) {
             llAd.visibility = View.VISIBLE
             mAdView = Utils.getAdmobAd(this)
             removeAds!!.visibility = View.VISIBLE
             llAd.addView(mAdView, 0)
-            mAdView.setAdListener(object : AdListener() {
+            mAdView?.setAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     super.onAdFailedToLoad(loadAdError)
-                    mAdView.setVisibility(View.GONE)
-                    amazonAd.setVisibility(View.VISIBLE)
-                    app.showAmazonAds(amazonAd)
+                    mAdView?.setVisibility(View.GONE)
                 }
             })
         } else {
             llAd.visibility = View.GONE
-            if (mAdView != null) {
-                mAdView.setVisibility(View.GONE)
-            }
+            mAdView?.setVisibility(View.GONE)
             removeAds!!.visibility = View.GONE
         }
 
@@ -123,48 +105,17 @@ class MainActivity : AppCompatActivity() {
         if (Intent.ACTION_SEND == action && type != null && type.startsWith("video/")) {
             handleSendImage(intent) // Handle single image being sent
         }
-        app.trackScreenView(this, "Chooser Page")
+        Utils.trackScreenView(this, "Chooser Page")
         EventBus.getDefault().register(this)
     }
 
-//    @Subscribe
-//    fun onEvent(event: PurchasedAppEvent?) {
-//        if (removeAds != null) {
-//            removeAds!!.visibility = View.GONE
-//        }
-//        if (amazonAd != null) {
-//            amazonAd.setVisibility(View.GONE)
-//        }
-//        if (mAdView != null) {
-//            mAdView.setVisibility(View.GONE)
-//        }
-//    }
-
-
     override fun onResume() {
         super.onResume()
-        if (btnOpenFolder != null) {
-            if (app == null) {
-                app = VideoEditingApp.getInstance()
-            }
-            //  if (!app.doesFolderExist()) {
-            //    btnOpenFolder.setVisibility(View.GONE);
-            //     btnOpenInternalFolder.setVisibility(View.GONE);
-            //   } else {
-            btnOpenFolder.setVisibility(View.GONE)
-            btnOpenInternalFolder.setVisibility(View.VISIBLE)
-            //  }
-        }
-        if (app != null) {
-            app.isInBackground = false
-        }
-        VideoManager.getInstance().cleanUp()
+        btnOpenFolder?.setVisibility(View.GONE)
+        btnOpenInternalFolder?.setVisibility(View.VISIBLE)
     }
 
     override fun onDestroy() {
-        if (amazonAd != null) {
-            amazonAd.destroy()
-        }
         EventBus.getDefault().unregister(this)
         super.onDestroy()
     }
@@ -176,7 +127,7 @@ class MainActivity : AppCompatActivity() {
             if (!value) {
                 Toast.makeText(this, resources.getString(R.string.sorry_wrong), Toast.LENGTH_LONG)
                     .show()
-                VideoEditingApp.getInstance().trackEvent(Bundle(), "bad_image_uri")
+                Utils.trackEvent(Bundle(), "bad_image_uri", this)
             }
         }
     }
@@ -184,27 +135,6 @@ class MainActivity : AppCompatActivity() {
     private fun handleVideo(path: String) {
         app.setVideoPath(path)
         startActivity(Intent(this, VideoViewActivity::class.java))
-        /*
-        try {
-            String workFolder = getApplicationContext().getFilesDir().getAbsolutePath();
-            int startMs = 0;
-            Log.d(TAG, " Duration " + getVideoLength(path));
-            int endMs = (int) getVideoLength(path);
-            File moviesDir = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_MOVIES
-            );
-            File destDir = new File(moviesDir, "stuff");
-
-            String pathExport = ImageUtil.getSavePath("%03d", this);
-
-            String[] complexCommand = {"-y", "-i", path, "-an", "-r", "1", "-ss", "" + startMs / 1000, "-t", "" + (endMs - startMs) / 1000, pathExport};
-
-            runCommand(complexCommand);
-            Log.i(TAG, "ffmpeg4android finished successfully");
-        } catch (Throwable e) {
-            Log.e(TAG, "vk run exception.", e);
-        }
-        */
     }
 
     private fun getVideoLength(path: String): Long {
@@ -216,12 +146,7 @@ class MainActivity : AppCompatActivity() {
         return timeInMillisec
     }
 
-    private fun showSettings() {
-//        Intent intent = new Intent(this, SettingActivity.class);
-//        startActivity(intent);
-    }
-
-    fun importVideo() {
+    private fun importVideo() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(
                     this,
@@ -300,6 +225,7 @@ class MainActivity : AppCompatActivity() {
         requestCode: Int,
         permissions: Array<String?>, grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE -> {
 

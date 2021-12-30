@@ -3,16 +3,18 @@ package com.nathanhaze.gifcreator.manager
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import android.util.DisplayMetrics
-import android.view.Display
 import com.google.android.gms.ads.*
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.nathanhaze.gifcreator.R
 
 object Utils {
 
-    fun getPurchased (activity : Activity) : Boolean {
-        val sharedPref =  activity?.getSharedPreferences(
-            activity.getString(R.string.preference_app), Context.MODE_PRIVATE)
+    fun getPurchased(activity: Activity): Boolean {
+        val sharedPref = activity?.getSharedPreferences(
+            activity.getString(R.string.preference_app), Context.MODE_PRIVATE
+        )
         return sharedPref.getBoolean(activity.getString(R.string.preference_purchased), false)
     }
 
@@ -45,5 +47,27 @@ object Utils {
 
         // Step 3 - Get adaptive ad size and return for setting on the ad view.
         return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth)
+    }
+
+    /***
+     * Tracking screen view
+     *
+     * @param screenName screen name to be displayed on GA dashboard
+     */
+    @SuppressLint("MissingPermission")
+    fun trackScreenView(act: Activity?, screenName: String?) {
+        if (act != null) {
+            FirebaseAnalytics.getInstance(act)
+                .setCurrentScreen(act, screenName, null /* class override */)
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun trackEvent(bundle: Bundle?, name: String?, context: Context) {
+        var name = name
+        if (name != null && !name.isEmpty()) {
+            name = name.replace(" ", "_")
+        }
+        FirebaseAnalytics.getInstance(context).logEvent(name!!, bundle)
     }
 }
