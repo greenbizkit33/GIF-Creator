@@ -1,21 +1,21 @@
 package com.nathanhaze.gifcreator.manager
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Environment
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
 object ImageUtil {
 
-    fun saveBitmap(image: Bitmap, context: Context): String {
+    fun saveBitmap(image: Bitmap, activty: Activity): String {
         var path = ""
         val imageFile: File =
-            getOutputMediaFile(context)
+            getOutputMediaFile(activty) ?: return ""
         var out: FileOutputStream? = null
 
         try {
@@ -32,13 +32,13 @@ object ImageUtil {
             }
         }
         if (path != null && !path.isEmpty()) {
-            scanMedia(path, context)
+            scanMedia(path, activty)
         }
         return path
     }
 
-    private fun getOutputMediaFile(context: Context): File {
-        val mediaStorageDir: File = nathanhaze.com.videoediting.ImageUtil.getRootDirectory()
+    private fun getOutputMediaFile(activty: Activity): File? {
+        val mediaStorageDir: File = getRootDirectory()
 
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
@@ -47,25 +47,14 @@ object ImageUtil {
         }
 
         var mediaFile: File? = null
-        var extension = ".jpeg"
-        if (VideoEditingApp.getInstance().getSavePng()) {
-            extension = ".png"
-        }
-        if (VideoEditingApp.getInstance().useFileInt()) {
-            val index = String.format("%07d", VideoEditingApp.getInstance().getLastFileInt())
-            VideoEditingApp.getInstance().increamentFileInt()
-            mediaFile = File(
-                mediaStorageDir.path + File.separator +
-                        index + extension
-            )
-        } else {
-            // Create a media file name
-            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
-            mediaFile = File(
-                (mediaStorageDir.path + File.separator +
-                        "IMG_" + timeStamp + append + extension)
-            )
-        }
+        var extension = ".png"
+
+        val index = String.format("%07d", Utils.getLastFileInt(activty))
+        Utils.increamentFileInt(activty)
+        mediaFile = File(
+            mediaStorageDir.path + File.separator +
+                    index + extension
+        )
         return mediaFile
     }
 
@@ -76,5 +65,14 @@ object ImageUtil {
             Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri
         )
         context.sendBroadcast(scanFileIntent)
+    }
+
+    private fun getPath(): String? {
+        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            .toString() + "/GifCreator/"
+    }
+
+    private fun getRootDirectory(): File {
+        return File(getPath())
     }
 }

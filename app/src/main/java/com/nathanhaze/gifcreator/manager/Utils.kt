@@ -11,6 +11,8 @@ import com.nathanhaze.gifcreator.R
 
 object Utils {
 
+    private const val FILE_NUMBER = "file number"
+
     fun getPurchased(activity: Activity): Boolean {
         val sharedPref = activity?.getSharedPreferences(
             activity.getString(R.string.preference_app), Context.MODE_PRIVATE
@@ -18,6 +20,30 @@ object Utils {
         return sharedPref.getBoolean(activity.getString(R.string.preference_purchased), false)
     }
 
+    fun increamentFileInt(activity: Activity) {
+        var lastIndex = getLastFileInt(activity)
+
+        lastIndex++
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putInt(FILE_NUMBER, lastIndex)
+            apply()
+        }
+    }
+
+    fun getLastFileInt(activity: Activity): Int {
+        val sharedPref = activity?.getSharedPreferences(
+            activity.getString(R.string.preference_app), Context.MODE_PRIVATE
+        )
+        return sharedPref.getInt(FILE_NUMBER, 0)
+    }
+
+    fun getVideoPath(activity: Activity) : String? {
+        val sharedPref = activity?.getSharedPreferences(
+            activity.getString(R.string.preference_app), Context.MODE_PRIVATE
+        )
+        return sharedPref.getString(activity.getString(R.string.preference_path), "")
+    }
 
     fun setVideoPath(path: String, activity: Activity) {
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
@@ -45,7 +71,7 @@ object Utils {
         return adView
     }
 
-    fun getAdSize(activity: Activity): AdSize? {
+    private fun getAdSize(activity: Activity): AdSize? {
         // Step 2 - Determine the screen width (less decorations) to use for the ad width.
         val display = activity.windowManager.defaultDisplay
         val outMetrics = DisplayMetrics()
