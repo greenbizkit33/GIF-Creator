@@ -4,11 +4,19 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
+import com.nathanhaze.gifcreator.AnimatedGifEncoder
+import com.nathanhaze.gifcreator.event.GifCreationEvent
+import org.greenrobot.eventbus.EventBus
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 object ImageUtil {
 
@@ -74,5 +82,45 @@ object ImageUtil {
 
     private fun getRootDirectory(): File {
         return File(getPath())
+    }
+
+    fun saveGif(fileNames: ArrayList<String>, context: Context?) {
+        try {
+            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
+            val filePath: File = File(
+                getPath(),
+                "GIF_$timeStamp.gif"
+            )
+            val outStream = FileOutputStream(filePath)
+            outStream.write(fileNames?.let { generateGIF(it) })
+            outStream.close()
+            val event = GifCreationEvent(filePath)
+            EventBus.getDefault().post(event)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun generateGIF(fileNames: ArrayList<String>): ByteArray? {
+        val bitmaps = ArrayList<Bitmap>()
+        for (name in fileNames) {
+            val image = File(name)
+            val bmOptions = BitmapFactory.Options()
+            val bitmap = BitmapFactory.decodeFile(image.absolutePath, bmOptions)
+            if (bitmap != null) {
+                bitmaps.add(bitmap)
+            }
+        }
+        if (bitmaps.isEmpty()) {
+            return null
+        }
+        val bos = ByteArrayOutputStream()
+        val encoder = AnimatedGifEncoder()
+        encoder.start(bos)
+        for (bitmap in bitmaps) {
+            encoder.addFrame(bitmap)
+        }
+        encoder.finish()
+        return bos.toByteArray()
     }
 }

@@ -7,12 +7,15 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.HandlerCompat
 import com.nathanhaze.gifcreator.R
 import com.nathanhaze.gifcreator.manager.ImageUtil
+import com.nathanhaze.gifcreator.manager.Utils
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -22,23 +25,18 @@ class GifCreatorActivity : AppCompatActivity() {
 
     private val PERMISSION_EXTRCT = 0
 
+    var progressbar: ProgressBar = TODO()
+
     val executorService: ExecutorService = Executors.newFixedThreadPool(4)
     val mainThreadHandler: Handler = HandlerCompat.createAsync(Looper.getMainLooper())
 
 
-    fun getImages(filePath: String) {
-//        executorService.execute {
-//            try {
-//                val response = makeSynchronousLoginRequest(jsonBody)
-//                callback(response)
-//            } catch (e: Exception) {
-//                val errorResult = Result.Error(e)
-//                callback(errorResult)
-//            }
-//        }
-
+    private fun getImages() {
+        val filePath = Utils.getVideoPath(this)
+        progressbar.visibility = View.VISIBLE
         Executors.newSingleThreadExecutor().execute {
             // todo: background tasks
+            val frameList = ArrayList<String>()
             val mediaRetriever: MediaMetadataRetriever = MediaMetadataRetriever()
             mediaRetriever.setDataSource(filePath)
 
@@ -52,13 +50,16 @@ class GifCreatorActivity : AppCompatActivity() {
                     extractionType
                 )
                 bitmap?.let {
-                    ImageUtil.saveBitmap(bitmap, this)
+                    frameList.add(ImageUtil.saveBitmap(bitmap, this))
                 }
                 currentFrame++
             }
 
             runOnUiThread {
-
+                frameList?.let {
+                    ImageUtil.saveGif(frameList, this)
+                    progressbar.visibility = View.GONE
+                }
             }
         }
     }
@@ -66,6 +67,8 @@ class GifCreatorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gif_creator)
+        progressbar = findViewById<View>(R.id.progress_circular) as ProgressBar
+        extractPermission()
     }
 
 
@@ -82,10 +85,10 @@ class GifCreatorActivity : AppCompatActivity() {
                     PERMISSION_EXTRCT
                 )
             } else {
-                getImages("")
+                getImages()
             }
         } else {
-            getImages("")
+            getImages()
         }
 
     }
@@ -103,7 +106,7 @@ class GifCreatorActivity : AppCompatActivity() {
                 if (grantResults.size > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED
                 ) {
-                    getImages("")
+                    getImages()
                 }
             }
         }
