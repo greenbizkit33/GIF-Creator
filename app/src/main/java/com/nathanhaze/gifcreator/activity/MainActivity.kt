@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             llAd.visibility = View.GONE
             mAdView?.setVisibility(View.GONE)
-            removeAds!!.visibility = View.GONE
+            removeAds?.visibility = View.GONE
         }
 
         // Get intent, action and MIME type
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
             handleSendImage(intent) // Handle single image being sent
         }
         Utils.trackScreenView(this, "Chooser Page")
-        EventBus.getDefault().register(this)
+       // EventBus.getDefault().register(this)
     }
 
     override fun onResume() {
