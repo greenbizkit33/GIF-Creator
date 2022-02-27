@@ -7,9 +7,10 @@
     <!-- Screen Titles -->
     <string name="title_activity_picture_preview">Picture Preview</string>
 
-    <string name="pick_video">Pick Video</string>
 
     <!-- Buttons -->
+    <string name="simple_video">Simple Video</string>
+
 
     <!-- TextView -->
     <string name="text_mode">Take frame at current position</string>

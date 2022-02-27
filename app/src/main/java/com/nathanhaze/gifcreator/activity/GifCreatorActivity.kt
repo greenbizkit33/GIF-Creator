@@ -15,11 +15,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.HandlerCompat
 import com.bumptech.glide.Glide
-import com.nathanhaze.gifcreator.GifCreatorApp
 import com.nathanhaze.gifcreator.R
 import com.nathanhaze.gifcreator.event.GifCreationEvent
 import com.nathanhaze.gifcreator.manager.ImageUtil
 import com.nathanhaze.gifcreator.manager.Utils
+import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -47,6 +47,16 @@ class GifCreatorActivity : AppCompatActivity() {
         extractPermission()
     }
 
+    override fun onResume() {
+        super.onResume()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        EventBus.getDefault().unregister(this)
+    }
+
     private fun getImages() {
         val filePath = Utils.getVideoPath(this)
         progressbar.visibility = View.VISIBLE
@@ -57,17 +67,20 @@ class GifCreatorActivity : AppCompatActivity() {
 
             val extractionType = MediaMetadataRetriever.OPTION_CLOSEST
 
-            val videoLength = 9
+            val time: String? =
+                mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+            val videoLengthMilli = time?.toLong()
+            val videoLengthSec = videoLengthMilli?.let { TimeUnit.MILLISECONDS.toSeconds(it) }
             var currentFrame = 0L
-            while (currentFrame < videoLength) {
+            while (currentFrame < videoLengthSec!!) {
                 val bitmap = mediaRetriever.getFrameAtTime(
-                    TimeUnit.MILLISECONDS.toMicros(currentFrame),
+                    TimeUnit.SECONDS.toMicros(currentFrame),
                     extractionType
                 )
                 bitmap?.let {
                     frameList.add(ImageUtil.saveBitmap(bitmap, this))
                 }
-                currentFrame++
+                currentFrame += 2
             }
 
             runOnUiThread {
@@ -80,7 +93,7 @@ class GifCreatorActivity : AppCompatActivity() {
     }
 
     @Subscribe
-    fun onEvent(event : GifCreationEvent) {
+    fun onEvent(event: GifCreationEvent) {
         Glide.with(this).asGif().load(event.filePath).into(gifImage)
     }
 

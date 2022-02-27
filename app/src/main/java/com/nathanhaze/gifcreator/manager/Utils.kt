@@ -24,7 +24,9 @@ object Utils {
         var lastIndex = getLastFileInt(activity)
 
         lastIndex++
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPref = activity?.getSharedPreferences(
+            activity.getString(R.string.preference_app), Context.MODE_PRIVATE
+        ) ?: return
         with(sharedPref.edit()) {
             putInt(FILE_NUMBER, lastIndex)
             apply()
@@ -38,7 +40,7 @@ object Utils {
         return sharedPref.getInt(FILE_NUMBER, 0)
     }
 
-    fun getVideoPath(activity: Activity) : String? {
+    fun getVideoPath(activity: Activity): String? {
         val sharedPref = activity?.getSharedPreferences(
             activity.getString(R.string.preference_app), Context.MODE_PRIVATE
         )
@@ -46,7 +48,10 @@ object Utils {
     }
 
     fun setVideoPath(path: String, activity: Activity) {
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPref = activity?.getSharedPreferences(
+            activity.getString(R.string.preference_app),
+            Context.MODE_PRIVATE
+        ) ?: return
         with(sharedPref.edit()) {
             putString(activity.getString(R.string.preference_path), path)
             apply()

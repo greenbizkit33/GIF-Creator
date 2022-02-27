@@ -55,7 +55,7 @@
                 fancy:fb_focusColor="#01303e"
                 fancy:fb_iconPosition="left"
                 fancy:fb_radius="24dp"
-                fancy:fb_text="@string/pick_video"
+                fancy:fb_text="@string/simple_video"
                 fancy:fb_textColor="#FFFFFF"
                 fancy:fb_textSize="18sp" />
 

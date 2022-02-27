@@ -55,7 +55,7 @@ object ImageUtil {
         }
 
         var mediaFile: File? = null
-        var extension = ".png"
+        val extension = ".png"
 
         val index = String.format("%07d", Utils.getLastFileInt(activty))
         Utils.increamentFileInt(activty)
@@ -96,6 +96,7 @@ object ImageUtil {
             outStream.close()
             val event = GifCreationEvent(filePath)
             EventBus.getDefault().post(event)
+            context?.let { scanMedia(filePath?.absolutePath, it) }
         } catch (e: Exception) {
             e.printStackTrace()
         }
