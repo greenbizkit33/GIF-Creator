@@ -58,7 +58,7 @@ object ImageUtil {
         val extension = ".png"
 
         val index = String.format("%07d", Utils.getLastFileInt(activty))
-        Utils.increamentFileInt(activty)
+        Utils.incrementFileInt(activty)
         mediaFile = File(
             mediaStorageDir.path + File.separator +
                     index + extension
@@ -117,6 +117,7 @@ object ImageUtil {
         }
         val bos = ByteArrayOutputStream()
         val encoder = AnimatedGifEncoder()
+        encoder.setFrameRate(1F)
         encoder.start(bos)
         for (bitmap in bitmaps) {
             encoder.addFrame(bitmap)

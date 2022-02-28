@@ -13,6 +13,8 @@ object Utils {
 
     private const val FILE_NUMBER = "file number"
 
+    public var frameFrequency = 1000
+
     fun getPurchased(activity: Activity): Boolean {
         val sharedPref = activity?.getSharedPreferences(
             activity.getString(R.string.preference_app), Context.MODE_PRIVATE
@@ -20,7 +22,7 @@ object Utils {
         return sharedPref.getBoolean(activity.getString(R.string.preference_purchased), false)
     }
 
-    fun increamentFileInt(activity: Activity) {
+    fun incrementFileInt(activity: Activity) {
         var lastIndex = getLastFileInt(activity)
 
         lastIndex++

@@ -122,5 +122,7 @@
     <string name="preference_app">project pref</string>
     <string name="preference_path">key path</string>
 
+    <string name="range_frequency">Set the number of frames per second</string>
+    <string name="create_gif">Create Gif</string>
 
 </resources>

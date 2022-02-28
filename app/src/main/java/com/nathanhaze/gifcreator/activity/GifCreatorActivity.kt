@@ -71,6 +71,9 @@ class GifCreatorActivity : AppCompatActivity() {
                 mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
             val videoLengthMilli = time?.toLong()
             val videoLengthSec = videoLengthMilli?.let { TimeUnit.MILLISECONDS.toSeconds(it) }
+
+            //TODO  start here
+            val numberOfFrames = Utils.frameFrequency
             var currentFrame = 0L
             while (currentFrame < videoLengthSec!!) {
                 val bitmap = mediaRetriever.getFrameAtTime(
@@ -97,7 +100,7 @@ class GifCreatorActivity : AppCompatActivity() {
         Glide.with(this).asGif().load(event.filePath).into(gifImage)
     }
 
-    fun extractPermission() {
+    private fun extractPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(
                     this,
