@@ -13,7 +13,7 @@ object Utils {
 
     private const val FILE_NUMBER = "file number"
 
-    public var frameFrequency = 1000
+    public var frameFrequencyMilli = 1000
 
     fun getPurchased(activity: Activity): Boolean {
         val sharedPref = activity?.getSharedPreferences(

@@ -117,7 +117,7 @@ object ImageUtil {
         }
         val bos = ByteArrayOutputStream()
         val encoder = AnimatedGifEncoder()
-        encoder.setFrameRate(1F)
+        encoder.setFrameRate((Utils.frameFrequencyMilli/1000).toFloat())
         encoder.start(bos)
         for (bitmap in bitmaps) {
             encoder.addFrame(bitmap)

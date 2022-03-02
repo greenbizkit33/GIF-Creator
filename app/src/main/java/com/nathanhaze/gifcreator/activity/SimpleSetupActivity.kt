@@ -2,7 +2,6 @@ package com.nathanhaze.gifcreator.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.nathanhaze.gifcreator.R
@@ -21,7 +20,7 @@ class SimpleSetupActivity : AppCompatActivity() {
         val createGifButton = findViewById<Button>(R.id.btn_create_gif)
 
         createGifButton.setOnClickListener {
-            Utils.frameFrequency = frequencyRange.keyProgressIncrement.roundToInt()
+            Utils.frameFrequencyMilli = frequencyRange.keyProgressIncrement.roundToInt()
             startActivity(Intent(this, GifCreatorActivity::class.java))
         }
 

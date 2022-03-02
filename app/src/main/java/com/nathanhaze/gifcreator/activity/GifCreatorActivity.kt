@@ -73,17 +73,19 @@ class GifCreatorActivity : AppCompatActivity() {
             val videoLengthSec = videoLengthMilli?.let { TimeUnit.MILLISECONDS.toSeconds(it) }
 
             //TODO  start here
-            val numberOfFrames = Utils.frameFrequency
+            val numberOfFrames = videoLengthMilli?.div(Utils.frameFrequencyMilli)
+
             var currentFrame = 0L
-            while (currentFrame < videoLengthSec!!) {
+            while (currentFrame < numberOfFrames!!) {
+                val milliSecFrame = currentFrame * Utils.frameFrequencyMilli
                 val bitmap = mediaRetriever.getFrameAtTime(
-                    TimeUnit.SECONDS.toMicros(currentFrame),
+                    TimeUnit.SECONDS.toMicros(milliSecFrame),
                     extractionType
                 )
                 bitmap?.let {
                     frameList.add(ImageUtil.saveBitmap(bitmap, this))
                 }
-                currentFrame += 2
+                currentFrame++
             }
 
             runOnUiThread {
