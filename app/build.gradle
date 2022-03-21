@@ -4,6 +4,10 @@ plugins {
 }
 
 android {
+
+    buildFeatures {
+        viewBinding = true
+    }
     compileSdk 31
 
     defaultConfig {
@@ -76,5 +80,9 @@ dependencies {
     implementation 'com.github.sephiroth74:RangeSeekBar:1.1.0'
 
     implementation 'com.github.medyo:fancybuttons:1.9.1'
+
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.17.0'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.17.0'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.17.0'
 
 }

@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
+
+    <fragment
+        android:id="@+id/frag_video"
+        android:name="com.nathanhaze.gifcreator.fragment.VideoFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/fragment_video"
+        tools:layout_height="80dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -24,13 +32,40 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:valueFrom="500"
-            android:valueTo="5000"/>
+            android:valueTo="5000" />
     </LinearLayout>
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/range_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_start_time"
+            android:layout_width="0dp"
+            android:text="00:00"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+        <TextView
+            android:id="@+id/tv_end_time"
+            android:text="00:00"
+            android:layout_width="0dp"
+            android:gravity="end"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/btn_create_gif"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:padding="16dp"
         android:text="@string/create_gif" />
-</RelativeLayout>
+</LinearLayout>
