@@ -3,8 +3,10 @@ package com.nathanhaze.gifcreator.activity
 import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.RangeSlider
@@ -26,7 +28,7 @@ class SimpleSetupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_simple_setup)
 
-        binding = ActivitySimpleSetupBinding.inflate(layoutInflater)
+     //   binding = ActivitySimpleSetupBinding.inflate(layoutInflater)
 
         val frequencyRange = findViewById<Slider>(R.id.frame_rate)
 
@@ -45,29 +47,31 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         val time: String? =
             mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-        val videoLengthMilli = time?.toFloat()
+        val videoLengthMilli : Float = time?.toFloat() ?: 0F
 
-        rangeSlider.valueFrom = 0F
-        if (videoLengthMilli != null) {
-            rangeSlider.valueTo = videoLengthMilli
-        }
+//        rangeSlider.valueFrom = 0F
+//        if (videoLengthMilli != null) {
+//          //  rangeSlider.valueTo = videoLengthMilli
+//            rangeSlider.valueTo = 10F
+//        }
+
+        rangeSlider.setValues(0.0f,1.0f);
+
+        val tvStart = findViewById<TextView>(R.id.tv_start_time)
+        val tvEnd = findViewById<TextView>(R.id.tv_end_time)
 
         rangeSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener{
             override fun onStartTrackingTouch(slider: RangeSlider) {
-                val values = rangeSlider.values
-                //Those are the satrt and end values of sldier when user start dragging
-                Log.i("SliderPreviousValue From", values[0].toString())
-                Log.i("SliderPreviousValue To", values[1].toString())
+
             }
 
             override fun onStopTrackingTouch(slider: RangeSlider) {
                 val values = rangeSlider.values
-                //Those are the new updated values of sldier when user has finshed dragging
-                Log.i("SliderNewValue From", values[0].toString())
-                Log.i("SliderNewValue To", values[1].toString())
-
-                textView.setText("Start value: ${values[0]}, End value: ${values[1]}")
+                tvStart.setText("" + values[0].times(videoLengthMilli))
+                tvEnd.setText("" + values[1].times(videoLengthMilli))
             }
+
+
         })
 
         val createGifButton = findViewById<Button>(R.id.btn_create_gif)
