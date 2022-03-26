@@ -3,8 +3,6 @@ package com.nathanhaze.gifcreator.activity
 import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +16,6 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
 
-
 class SimpleSetupActivity : AppCompatActivity() {
 
     private var binding: ActivitySimpleSetupBinding? = null
@@ -27,8 +24,6 @@ class SimpleSetupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_simple_setup)
-
-     //   binding = ActivitySimpleSetupBinding.inflate(layoutInflater)
 
         val frequencyRange = findViewById<Slider>(R.id.frame_rate)
 
@@ -47,7 +42,7 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         val time: String? =
             mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-        val videoLengthMilli : Float = time?.toFloat() ?: 0F
+        val videoLengthMilli: Float = time?.toFloat() ?: 0F
 
 //        rangeSlider.valueFrom = 0F
 //        if (videoLengthMilli != null) {
@@ -55,20 +50,51 @@ class SimpleSetupActivity : AppCompatActivity() {
 //            rangeSlider.valueTo = 10F
 //        }
 
-        rangeSlider.setValues(0.0f,1.0f);
+        Utils.startTimeMilli = 0
+        Utils.endTimeMilli = videoLengthMilli.toInt()
+
+        rangeSlider.setValues(0.0f, 1.0f);
 
         val tvStart = findViewById<TextView>(R.id.tv_start_time)
         val tvEnd = findViewById<TextView>(R.id.tv_end_time)
 
-        rangeSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener{
+        rangeSlider.setLabelFormatter(LabelFormatter { value -> //It is just an example
+            val milli = value.times(videoLengthMilli).toLong()
+
+            String.format(
+                "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(milli.toLong()),
+                TimeUnit.MILLISECONDS.toMinutes(milli.toLong()) % TimeUnit.HOURS.toMinutes(1),
+                TimeUnit.MILLISECONDS.toSeconds(milli.toLong()) % TimeUnit.MINUTES.toSeconds(1)
+            )
+        })
+
+        rangeSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: RangeSlider) {
 
             }
 
             override fun onStopTrackingTouch(slider: RangeSlider) {
                 val values = rangeSlider.values
-                tvStart.setText("" + values[0].times(videoLengthMilli))
-                tvEnd.setText("" + values[1].times(videoLengthMilli))
+
+                val startMilli = values[0].times(videoLengthMilli).toLong()
+                val start = String.format(
+                    "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(startMilli),
+                    TimeUnit.MILLISECONDS.toMinutes(startMilli) % TimeUnit.HOURS.toMinutes(1),
+                    TimeUnit.MILLISECONDS.toSeconds(startMilli) % TimeUnit.MINUTES.toSeconds(1)
+                )
+
+                val endMilli = values[1].times(videoLengthMilli).toLong()
+
+                val end = String.format(
+                    "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(endMilli),
+                    TimeUnit.MILLISECONDS.toMinutes(endMilli) % TimeUnit.HOURS.toMinutes(1),
+                    TimeUnit.MILLISECONDS.toSeconds(endMilli) % TimeUnit.MINUTES.toSeconds(1)
+                )
+                tvStart.setText(start)
+                tvEnd.setText(end)
+
+                Utils.startTimeMilli = startMilli.toInt()
+                Utils.endTimeMilli = endMilli.toInt()
             }
 
 

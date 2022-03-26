@@ -15,6 +15,9 @@ object Utils {
 
     public var frameFrequencyMilli = 1000
 
+    public var startTimeMilli = 0
+    public var endTimeMilli = 0
+
     fun getPurchased(activity: Activity): Boolean {
         val sharedPref = activity?.getSharedPreferences(
             activity.getString(R.string.preference_app), Context.MODE_PRIVATE
