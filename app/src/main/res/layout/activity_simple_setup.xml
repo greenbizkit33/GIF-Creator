@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout="@layout/fragment_video"
-        tools:layout_height="80dp"/>
+        tools:layout_height="80dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,6 +20,7 @@
         android:padding="16dp">
 
         <TextView
+            android:id="@+id/tv_freq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/range_frequency" />
@@ -38,26 +39,28 @@
     <com.google.android.material.slider.RangeSlider
         android:id="@+id/range_time"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:padding="16dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="16dp" >
+
         <TextView
             android:id="@+id/tv_start_time"
             android:layout_width="0dp"
-            android:text="00:00"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            />
+            android:text="00:00" />
+
         <TextView
             android:id="@+id/tv_end_time"
-            android:text="00:00"
             android:layout_width="0dp"
-            android:gravity="end"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            />
+            android:gravity="end"
+            android:text="00:00" />
     </LinearLayout>
 
 

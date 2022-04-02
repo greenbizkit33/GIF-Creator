@@ -25,13 +25,25 @@ class SimpleSetupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_simple_setup)
 
+        val tvFreq = findViewById<TextView>(R.id.tv_freq)
+
         val frequencyRange = findViewById<Slider>(R.id.frame_rate)
+
+        frequencyRange.addOnChangeListener { slider, value, fromUser ->
+            val df = DecimalFormat("#.##")
+            df.roundingMode = RoundingMode.CEILING
+            df.format(value / 1000).toString()
+
+            tvFreq.setText(getText(R.string.range_frequency).toString() + " " + df.format(value / 1000).toString())
+        }
 
         frequencyRange.setLabelFormatter(LabelFormatter { value -> //It is just an example
             val df = DecimalFormat("#.##")
             df.roundingMode = RoundingMode.CEILING
             df.format(value / 1000).toString()
         })
+
+        frequencyRange.value = .1F
 
         val rangeSlider = findViewById<RangeSlider>(R.id.range_time)
 
@@ -57,6 +69,15 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         val tvStart = findViewById<TextView>(R.id.tv_start_time)
         val tvEnd = findViewById<TextView>(R.id.tv_end_time)
+
+
+        val end = String.format(
+            "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(videoLengthMilli.toLong()),
+            TimeUnit.MILLISECONDS.toMinutes(videoLengthMilli.toLong()) % TimeUnit.HOURS.toMinutes(1),
+            TimeUnit.MILLISECONDS.toSeconds(videoLengthMilli.toLong()) % TimeUnit.MINUTES.toSeconds(1)
+        )
+
+        tvEnd.setText(end)
 
         rangeSlider.setLabelFormatter(LabelFormatter { value -> //It is just an example
             val milli = value.times(videoLengthMilli).toLong()
