@@ -2,11 +2,13 @@ package com.nathanhaze.gifcreator.activity
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -61,7 +63,7 @@ class GifCreatorActivity : AppCompatActivity() {
         val filePath = Utils.getVideoPath(this)
         progressbar.visibility = View.VISIBLE
         Executors.newSingleThreadExecutor().execute {
-            val frameList = ArrayList<String>()
+            val frameList = ArrayList<Bitmap>()
             val mediaRetriever: MediaMetadataRetriever = MediaMetadataRetriever()
             mediaRetriever.setDataSource(filePath)
 
@@ -77,15 +79,18 @@ class GifCreatorActivity : AppCompatActivity() {
 
             var currentMilli = Utils.startTimeMilli
             val endMilli = Utils.endTimeMilli
+            Log.d("nathanx", "start " +  currentMilli + " " + endMilli)
+
             while (currentMilli < endMilli) {
+                Log.d("nathanx", "milli " +  currentMilli)
                 val bitmap = mediaRetriever.getFrameAtTime(
                     TimeUnit.SECONDS.toMicros(currentMilli.toLong()),
                     extractionType
                 )
                 bitmap?.let {
-                    frameList.add(ImageUtil.saveBitmap(bitmap, this))
+                    frameList.add(bitmap)
                 }
-                currentMilli = currentMilli * Utils.frameFrequencyMilli
+                currentMilli = currentMilli + Utils.frameFrequencyMilli
             }
 
             runOnUiThread {

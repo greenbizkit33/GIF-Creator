@@ -84,7 +84,7 @@ object ImageUtil {
         return File(getPath())
     }
 
-    fun saveGif(fileNames: ArrayList<String>, context: Context?) {
+    fun saveGif(bitmaps: ArrayList<Bitmap>, context: Context?) {
         try {
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
             val filePath: File = File(
@@ -92,7 +92,7 @@ object ImageUtil {
                 "GIF_$timeStamp.gif"
             )
             val outStream = FileOutputStream(filePath)
-            outStream.write(fileNames?.let { generateGIF(it) })
+            outStream.write(bitmaps?.let { generateGIF(it) })
             outStream.close()
             val event = GifCreationEvent(filePath)
             EventBus.getDefault().post(event)
@@ -102,16 +102,16 @@ object ImageUtil {
         }
     }
 
-    fun generateGIF(fileNames: ArrayList<String>): ByteArray? {
-        val bitmaps = ArrayList<Bitmap>()
-        for (name in fileNames) {
-            val image = File(name)
-            val bmOptions = BitmapFactory.Options()
-            val bitmap = BitmapFactory.decodeFile(image.absolutePath, bmOptions)
-            if (bitmap != null) {
-                bitmaps.add(bitmap)
-            }
-        }
+    fun generateGIF(bitmaps: ArrayList<Bitmap>): ByteArray? {
+//        val bitmaps = ArrayList<Bitmap>()
+//        for (name in fileNames) {
+//            val image = File(name)
+//            val bmOptions = BitmapFactory.Options()
+//            val bitmap = BitmapFactory.decodeFile(image.absolutePath, bmOptions)
+//            if (bitmap != null) {
+//                bitmaps.add(bitmap)
+//            }
+//        }
         if (bitmaps.isEmpty()) {
             return null
         }

@@ -43,7 +43,7 @@ class SimpleSetupActivity : AppCompatActivity() {
             df.format(value / 1000).toString()
         })
 
-        frequencyRange.value = .1F
+     //   frequencyRange.value = .1F
 
         val rangeSlider = findViewById<RangeSlider>(R.id.range_time)
 
