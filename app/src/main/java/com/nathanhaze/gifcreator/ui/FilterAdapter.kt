@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nathanhaze.gifcreator.R
 import com.zomato.photofilters.imageprocessors.Filter
 
-internal class FilterAdapter(private var filterList: List<Filter>, private  var sample: Bitmap?) :
+internal class FilterAdapter(private var filterList: List<Filter>, private var sample: Bitmap?) :
     RecyclerView.Adapter<FilterAdapter.MyViewHolder>() {
 
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -27,14 +27,16 @@ internal class FilterAdapter(private var filterList: List<Filter>, private  var 
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val filter = filterList[position]
-        holder.title.text = filter.name
-
-        filter.
-        holder.image.setImageBitmap(sample)
+        if (position == 0) {
+            holder.title.text = "no filter"
+        } else {
+            val filter = filterList[position]
+            holder.title.text = filter.name
+            holder.image.setImageBitmap(filter.processFilter(sample))
+        }
     }
 
     override fun getItemCount(): Int {
-        return filterList.size
+        return filterList.size + 1
     }
 }

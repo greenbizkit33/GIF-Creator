@@ -1,6 +1,7 @@
 package com.nathanhaze.gifcreator.activity
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.os.Bundle
 import android.widget.Button
@@ -134,10 +135,16 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         })
 
-        val sample = mediaRetriever.getFrameAtTime(
+        var sample = mediaRetriever.getFrameAtTime(
             TimeUnit.SECONDS.toMicros(1000),
             extractionType
         )
+
+        val h = 48 // height in pixels
+
+        val w = 48 // width in pixels
+
+        sample = sample?.let { Bitmap.createScaledBitmap(it, h, w, true) }
 
         val rvFilter = findViewById<RecyclerView>(R.id.rv_filters)
 
