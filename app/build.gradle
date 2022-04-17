@@ -85,4 +85,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.17.0'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.17.0'
 
+    implementation 'info.androidhive:imagefilters:1.0.7'
+
+
 }

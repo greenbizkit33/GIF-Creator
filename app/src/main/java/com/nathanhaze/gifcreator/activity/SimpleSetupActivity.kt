@@ -6,19 +6,27 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import com.nathanhaze.gifcreator.R
 import com.nathanhaze.gifcreator.databinding.ActivitySimpleSetupBinding
 import com.nathanhaze.gifcreator.manager.Utils
+import com.nathanhaze.gifcreator.ui.FilterAdapter
+import com.zomato.photofilters.FilterPack
+import com.zomato.photofilters.imageprocessors.Filter
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
 
+
 class SimpleSetupActivity : AppCompatActivity() {
 
     private var binding: ActivitySimpleSetupBinding? = null
+    private lateinit var filterAdapter: FilterAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +42,10 @@ class SimpleSetupActivity : AppCompatActivity() {
             df.roundingMode = RoundingMode.CEILING
             df.format(value / 1000).toString()
 
-            tvFreq.setText(getText(R.string.range_frequency).toString() + " " + df.format(value / 1000).toString())
+            tvFreq.setText(
+                getText(R.string.range_frequency).toString() + " " + df.format(value / 1000)
+                    .toString()
+            )
         }
 
         frequencyRange.setLabelFormatter(LabelFormatter { value -> //It is just an example
@@ -43,7 +54,7 @@ class SimpleSetupActivity : AppCompatActivity() {
             df.format(value / 1000).toString()
         })
 
-     //   frequencyRange.value = .1F
+        //   frequencyRange.value = .1F
 
         val rangeSlider = findViewById<RangeSlider>(R.id.range_time)
 
@@ -74,7 +85,9 @@ class SimpleSetupActivity : AppCompatActivity() {
         val end = String.format(
             "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(videoLengthMilli.toLong()),
             TimeUnit.MILLISECONDS.toMinutes(videoLengthMilli.toLong()) % TimeUnit.HOURS.toMinutes(1),
-            TimeUnit.MILLISECONDS.toSeconds(videoLengthMilli.toLong()) % TimeUnit.MINUTES.toSeconds(1)
+            TimeUnit.MILLISECONDS.toSeconds(videoLengthMilli.toLong()) % TimeUnit.MINUTES.toSeconds(
+                1
+            )
         )
 
         tvEnd.setText(end)
@@ -120,6 +133,23 @@ class SimpleSetupActivity : AppCompatActivity() {
 
 
         })
+
+        val sample = mediaRetriever.getFrameAtTime(
+            TimeUnit.SECONDS.toMicros(1000),
+            extractionType
+        )
+
+        val rvFilter = findViewById<RecyclerView>(R.id.rv_filters)
+
+        val filters: List<Filter> = FilterPack.getFilterPack(applicationContext)
+
+        filterAdapter = FilterAdapter(filters, sample)
+
+        val layoutManager = LinearLayoutManager(applicationContext)
+        rvFilter.layoutManager = layoutManager
+        rvFilter.itemAnimator = DefaultItemAnimator()
+        rvFilter.adapter = filterAdapter
+
 
         val createGifButton = findViewById<Button>(R.id.btn_create_gif)
 

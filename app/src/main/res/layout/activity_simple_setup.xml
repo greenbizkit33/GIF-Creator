@@ -64,6 +64,13 @@
     </LinearLayout>
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_filters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red_btn_bg_color"/>
+
+
     <Button
         android:id="@+id/btn_create_gif"
         android:layout_width="match_parent"
