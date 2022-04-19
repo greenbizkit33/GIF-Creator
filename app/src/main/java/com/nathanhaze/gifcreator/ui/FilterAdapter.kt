@@ -1,5 +1,6 @@
 package com.nathanhaze.gifcreator.ui
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nathanhaze.gifcreator.R
 import com.zomato.photofilters.imageprocessors.Filter
 
-internal class FilterAdapter(private var filterList: List<Filter>, private var sample: Bitmap?) :
+internal class FilterAdapter(
+    private var filterList: List<Filter>,
+    private var sample: Bitmap?,
+    private var context: Context
+) :
     RecyclerView.Adapter<FilterAdapter.MyViewHolder>() {
 
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -32,7 +37,12 @@ internal class FilterAdapter(private var filterList: List<Filter>, private var s
         } else {
             val filter = filterList[position]
             holder.title.text = filter.name
-            holder.image.setImageBitmap(filter.processFilter(sample))
+            try {
+                holder.image.setImageBitmap(filter.processFilter(sample))
+                //  holder.image.setImageBitmap(JavaUtil.doFilter(filter, sample))
+            } catch (ex: Exception) {
+
+            }
         }
     }
 

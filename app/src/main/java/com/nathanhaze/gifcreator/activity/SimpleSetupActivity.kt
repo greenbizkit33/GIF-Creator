@@ -30,8 +30,13 @@ class SimpleSetupActivity : AppCompatActivity() {
     private lateinit var filterAdapter: FilterAdapter
 
 
+    init {
+        System.loadLibrary("NativeImageProcessor")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_simple_setup)
 
         val tvFreq = findViewById<TextView>(R.id.tv_freq)
@@ -150,7 +155,7 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         val filters: List<Filter> = FilterPack.getFilterPack(applicationContext)
 
-        filterAdapter = FilterAdapter(filters, sample)
+        filterAdapter = FilterAdapter(filters, sample, applicationContext)
 
         val layoutManager = LinearLayoutManager(applicationContext)
         rvFilter.layoutManager = layoutManager
@@ -166,4 +171,11 @@ class SimpleSetupActivity : AppCompatActivity() {
         }
 
     }
+//
+//    class object {
+//        {
+//            System.loadLibrary("NativeImageProcessor")
+//        }
+//    }
+
 }
