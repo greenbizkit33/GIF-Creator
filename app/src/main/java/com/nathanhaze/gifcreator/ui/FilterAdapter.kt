@@ -34,11 +34,21 @@ internal class FilterAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         if (position == 0) {
             holder.title.text = "no filter"
+            holder.image.setImageBitmap(
+                sample
+            )
         } else {
-            val filter = filterList[position]
+            val filter = filterList[position - 1]
             holder.title.text = filter.name
             try {
-                holder.image.setImageBitmap(filter.processFilter(sample))
+                holder.image.setImageBitmap(
+                    filter.processFilter(
+                        sample?.copy(
+                            sample?.config,
+                            true
+                        )
+                    )
+                )
                 //  holder.image.setImageBitmap(JavaUtil.doFilter(filter, sample))
             } catch (ex: Exception) {
 

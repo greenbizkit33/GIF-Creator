@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.os.Bundle
+import android.util.TypedValue
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -145,9 +146,15 @@ class SimpleSetupActivity : AppCompatActivity() {
             extractionType
         )
 
-        val h = 48 // height in pixels
+        val px = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            128F,
+            resources.displayMetrics
+        )
 
-        val w = 48 // width in pixels
+        val h = 128 // height in pixels
+
+        val w = 128 // width in pixels
 
         sample = sample?.let { Bitmap.createScaledBitmap(it, h, w, true) }
 
@@ -157,7 +164,8 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         filterAdapter = FilterAdapter(filters, sample, applicationContext)
 
-        val layoutManager = LinearLayoutManager(applicationContext)
+        val layoutManager =
+            LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
         rvFilter.layoutManager = layoutManager
         rvFilter.itemAnimator = DefaultItemAnimator()
         rvFilter.adapter = filterAdapter
