@@ -32,6 +32,13 @@ internal class FilterAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.image.setOnClickListener {
+            holder.title.setBackgroundColor(
+                context.resources.getColor(
+                    R.color.accent
+                )
+            )
+        }
         if (position == 0) {
             holder.title.text = "no filter"
             holder.image.setImageBitmap(

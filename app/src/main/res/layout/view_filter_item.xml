@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/iv_filter_image"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="128dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY" />
 
