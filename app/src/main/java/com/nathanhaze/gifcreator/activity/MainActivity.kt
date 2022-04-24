@@ -50,6 +50,10 @@ class MainActivity : AppCompatActivity() {
 
     var removeAds: TextView? = null
 
+    init {
+        System.loadLibrary("NativeImageProcessor")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

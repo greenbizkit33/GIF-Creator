@@ -2,6 +2,7 @@ package com.nathanhaze.gifcreator.ui
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,7 @@ internal class FilterAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        Log.d("nathanx", "onbind view holder " + position)
         holder.image.setOnClickListener {
             holder.title.setBackgroundColor(
                 context.resources.getColor(
@@ -47,6 +49,7 @@ internal class FilterAdapter(
         } else {
             val filter = filterList[position - 1]
             holder.title.text = filter.name
+            Log.d("nathanx", "onbind view holder " + filter.name)
             try {
                 holder.image.setImageBitmap(
                     filter.processFilter(
@@ -61,6 +64,7 @@ internal class FilterAdapter(
 
             }
         }
+
     }
 
     override fun getItemCount(): Int {

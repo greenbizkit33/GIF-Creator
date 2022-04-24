@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.os.Bundle
+import android.os.Handler
 import android.util.TypedValue
 import android.widget.Button
 import android.widget.TextView
@@ -15,7 +16,6 @@ import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import com.nathanhaze.gifcreator.R
-import com.nathanhaze.gifcreator.databinding.ActivitySimpleSetupBinding
 import com.nathanhaze.gifcreator.manager.Utils
 import com.nathanhaze.gifcreator.ui.FilterAdapter
 import com.zomato.photofilters.FilterPack
@@ -27,13 +27,8 @@ import java.util.concurrent.TimeUnit
 
 class SimpleSetupActivity : AppCompatActivity() {
 
-    private var binding: ActivitySimpleSetupBinding? = null
     private lateinit var filterAdapter: FilterAdapter
 
-
-    init {
-        System.loadLibrary("NativeImageProcessor")
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,12 +159,13 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         filterAdapter = FilterAdapter(filters, sample, applicationContext)
 
-        val layoutManager =
-            LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
-        rvFilter.layoutManager = layoutManager
-        rvFilter.itemAnimator = DefaultItemAnimator()
-        rvFilter.adapter = filterAdapter
-
+        Handler().postDelayed({
+            val layoutManager =
+                LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, true)
+            rvFilter.layoutManager = layoutManager
+            rvFilter.itemAnimator = DefaultItemAnimator()
+            rvFilter.adapter = filterAdapter
+        }, 2000)
 
         val createGifButton = findViewById<Button>(R.id.btn_create_gif)
 
