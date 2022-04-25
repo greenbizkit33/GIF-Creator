@@ -122,7 +122,7 @@
     <string name="preference_app">project pref</string>
     <string name="preference_path">key path</string>
 
-    <string name="range_frequency">Set the number of frames per second</string>
+    <string name="range_frequency">Seconds per frame: %2$d seconds</string>
     <string name="create_gif">Create Gif</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -44,10 +44,7 @@ class SimpleSetupActivity : AppCompatActivity() {
             df.roundingMode = RoundingMode.CEILING
             df.format(value / 1000).toString()
 
-            tvFreq.setText(
-                getText(R.string.range_frequency).toString() + " " + df.format(value / 1000)
-                    .toString()
-            )
+            tvFreq.text = resources.getText(R.string.range_frequency, df.format(value / 1000))
         }
 
         frequencyRange.setLabelFormatter(LabelFormatter { value -> //It is just an example
@@ -56,7 +53,8 @@ class SimpleSetupActivity : AppCompatActivity() {
             df.format(value / 1000).toString()
         })
 
-        //   frequencyRange.value = .1F
+        frequencyRange.value = 1000F
+        tvFreq.text = resources.getText(R.string.range_frequency, 1.00.toString())
 
         val rangeSlider = findViewById<RangeSlider>(R.id.range_time)
 

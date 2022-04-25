@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -72,21 +71,25 @@ class GifCreatorActivity : AppCompatActivity() {
             val time: String? =
                 mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
             val videoLengthMilli = time?.toLong()
-            val videoLengthSec = videoLengthMilli?.let { TimeUnit.MILLISECONDS.toSeconds(it) }
+            // val videoLengthSec = videoLengthMilli?.let { TimeUnit.MILLISECONDS.toSeconds(it) }
 
             //TODO  start here
-            val numberOfFrames = videoLengthMilli?.div(Utils.frameFrequencyMilli)
+            // val numberOfFrames = videoLengthMilli?.div(Utils.frameFrequencyMilli)
 
             var currentMilli = Utils.startTimeMilli
             val endMilli = Utils.endTimeMilli
-            Log.d("nathanx", "start " +  currentMilli + " " + endMilli)
+            Log.d("nathanx", "start " + currentMilli + " " + endMilli)
 
             while (currentMilli < endMilli) {
-                Log.d("nathanx", "milli " +  currentMilli)
-                val bitmap = mediaRetriever.getFrameAtTime(
+                Log.d("nathanx", "milli " + currentMilli)
+                var bitmap = mediaRetriever.getFrameAtTime(
                     TimeUnit.SECONDS.toMicros(currentMilli.toLong()),
                     extractionType
                 )
+                bitmap = Utils.filter?.processFilter(
+                    bitmap
+                )
+
                 bitmap?.let {
                     frameList.add(bitmap)
                 }
@@ -94,7 +97,7 @@ class GifCreatorActivity : AppCompatActivity() {
             }
 
             runOnUiThread {
-                frameList?.let {
+                frameList.let {
                     ImageUtil.saveGif(frameList, this)
                     progressbar.visibility = View.GONE
                 }
@@ -108,20 +111,16 @@ class GifCreatorActivity : AppCompatActivity() {
     }
 
     private fun extractPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    PERMISSION_EXTRCT
-                )
-            } else {
-                getImages()
-            }
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                PERMISSION_EXTRCT
+            )
         } else {
             getImages()
         }

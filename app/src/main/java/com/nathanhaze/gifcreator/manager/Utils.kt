@@ -8,15 +8,17 @@ import android.util.DisplayMetrics
 import com.google.android.gms.ads.*
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.nathanhaze.gifcreator.R
+import com.zomato.photofilters.imageprocessors.Filter
 
 object Utils {
 
     private const val FILE_NUMBER = "file number"
 
-    public var frameFrequencyMilli = 1000
+    var frameFrequencyMilli = 1000
+    var startTimeMilli = 0
+    var endTimeMilli = 0
+    var filter: Filter? = null
 
-    public var startTimeMilli = 0
-    public var endTimeMilli = 0
 
     fun getPurchased(activity: Activity): Boolean {
         val sharedPref = activity?.getSharedPreferences(

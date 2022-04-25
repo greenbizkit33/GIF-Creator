@@ -25,6 +25,8 @@ internal class FilterAdapter(
         var image: ImageView = view.findViewById(R.id.iv_filter_image)
     }
 
+    private var lastSelected = 0
+
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -40,6 +42,8 @@ internal class FilterAdapter(
                     R.color.accent
                 )
             )
+            this.notifyItemChanged(lastSelected)
+            lastSelected = position
         }
         if (position == 0) {
             holder.title.text = "no filter"
@@ -59,7 +63,6 @@ internal class FilterAdapter(
                         )
                     )
                 )
-                //  holder.image.setImageBitmap(JavaUtil.doFilter(filter, sample))
             } catch (ex: Exception) {
 
             }
