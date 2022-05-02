@@ -86,6 +86,17 @@ class GifCreatorActivity : AppCompatActivity() {
                     TimeUnit.SECONDS.toMicros(currentMilli.toLong()),
                     extractionType
                 )
+
+
+                bitmap = bitmap?.let {
+                    Bitmap.createScaledBitmap(
+                        it,
+                        ((bitmap!!.getWidth() * Utils.size).toInt()),
+                        ((bitmap!!.getHeight() * Utils.size).toInt()),
+                        true
+                    )
+                };
+
                 bitmap = Utils.filter?.processFilter(
                     bitmap
                 )

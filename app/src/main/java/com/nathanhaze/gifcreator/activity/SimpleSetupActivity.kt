@@ -36,8 +36,27 @@ class SimpleSetupActivity : AppCompatActivity() {
         setContentView(R.layout.activity_simple_setup)
 
         val tvFreq = findViewById<TextView>(R.id.tv_freq)
-
         val frequencyRange = findViewById<Slider>(R.id.frame_rate)
+        val rangeSlider = findViewById<RangeSlider>(R.id.range_time)
+        val tvStart = findViewById<TextView>(R.id.tv_start_time)
+        val tvEnd = findViewById<TextView>(R.id.tv_end_time)
+        val rvFilter = findViewById<RecyclerView>(R.id.rv_filters)
+
+        val sliderSize = findViewById<Slider>(R.id.s_size)
+        val tvSize = findViewById<TextView>(R.id.tv_size)
+
+        sliderSize.addOnChangeListener { slider, value, fromUser ->
+            Utils.size = value
+
+            tvSize.text = resources.getText(R.string.range_frequency).toString() +  " " + value + "%"
+        }
+
+        sliderSize.setLabelFormatter(LabelFormatter { value -> //It is just an example
+            val df = DecimalFormat("#.##")
+            df.roundingMode = RoundingMode.CEILING
+            df.format(value).toString() + "%"
+        })
+
 
         frequencyRange.addOnChangeListener { slider, value, fromUser ->
             val df = DecimalFormat("#.##")
@@ -56,7 +75,6 @@ class SimpleSetupActivity : AppCompatActivity() {
         frequencyRange.value = 1000F
         tvFreq.text = resources.getText(R.string.range_frequency, 1.00.toString())
 
-        val rangeSlider = findViewById<RangeSlider>(R.id.range_time)
 
         val mediaRetriever: MediaMetadataRetriever = MediaMetadataRetriever()
         mediaRetriever.setDataSource(Utils.getVideoPath(this))
@@ -77,10 +95,6 @@ class SimpleSetupActivity : AppCompatActivity() {
         Utils.endTimeMilli = videoLengthMilli.toInt()
 
         rangeSlider.setValues(0.0f, 1.0f);
-
-        val tvStart = findViewById<TextView>(R.id.tv_start_time)
-        val tvEnd = findViewById<TextView>(R.id.tv_end_time)
-
 
         val end = String.format(
             "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(videoLengthMilli.toLong()),
@@ -150,8 +164,6 @@ class SimpleSetupActivity : AppCompatActivity() {
         val w = 128 // width in pixels
 
         sample = sample?.let { Bitmap.createScaledBitmap(it, h, w, true) }
-
-        val rvFilter = findViewById<RecyclerView>(R.id.rv_filters)
 
         val filters: List<Filter> = FilterPack.getFilterPack(applicationContext)
 

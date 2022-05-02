@@ -33,6 +33,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    configurations.all {
+        resolutionStrategy.force 'androidx.work:work-runtime-ktx: 2.7.1'
+    }
+
 }
 
 dependencies {
@@ -42,15 +47,15 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "io.reactivex.rxjava2:rxjava:2.2.19"
 
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     //  implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.41'
 
     implementation "com.github.eggheadgames:android-in-app-payments:3.0.0:google@aar"
-    implementation 'com.android.billingclient:billing:3.0.3'
-    implementation "com.google.android.gms:play-services-ads:20.4.0"
+ //   implementation 'com.android.billingclient:billing:4.1.0'
+    implementation "com.google.android.gms:play-services-ads:20.6.0"
 
     implementation 'androidx.palette:palette:1.0.0'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.5.0'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
@@ -73,9 +78,9 @@ dependencies {
     implementation 'com.yarolegovich:lovely-dialog:1.1.1'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
-    implementation 'com.google.firebase:firebase-analytics:19.0.2'
-    implementation 'com.google.firebase:firebase-crashlytics:18.2.3'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.firebase:firebase-analytics:20.1.2'
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.9'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
 
     implementation 'com.github.sephiroth74:RangeSeekBar:1.1.0'
 
@@ -86,6 +91,5 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.17.0'
 
     implementation 'info.androidhive:imagefilters:1.0.7'
-
 
 }

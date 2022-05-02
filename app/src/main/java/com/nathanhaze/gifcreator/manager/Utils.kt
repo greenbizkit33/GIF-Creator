@@ -16,6 +16,7 @@ object Utils {
 
     var frameFrequencyMilli = 1000
     var startTimeMilli = 0
+    var size = 100F
     var endTimeMilli = 0
     var filter: Filter? = null
 
