@@ -84,8 +84,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:valueFrom="500"
-            android:valueTo="5000" />
+            android:value="100"
+            android:valueFrom="10"
+            android:valueTo="100" />
     </LinearLayout>
 
     <RelativeLayout

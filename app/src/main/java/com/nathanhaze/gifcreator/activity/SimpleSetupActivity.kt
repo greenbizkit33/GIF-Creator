@@ -46,9 +46,8 @@ class SimpleSetupActivity : AppCompatActivity() {
         val tvSize = findViewById<TextView>(R.id.tv_size)
 
         sliderSize.addOnChangeListener { slider, value, fromUser ->
-            Utils.size = value
-
-            tvSize.text = resources.getText(R.string.range_frequency).toString() +  " " + value + "%"
+            Utils.size = value/100
+            tvSize.text = resources.getString(R.string.bitmap_size, value.toString())
         }
 
         sliderSize.setLabelFormatter(LabelFormatter { value -> //It is just an example
@@ -63,7 +62,7 @@ class SimpleSetupActivity : AppCompatActivity() {
             df.roundingMode = RoundingMode.CEILING
             df.format(value / 1000).toString()
 
-            tvFreq.text = resources.getText(R.string.range_frequency, df.format(value / 1000))
+            tvFreq.text = resources.getString(R.string.range_frequency, df.format(value / 1000))
         }
 
         frequencyRange.setLabelFormatter(LabelFormatter { value -> //It is just an example
