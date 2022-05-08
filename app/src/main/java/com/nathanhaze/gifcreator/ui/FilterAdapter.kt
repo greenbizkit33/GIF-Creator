@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.nathanhaze.gifcreator.R
+import com.nathanhaze.gifcreator.manager.Utils
 import com.zomato.photofilters.imageprocessors.Filter
 
 internal class FilterAdapter(
@@ -42,6 +43,8 @@ internal class FilterAdapter(
                     R.color.accent
                 )
             )
+            val filter = filterList[position - 1]
+            Utils.filter = filter
             this.notifyItemChanged(lastSelected)
             lastSelected = position
         }

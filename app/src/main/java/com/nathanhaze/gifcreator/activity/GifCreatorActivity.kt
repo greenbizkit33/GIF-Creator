@@ -78,28 +78,28 @@ class GifCreatorActivity : AppCompatActivity() {
 
             var currentMilli = Utils.startTimeMilli
             val endMilli = Utils.endTimeMilli
-            Log.d("nathanx", "start " + currentMilli + " " + endMilli)
+            Log.d("nathanx", "start " + currentMilli + " " + endMilli +" " + Utils.frameFrequencyMilli)
 
             while (currentMilli < endMilli) {
                 Log.d("nathanx", "milli " + currentMilli)
                 var bitmap = mediaRetriever.getFrameAtTime(
-                    TimeUnit.SECONDS.toMicros(currentMilli.toLong()),
+                    TimeUnit.MILLISECONDS.toMicros(currentMilli.toLong()),
                     extractionType
                 )
 
 
-//                bitmap = bitmap?.let {
-//                    Bitmap.createScaledBitmap(
-//                        it,
-//                        ((bitmap!!.getWidth() * Utils.size).toInt()),
-//                        ((bitmap!!.getHeight() * Utils.size).toInt()),
-//                        true
-//                    )
-//                };
-//
-//                bitmap = Utils.filter?.processFilter(
-//                    bitmap
-//                )
+                bitmap = bitmap?.let {
+                    Bitmap.createScaledBitmap(
+                        it,
+                        ((bitmap!!.getWidth() * Utils.size).toInt()),
+                        ((bitmap!!.getHeight() * Utils.size).toInt()),
+                        true
+                    )
+                };
+
+                bitmap = Utils.filter?.processFilter(
+                    bitmap
+                )
 
                 bitmap?.let {
                     frameList.add(bitmap)
