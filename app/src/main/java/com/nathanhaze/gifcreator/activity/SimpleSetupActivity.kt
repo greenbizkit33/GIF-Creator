@@ -45,10 +45,13 @@ class SimpleSetupActivity : AppCompatActivity() {
         val sliderSize = findViewById<Slider>(R.id.s_size)
         val tvSize = findViewById<TextView>(R.id.tv_size)
 
+        Utils.size = 1f
+
         sliderSize.addOnChangeListener { slider, value, fromUser ->
             Utils.size = value/100
             tvSize.text = resources.getString(R.string.bitmap_size, value.toString())
         }
+        tvSize.text = resources.getString(R.string.bitmap_size, "100")
 
         sliderSize.setLabelFormatter(LabelFormatter { value -> //It is just an example
             val df = DecimalFormat("#.##")
@@ -72,7 +75,7 @@ class SimpleSetupActivity : AppCompatActivity() {
         })
 
         frequencyRange.value = 1000F
-        tvFreq.text = resources.getText(R.string.range_frequency, 1.00.toString())
+        tvFreq.text = resources.getString(R.string.range_frequency, 1.00.toString())
 
 
         val mediaRetriever: MediaMetadataRetriever = MediaMetadataRetriever()

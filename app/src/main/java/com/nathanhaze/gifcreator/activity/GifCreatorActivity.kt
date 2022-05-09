@@ -87,6 +87,7 @@ class GifCreatorActivity : AppCompatActivity() {
                     extractionType
                 )
 
+                Log.d("nathanx", " size  " + Utils.size.toInt())
 
                 bitmap = bitmap?.let {
                     Bitmap.createScaledBitmap(
