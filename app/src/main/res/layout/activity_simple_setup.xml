@@ -10,6 +10,8 @@
         android:name="com.nathanhaze.gifcreator.fragment.VideoFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxHeight="400dp"
         tools:layout="@layout/fragment_video"
         tools:layout_height="80dp" />
 

@@ -48,8 +48,13 @@ class SimpleSetupActivity : AppCompatActivity() {
         Utils.size = 1f
 
         sliderSize.addOnChangeListener { slider, value, fromUser ->
-            Utils.size = value/100
-            tvSize.text = resources.getString(R.string.bitmap_size, value.toString())
+            Utils.size = value / 100
+
+            val df = DecimalFormat("#.##")
+            df.roundingMode = RoundingMode.CEILING
+            df.format(value).toString() + "%"
+
+            tvSize.text = resources.getString(R.string.bitmap_size, df.format(value))
         }
         tvSize.text = resources.getString(R.string.bitmap_size, "100")
 
@@ -63,7 +68,7 @@ class SimpleSetupActivity : AppCompatActivity() {
         frequencyRange.addOnChangeListener { slider, value, fromUser ->
             val df = DecimalFormat("#.##")
             df.roundingMode = RoundingMode.CEILING
-            df.format(value / 1000).toString()
+            df.format(value).toString() + "%"
 
             tvFreq.text = resources.getString(R.string.range_frequency, df.format(value / 1000))
         }
