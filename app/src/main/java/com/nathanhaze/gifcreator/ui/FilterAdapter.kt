@@ -2,6 +2,7 @@ package com.nathanhaze.gifcreator.ui
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -43,6 +44,7 @@ internal class FilterAdapter(
                     R.color.accent
                 )
             )
+            holder.title.typeface = Typeface.DEFAULT_BOLD
             val filter = filterList[position - 1]
             Utils.filter = filter
             this.notifyItemChanged(lastSelected)
@@ -56,7 +58,6 @@ internal class FilterAdapter(
         } else {
             val filter = filterList[position - 1]
             holder.title.text = filter.name
-            Log.d("nathanx", "onbind view holder " + filter.name)
             try {
                 holder.image.setImageBitmap(
                     filter.processFilter(
@@ -70,6 +71,7 @@ internal class FilterAdapter(
 
             }
         }
+        holder.title.typeface = Typeface.DEFAULT
 
     }
 
