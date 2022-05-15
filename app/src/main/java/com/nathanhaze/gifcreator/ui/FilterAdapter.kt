@@ -2,8 +2,8 @@ package com.nathanhaze.gifcreator.ui
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.PorterDuff
 import android.graphics.Typeface
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,9 +25,11 @@ internal class FilterAdapter(
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var title: TextView = view.findViewById(R.id.tv_filter_title)
         var image: ImageView = view.findViewById(R.id.iv_filter_image)
+        var selected: Boolean = false
     }
 
     private var lastSelected = 0
+    private lateinit var lastHolder: RecyclerView.ViewHolder
 
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -37,18 +39,22 @@ internal class FilterAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Log.d("nathanx", "onbind view holder " + position)
         holder.image.setOnClickListener {
-            holder.title.setBackgroundColor(
-                context.resources.getColor(
-                    R.color.accent
-                )
-            )
+//            holder.title.setBackgroundColor(
+//                context.resources.getColor(
+//                    R.color.accent
+//                )
+//            )
             holder.title.typeface = Typeface.DEFAULT_BOLD
-            val filter = filterList[position - 1]
+            val filter = filterList[holder.absoluteAdapterPosition]
             Utils.filter = filter
             this.notifyItemChanged(lastSelected)
-            lastSelected = position
+            lastSelected = holder.absoluteAdapterPosition
+            holder.selected = true
+            holder.image.setColorFilter(R.color.blue_btn_bg_color, PorterDuff.Mode.SRC_OVER)
+        }
+        if (holder.selected) {
+            holder.title.typeface = Typeface.DEFAULT_BOLD
         }
         if (position == 0) {
             holder.title.text = "no filter"

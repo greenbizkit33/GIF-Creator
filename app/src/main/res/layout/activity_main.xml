@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -21,6 +22,19 @@
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
             android:contentDescription="Settings" />
+
+        <com.mursaat.extendedtextview.AnimatedGradientTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Gif Creator"
+            android:textSize="45sp"
+            app:angle="45"
+            app:colors="@array/funny_colors"
+            app:customFont="fresh"
+            app:maxFPS="30"
+            app:simultaneousColors="4"
+            app:speed="1000" />
 
         <ImageView
             android:id="@+id/iv_logo"

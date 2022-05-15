@@ -92,4 +92,7 @@ dependencies {
 
     implementation 'info.androidhive:imagefilters:1.0.7'
 
+    implementation  'com.github.Mursaat:AnimatedGradientTextView:v0.0.6'
+
+
 }
