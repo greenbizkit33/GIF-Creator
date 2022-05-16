@@ -8,19 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="primaryColor">#0277bd</color>
-
-    <color name="primaryLightColor">#58a5f0</color>
-
-    <color name="primaryDarkColor">#004c8c</color>
-
     <color name="secondaryColor">#f44336</color>
 
     <color name="secondaryLightColor">#ff7961</color>
 
     <color name="secondaryDarkColor">#ba000d</color>
-
-    <color name="primaryTextColor">#004c8c</color>
 
     <color name="secondaryTextColor">#464646</color>
 
@@ -37,4 +29,9 @@
     <color name="green">#2e7c31</color>
 
     <color name="homeButton">#FD5E2F</color>
+
+    <color name="primaryColor">#b3e5fc</color>
+    <color name="primaryLightColor">#e6ffff</color>
+    <color name="primaryDarkColor">#82b3c9</color>
+    <color name="primaryTextColor">#000000</color>
 </resources>

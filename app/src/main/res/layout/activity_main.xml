@@ -28,10 +28,10 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="Gif Creator"
-            android:textSize="45sp"
+            android:textSize="55sp"
             app:angle="45"
             app:colors="@array/funny_colors"
-            app:customFont="fresh"
+            app:customFont="fresh_fruit.otf"
             app:maxFPS="30"
             app:simultaneousColors="4"
             app:speed="1000" />
