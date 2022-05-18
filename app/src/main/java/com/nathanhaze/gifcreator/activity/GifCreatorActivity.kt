@@ -1,6 +1,7 @@
 package com.nathanhaze.gifcreator.activity
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
@@ -10,9 +11,11 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.HandlerCompat
 import com.bumptech.glide.Glide
@@ -20,8 +23,10 @@ import com.nathanhaze.gifcreator.R
 import com.nathanhaze.gifcreator.event.GifCreationEvent
 import com.nathanhaze.gifcreator.manager.ImageUtil
 import com.nathanhaze.gifcreator.manager.Utils
+import mehdi.sakout.fancybuttons.FancyButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import java.net.URLConnection
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -34,6 +39,10 @@ class GifCreatorActivity : AppCompatActivity() {
     lateinit var progressbar: ProgressBar
 
     lateinit var gifImage: ImageView
+    lateinit var llSelection: LinearLayout
+
+    lateinit var btnShare: FancyButton
+    lateinit var btnStartOver: FancyButton
 
     val executorService: ExecutorService = Executors.newFixedThreadPool(4)
     val mainThreadHandler: Handler = HandlerCompat.createAsync(Looper.getMainLooper())
@@ -44,6 +53,20 @@ class GifCreatorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_gif_creator)
         progressbar = findViewById<View>(R.id.progress_circular) as ProgressBar
         gifImage = findViewById<View>(R.id.iv_gif) as ImageView
+        llSelection = findViewById(R.id.ll_selection)
+        btnShare = findViewById(R.id.button_share)
+        btnStartOver = findViewById(R.id.button_start_over)
+
+        btnShare.setOnClickListener{
+            ShareCompat.IntentBuilder.from(this)
+                .setStream(uri)
+                .setType(URLConnection.guessContentTypeFromName(file.getName()))
+                .startChooser();
+        }
+
+        btnStartOver.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
 
         extractPermission()
     }
@@ -112,6 +135,7 @@ class GifCreatorActivity : AppCompatActivity() {
                 frameList.let {
                     ImageUtil.saveGif(frameList, this)
                     progressbar.visibility = View.GONE
+                    llSelection.visibility = View.VISIBLE
                 }
             }
         }
