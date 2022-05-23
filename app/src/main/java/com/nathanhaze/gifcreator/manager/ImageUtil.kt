@@ -4,11 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import com.nathanhaze.gifcreator.AnimatedGifEncoder
 import com.nathanhaze.gifcreator.event.GifCreationEvent
+import com.nathanhaze.gifcreator.event.ProgressUpdateEvent
 import org.greenrobot.eventbus.EventBus
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -16,7 +17,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 object ImageUtil {
 
@@ -87,17 +87,25 @@ object ImageUtil {
     fun saveGif(bitmaps: ArrayList<Bitmap>, context: Context?) {
         try {
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
+            val file: File = File(getPath())
+            if (!file.exists()) {
+                file.mkdir()
+            }
+
             val filePath: File = File(
                 getPath(),
                 "GIF_$timeStamp.gif"
             )
+
+            filePath.createNewFile()
             val outStream = FileOutputStream(filePath)
             outStream.write(bitmaps?.let { generateGIF(it) })
             outStream.close()
-            val event = GifCreationEvent(filePath)
+            val event = GifCreationEvent(filePath, false)
             EventBus.getDefault().post(event)
             context?.let { scanMedia(filePath?.absolutePath, it) }
         } catch (e: Exception) {
+            EventBus.getDefault().post(GifCreationEvent(null, true))
             e.printStackTrace()
         }
     }
@@ -119,8 +127,13 @@ object ImageUtil {
         val encoder = AnimatedGifEncoder()
         encoder.setDelay(Utils.frameFrequencyMilli)
         encoder.start(bos)
+        var index = 0
         for (bitmap in bitmaps) {
             encoder.addFrame(bitmap)
+            index++
+            Log.d("nathanx", "send event")
+            EventBus.getDefault().post(ProgressUpdateEvent("Adding Image " + index + " of "  + bitmaps.size + " to GIF"))
+
         }
         encoder.finish()
         return bos.toByteArray()

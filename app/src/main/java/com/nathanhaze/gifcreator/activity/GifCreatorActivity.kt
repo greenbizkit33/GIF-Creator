@@ -13,20 +13,20 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.HandlerCompat
 import com.bumptech.glide.Glide
 import com.nathanhaze.gifcreator.R
 import com.nathanhaze.gifcreator.event.GifCreationEvent
+import com.nathanhaze.gifcreator.event.ProgressUpdateEvent
 import com.nathanhaze.gifcreator.manager.ImageUtil
 import com.nathanhaze.gifcreator.manager.Utils
 import mehdi.sakout.fancybuttons.FancyButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import java.net.URLConnection
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -43,6 +43,7 @@ class GifCreatorActivity : AppCompatActivity() {
 
     lateinit var btnShare: FancyButton
     lateinit var btnStartOver: FancyButton
+    lateinit var tvProgress: TextView
 
     val executorService: ExecutorService = Executors.newFixedThreadPool(4)
     val mainThreadHandler: Handler = HandlerCompat.createAsync(Looper.getMainLooper())
@@ -57,11 +58,14 @@ class GifCreatorActivity : AppCompatActivity() {
         btnShare = findViewById(R.id.button_share)
         btnStartOver = findViewById(R.id.button_start_over)
 
-        btnShare.setOnClickListener{
-            ShareCompat.IntentBuilder.from(this)
-                .setStream(uri)
-                .setType(URLConnection.guessContentTypeFromName(file.getName()))
-                .startChooser();
+        tvProgress = findViewById(R.id.tv_progress)
+
+
+        btnShare.setOnClickListener {
+//            ShareCompat.IntentBuilder.from(this)
+//                .setStream(uri)
+//                .setType(URLConnection.guessContentTypeFromName(file.getName()))
+//                .startChooser();
         }
 
         btnStartOver.setOnClickListener {
@@ -101,9 +105,19 @@ class GifCreatorActivity : AppCompatActivity() {
 
             var currentMilli = Utils.startTimeMilli
             val endMilli = Utils.endTimeMilli
-            Log.d("nathanx", "start " + currentMilli + " " + endMilli +" " + Utils.frameFrequencyMilli)
+            Log.d(
+                "nathanx",
+                "start " + currentMilli + " " + endMilli + " " + Utils.frameFrequencyMilli
+            )
 
             while (currentMilli < endMilli) {
+                EventBus.getDefault().post(
+                    ProgressUpdateEvent(
+                        "Grabbing image at " + TimeUnit.MILLISECONDS.toSeconds(currentMilli.toLong()) + " seconds"
+                    )
+                )
+
+
                 Log.d("nathanx", "milli " + currentMilli)
                 var bitmap = mediaRetriever.getFrameAtTime(
                     TimeUnit.MILLISECONDS.toMicros(currentMilli.toLong()),
@@ -121,10 +135,11 @@ class GifCreatorActivity : AppCompatActivity() {
                     )
                 };
 
-                bitmap = Utils.filter?.processFilter(
-                    bitmap
-                )
-
+                if (Utils.filter != null) {
+                    bitmap = Utils.filter?.processFilter(
+                        bitmap
+                    )
+                }
                 bitmap?.let {
                     frameList.add(bitmap)
                 }
@@ -134,8 +149,6 @@ class GifCreatorActivity : AppCompatActivity() {
             runOnUiThread {
                 frameList.let {
                     ImageUtil.saveGif(frameList, this)
-                    progressbar.visibility = View.GONE
-                    llSelection.visibility = View.VISIBLE
                 }
             }
         }
@@ -144,6 +157,8 @@ class GifCreatorActivity : AppCompatActivity() {
     @Subscribe
     fun onEvent(event: GifCreationEvent) {
         Glide.with(this).asGif().load(event.filePath).into(gifImage)
+        progressbar.visibility = View.GONE
+        llSelection.visibility = View.VISIBLE
     }
 
     private fun extractPermission() {
@@ -179,6 +194,13 @@ class GifCreatorActivity : AppCompatActivity() {
                     getImages()
                 }
             }
+        }
+    }
+
+    @Subscribe
+    fun onEvent(event: ProgressUpdateEvent) {
+        this.runOnUiThread {
+            tvProgress.text = event.message
         }
     }
 }
