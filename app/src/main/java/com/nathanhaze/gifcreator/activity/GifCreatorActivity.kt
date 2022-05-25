@@ -148,6 +148,7 @@ class GifCreatorActivity : AppCompatActivity() {
 
             runOnUiThread {
                 frameList.let {
+                    frameList.reverse()
                     ImageUtil.saveGif(frameList, this)
                 }
             }

@@ -99,7 +99,28 @@
             android:id="@+id/rv_filters"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_reverse_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/reverse_order"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_reverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_create_gif"

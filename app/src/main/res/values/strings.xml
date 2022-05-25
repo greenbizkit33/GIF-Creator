@@ -125,6 +125,8 @@
     <string name="range_frequency">Seconds per frame:  %1$s seconds</string>
     <string name="bitmap_size">Size of Bitmap:  %1$s\%%</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="reverse_order" tools:ignore="MissingTranslation">Reverse Image Order</string>
+
 
 </resources>

@@ -9,6 +9,7 @@ import android.util.TypedValue
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -184,6 +185,10 @@ class SimpleSetupActivity : AppCompatActivity() {
             rvFilter.adapter = filterAdapter
         }, 2000)
 
+        val reverseSwitcher = findViewById<SwitchCompat>(R.id.switch_reverse)
+        reverseSwitcher.setOnClickListener {
+
+        }
         val createGifButton = findViewById<Button>(R.id.btn_create_gif)
 
         createGifButton.setOnClickListener {
