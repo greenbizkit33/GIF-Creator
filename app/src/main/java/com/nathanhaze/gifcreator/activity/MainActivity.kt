@@ -59,9 +59,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //MobileAds.initialize(this, getResources().getString(R.string.admob_account));
-        MobileAds.initialize(this, object : OnInitializationCompleteListener {
-            override fun onInitializationComplete(initializationStatus: InitializationStatus?) {}
-        })
+//        MobileAds.initialize(this, object : OnInitializationCompleteListener {
+//            override fun onInitializationComplete(initializationStatus: InitializationStatus?) {}
+//        })
         val btnVideoPicker = findViewById<View>(R.id.button_pick_video) as LinearLayout
         btnVideoPicker.setOnClickListener { importVideo() }
 
@@ -86,16 +86,16 @@ class MainActivity : AppCompatActivity() {
         val act: Activity = this
         val llAd = findViewById<View>(R.id.ll_ads) as LinearLayout
         if (Utils.getPurchased(this)) {
-            llAd.visibility = View.VISIBLE
-            mAdView = Utils.getAdmobAd(this)
-            removeAds!!.visibility = View.VISIBLE
-            llAd.addView(mAdView, 0)
-            mAdView?.setAdListener(object : AdListener() {
-                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                    super.onAdFailedToLoad(loadAdError)
-                    mAdView?.setVisibility(View.GONE)
-                }
-            })
+//            llAd.visibility = View.VISIBLE
+//            mAdView = Utils.getAdmobAd(this)
+//            removeAds!!.visibility = View.VISIBLE
+//            llAd.addView(mAdView, 0)
+//            mAdView?.setAdListener(object : AdListener() {
+//                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+//                    super.onAdFailedToLoad(loadAdError)
+//                    mAdView?.setVisibility(View.GONE)
+//                }
+//            })
         } else {
             llAd.visibility = View.GONE
             mAdView?.setVisibility(View.GONE)

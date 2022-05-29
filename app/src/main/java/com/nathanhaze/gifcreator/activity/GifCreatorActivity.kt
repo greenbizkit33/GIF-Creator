@@ -17,6 +17,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.os.HandlerCompat
 import com.bumptech.glide.Glide
 import com.nathanhaze.gifcreator.R
@@ -27,6 +28,7 @@ import com.nathanhaze.gifcreator.manager.Utils
 import mehdi.sakout.fancybuttons.FancyButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -34,6 +36,7 @@ import java.util.concurrent.TimeUnit
 class GifCreatorActivity : AppCompatActivity() {
 
 
+    private var gifFile: File? = null
     private val PERMISSION_EXTRCT = 0
 
     lateinit var progressbar: ProgressBar
@@ -62,10 +65,7 @@ class GifCreatorActivity : AppCompatActivity() {
 
 
         btnShare.setOnClickListener {
-//            ShareCompat.IntentBuilder.from(this)
-//                .setStream(uri)
-//                .setType(URLConnection.guessContentTypeFromName(file.getName()))
-//                .startChooser();
+            share()
         }
 
         btnStartOver.setOnClickListener {
@@ -89,6 +89,7 @@ class GifCreatorActivity : AppCompatActivity() {
         val filePath = Utils.getVideoPath(this)
         progressbar.visibility = View.VISIBLE
         Executors.newSingleThreadExecutor().execute {
+            EventBus.getDefault().post(ProgressUpdateEvent("Starting up..."))
             val frameList = ArrayList<Bitmap>()
             val mediaRetriever: MediaMetadataRetriever = MediaMetadataRetriever()
             mediaRetriever.setDataSource(filePath)
@@ -113,18 +114,15 @@ class GifCreatorActivity : AppCompatActivity() {
             while (currentMilli < endMilli) {
                 EventBus.getDefault().post(
                     ProgressUpdateEvent(
-                        "Grabbing image at " + TimeUnit.MILLISECONDS.toSeconds(currentMilli.toLong()) + " seconds"
+                        "Grabbing image at milliseconds$currentMilli end time $endMilli"
                     )
                 )
 
 
-                Log.d("nathanx", "milli " + currentMilli)
                 var bitmap = mediaRetriever.getFrameAtTime(
                     TimeUnit.MILLISECONDS.toMicros(currentMilli.toLong()),
                     extractionType
                 )
-
-                Log.d("nathanx", " size  " + Utils.size.toInt())
 
                 bitmap = bitmap?.let {
                     Bitmap.createScaledBitmap(
@@ -148,7 +146,9 @@ class GifCreatorActivity : AppCompatActivity() {
 
             runOnUiThread {
                 frameList.let {
-                    frameList.reverse()
+                    if (Utils.reverseOrder) {
+                        frameList.reverse()
+                    }
                     ImageUtil.saveGif(frameList, this)
                 }
             }
@@ -157,9 +157,11 @@ class GifCreatorActivity : AppCompatActivity() {
 
     @Subscribe
     fun onEvent(event: GifCreationEvent) {
+        gifFile = event.filePath
         Glide.with(this).asGif().load(event.filePath).into(gifImage)
         progressbar.visibility = View.GONE
         llSelection.visibility = View.VISIBLE
+        tvProgress.visibility = View.GONE
     }
 
     private fun extractPermission() {
@@ -203,5 +205,20 @@ class GifCreatorActivity : AppCompatActivity() {
         this.runOnUiThread {
             tvProgress.text = event.message
         }
+    }
+
+
+    fun share() {
+        if (gifFile == null) {
+            return
+        }
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        shareIntent.type = "image/gif"
+        val photoURI =
+            FileProvider.getUriForFile(this, this.packageName + ".GenericFileProvider", gifFile!!)
+        shareIntent.putExtra(Intent.EXTRA_STREAM, photoURI)
+        startActivity(Intent.createChooser(shareIntent, resources.getString(R.string.share)))
     }
 }

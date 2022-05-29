@@ -19,6 +19,7 @@ object Utils {
     var size = 100F
     var endTimeMilli = 0
     var filter: Filter? = null
+    var reverseOrder = false
 
 
     fun getPurchased(activity: Activity): Boolean {
@@ -66,23 +67,23 @@ object Utils {
         }
     }
 
-    @SuppressLint("MissingPermission")
-    fun getAdmobAd(activity: Activity?): AdView? {
-        val adView = AdView(activity)
-        adView.adSize = activity?.let { getAdSize(activity) }
-        if (activity != null) {
-            adView.adUnitId = activity.getString(R.string.banner_ad_unit_id)
-        }
-        val adRequest = AdRequest.Builder().build()
-        adView.adListener = object : AdListener() {
-            override fun onAdFailedToLoad(loadAdError: LoadAdError) {}
-            override fun onAdLoaded() {
-                super.onAdLoaded()
-            }
-        }
-        adView.loadAd(adRequest)
-        return adView
-    }
+//    @SuppressLint("MissingPermission")
+//    fun getAdmobAd(activity: Activity?): AdView? {
+//        val adView = AdView(activity)
+//        adView.adSize = activity?.let { getAdSize(activity) }
+//        if (activity != null) {
+//            adView.adUnitId = activity.getString(R.string.banner_ad_unit_id)
+//        }
+//        val adRequest = AdRequest.Builder().build()
+//        adView.adListener = object : AdListener() {
+//            override fun onAdFailedToLoad(loadAdError: LoadAdError) {}
+//            override fun onAdLoaded() {
+//                super.onAdLoaded()
+//            }
+//        }
+//        adView.loadAd(adRequest)
+//        return adView
+//    }
 
     private fun getAdSize(activity: Activity): AdSize? {
         // Step 2 - Determine the screen width (less decorations) to use for the ad width.

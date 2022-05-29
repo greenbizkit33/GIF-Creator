@@ -6,33 +6,43 @@
     android:layout_height="match_parent"
     tools:context=".activity.GifCreatorActivity">
 
-    <TextView
-        android:id="@+id/tv_progress"
-        android:background="@color/blue_btn_bg_color"
-        android:textColor="@color/black"
-        android:text="TEST"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <ProgressBar
-        android:id="@+id/progress_circular"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_parent_progress"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/primaryTextColor"
+            android:fontFamily="@font/old_type"
+            android:textSize="23dp"
+            tools:text="TEST" />
+
+        <ProgressBar
+            android:id="@+id/progress_circular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/iv_gif"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
     <LinearLayout
         android:id="@+id/ll_selection"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/iv_gif"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical"
         android:visibility="gone">
 
