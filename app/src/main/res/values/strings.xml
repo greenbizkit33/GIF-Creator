@@ -127,6 +127,7 @@
     <!-- TODO: Remove or change this placeholder text -->
 
     <string name="reverse_order" tools:ignore="MissingTranslation">Reverse Image Order</string>
+    <string name="forward_plus_reverse" tools:ignore="MissingTranslation">Normal Plus Reverse</string>
 
 
 </resources>

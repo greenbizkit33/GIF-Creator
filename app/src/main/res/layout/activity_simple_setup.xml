@@ -42,9 +42,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/midGray"
         android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"/>
+        android:layout_marginRight="24dp"
+        android:background="@color/midGray" />
 
     <com.google.android.material.slider.RangeSlider
         android:id="@+id/range_time"
@@ -77,9 +77,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/midGray"
         android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"/>
+        android:layout_marginRight="24dp"
+        android:background="@color/midGray" />
 
 
     <LinearLayout
@@ -109,9 +109,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/midGray"
         android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"/>
+        android:layout_marginRight="24dp"
+        android:background="@color/midGray" />
 
 
     <RelativeLayout
@@ -128,9 +128,10 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/midGray"
         android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"/>
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="24dp"
+        android:background="@color/midGray" />
 
 
     <LinearLayout
@@ -144,12 +145,32 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/reverse_order"/>
+            android:text="@string/reverse_order" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_reverse"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_double_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/forward_plus_reverse" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_double"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

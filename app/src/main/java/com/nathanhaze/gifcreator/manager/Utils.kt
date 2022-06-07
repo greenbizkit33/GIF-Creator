@@ -5,7 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.util.DisplayMetrics
-import com.google.android.gms.ads.*
+import com.google.android.gms.ads.AdSize
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.nathanhaze.gifcreator.R
 import com.zomato.photofilters.imageprocessors.Filter
@@ -20,6 +20,7 @@ object Utils {
     var endTimeMilli = 0
     var filter: Filter? = null
     var reverseOrder = false
+    var double = false
 
 
     fun getPurchased(activity: Activity): Boolean {

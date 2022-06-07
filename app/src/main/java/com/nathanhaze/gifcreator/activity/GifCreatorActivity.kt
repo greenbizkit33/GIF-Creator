@@ -90,7 +90,7 @@ class GifCreatorActivity : AppCompatActivity() {
         progressbar.visibility = View.VISIBLE
         Executors.newSingleThreadExecutor().execute {
             EventBus.getDefault().post(ProgressUpdateEvent("Starting up..."))
-            val frameList = ArrayList<Bitmap>()
+            var frameList = ArrayList<Bitmap>()
             val mediaRetriever: MediaMetadataRetriever = MediaMetadataRetriever()
             mediaRetriever.setDataSource(filePath)
 
@@ -148,6 +148,11 @@ class GifCreatorActivity : AppCompatActivity() {
                 frameList.let {
                     if (Utils.reverseOrder) {
                         frameList.reverse()
+                    }
+                    if (Utils.double) {
+                        val temp = frameList
+                        temp.reverse()
+                        frameList = (frameList + temp) as ArrayList<Bitmap>
                     }
                     ImageUtil.saveGif(frameList, this)
                 }

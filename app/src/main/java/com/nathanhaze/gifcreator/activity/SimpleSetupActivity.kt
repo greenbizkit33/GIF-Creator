@@ -186,8 +186,19 @@ class SimpleSetupActivity : AppCompatActivity() {
         }, 2000)
 
         val reverseSwitcher = findViewById<SwitchCompat>(R.id.switch_reverse)
+        val doubleSwitcher = findViewById<SwitchCompat>(R.id.switch_double)
         reverseSwitcher.setOnCheckedChangeListener { _, value ->
-                Utils.reverseOrder = value
+            Utils.reverseOrder = value
+            if (value) {
+                doubleSwitcher.isChecked = false;
+            }
+        }
+
+        doubleSwitcher.setOnCheckedChangeListener { _, value ->
+            Utils.double = value
+            if (value) {
+                reverseSwitcher.isChecked = false;
+            }
         }
         val createGifButton = findViewById<Button>(R.id.btn_create_gif)
 
