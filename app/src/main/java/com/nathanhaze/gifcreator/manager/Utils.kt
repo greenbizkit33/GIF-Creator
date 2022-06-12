@@ -23,6 +23,12 @@ object Utils {
     var double = false
 
 
+    fun resetValues() {
+        filter  = null
+        reverseOrder = false
+        double = false
+
+    }
     fun getPurchased(activity: Activity): Boolean {
         val sharedPref = activity?.getSharedPreferences(
             activity.getString(R.string.preference_app), Context.MODE_PRIVATE

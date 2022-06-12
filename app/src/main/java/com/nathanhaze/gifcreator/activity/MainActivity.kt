@@ -23,14 +23,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.amazon.device.ads.AdLayout
-import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.initialization.InitializationStatus
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.nathanhaze.gifcreator.R
+import com.nathanhaze.gifcreator.gallery.PhotoGallery
 import com.nathanhaze.gifcreator.manager.Utils
 import mehdi.sakout.fancybuttons.FancyButton
 import org.greenrobot.eventbus.EventBus
@@ -67,8 +63,8 @@ class MainActivity : AppCompatActivity() {
 
         btnOpenInternalFolder = findViewById<View>(R.id.button_internal) as FancyButton
         btnOpenInternalFolder!!.setOnClickListener(View.OnClickListener {
-//            val intent = Intent(app.getApplicationContext(), PhotoGallery::class.java)
-//            startActivity(intent)
+            val intent = Intent(this, PhotoGallery::class.java)
+            startActivity(intent)
         })
         val setting = findViewById<View>(R.id.iv_setting) as ImageView
         setting.setOnClickListener {
@@ -110,7 +106,8 @@ class MainActivity : AppCompatActivity() {
             handleSendImage(intent) // Handle single image being sent
         }
         Utils.trackScreenView(this, "Chooser Page")
-       // EventBus.getDefault().register(this)
+        // EventBus.getDefault().register(this)
+        Utils.resetValues()
     }
 
     override fun onResume() {

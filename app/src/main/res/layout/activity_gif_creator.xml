@@ -15,12 +15,13 @@
 
         <TextView
             android:id="@+id/tv_progress"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/old_type"
+            android:gravity="center"
             android:textColor="@color/primaryTextColor"
-            android:textSize="16dp"
+            android:textSize="16sp"
             tools:text="TEST" />
 
         <ProgressBar

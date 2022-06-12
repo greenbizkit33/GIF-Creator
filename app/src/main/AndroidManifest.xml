@@ -48,6 +48,16 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider_paths" />
         </provider>
+
+        <activity
+            android:name=".gallery.PhotoGallery"
+            android:exported="false" />
+        <activity
+            android:name=".gallery.PhotoPagerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+
+            android:exported="false"
+            android:parentActivityName=".gallery.PhotoGallery" />
     </application>
 
 </manifest>

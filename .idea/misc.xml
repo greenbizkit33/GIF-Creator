@@ -3,10 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/drawable/ic_back_arrow.xml" value="0.1" />
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/drawable/ic_check.xml" value="0.1" />
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/drawable/ic_checked.xml" value="0.1" />
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/drawable/ic_delete.xml" value="0.1" />
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/drawable/ic_delete_red.xml" value="0.1" />
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/drawable/ic_error.xml" value="0.1" />
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/drawable/ic_select_all.xml" value="0.1" />
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/drawable/image_overlay.xml" value="0.1" />
         <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/layout/activity_gif_creator.xml" value="0.16354166666666667" />
         <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/layout/activity_photo.xml" value="0.15989583333333332" />
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/layout/activity_photo_edit.xml" value="0.15989583333333332" />
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/layout/activity_photo_pager.xml" value="0.1390625" />
         <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/layout/activity_simple_setup.xml" value="0.22" />
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/layout/fragment_gallery.xml" value="0.1390625" />
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/layout/fragment_photo_gallery.xml" value="0.1390625" />
         <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/layout/fragment_video.xml" value="0.11096014492753623" />
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/layout/layout_photo_cell.xml" value="0.1390625" />
+        <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/layout/picture.xml" value="0.1390625" />
         <entry key="..\:/Users/brian/StudioProjects/GIF-Creator/app/src/main/res/layout/view_filter_item.xml" value="0.15989583333333332" />
       </map>
     </option>

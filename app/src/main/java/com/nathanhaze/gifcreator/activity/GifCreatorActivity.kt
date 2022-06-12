@@ -114,7 +114,7 @@ class GifCreatorActivity : AppCompatActivity() {
             while (currentMilli < endMilli) {
                 EventBus.getDefault().post(
                     ProgressUpdateEvent(
-                        "Grabbing image at milliseconds$currentMilli end time $endMilli"
+                        "Grabbing image at milliseconds $currentMilli end time $endMilli"
                     )
                 )
 
@@ -150,7 +150,7 @@ class GifCreatorActivity : AppCompatActivity() {
                         frameList.reverse()
                     }
                     if (Utils.double) {
-                        val temp = frameList
+                        val temp = frameList.toArray()
                         temp.reverse()
                         frameList = (frameList + temp) as ArrayList<Bitmap>
                     }

@@ -1,184 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <fragment
-        android:id="@+id/frag_video"
-        android:name="com.nathanhaze.gifcreator.fragment.VideoFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:maxHeight="400dp"
-        tools:layout="@layout/fragment_video"
-        tools:layout_height="80dp" />
-
-    <!-- Frame Freq -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_freq"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/range_frequency" />
-
-        <com.google.android.material.slider.Slider
-            android:id="@+id/frame_rate"
-            style="@style/Base.Sephiroth.Widget.RangeSeekBar"
+        <fragment
+            android:id="@+id/frag_video"
+            android:name="com.nathanhaze.gifcreator.fragment.VideoFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:valueFrom="50"
-            android:valueTo="5000" />
-    </LinearLayout>
+            android:adjustViewBounds="true"
+            android:maxHeight="400dp"
+            tools:layout="@layout/fragment_video"
+            tools:layout_height="80dp" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:background="@color/midGray" />
-
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/range_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp" />
-
-    <!-- Start End Time -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="4dp">
-
-        <TextView
-            android:id="@+id/tv_start_time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="00:00" />
-
-        <TextView
-            android:id="@+id/tv_end_time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:text="00:00" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:background="@color/midGray" />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <TextView
-            android:id="@+id/tv_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/range_frequency" />
-
-        <com.google.android.material.slider.Slider
-            android:id="@+id/s_size"
-            style="@style/Base.Sephiroth.Widget.RangeSeekBar"
+        <!-- Frame Freq -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:value="100"
-            android:valueFrom="10"
-            android:valueTo="100" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:background="@color/midGray" />
+            <TextView
+                android:id="@+id/tv_freq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/range_frequency" />
 
+            <com.google.android.material.slider.Slider
+                android:id="@+id/frame_rate"
+                style="@style/Base.Sephiroth.Widget.RangeSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:valueFrom="50"
+                android:valueTo="5000" />
+        </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_filters"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="1dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@color/midGray" />
 
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="24dp"
-        android:background="@color/midGray" />
-
-
-    <LinearLayout
-        android:id="@+id/ll_reverse_parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="0dp"
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/range_time"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/reverse_order" />
+            android:padding="16dp" />
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_reverse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_double_parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="0dp"
+        <!-- Start End Time -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/forward_plus_reverse" />
+            android:padding="4dp">
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_double"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_start_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="00:00" />
 
+            <TextView
+                android:id="@+id/tv_end_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="00:00" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@color/midGray" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tv_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/range_frequency" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/s_size"
+                style="@style/Base.Sephiroth.Widget.RangeSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:value="100"
+                android:valueFrom="10"
+                android:valueTo="100" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@color/midGray" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_filters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="24dp"
+            android:background="@color/midGray" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_reverse_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/reverse_order" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_reverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_double_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/forward_plus_reverse" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_double"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_create_gif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:padding="16dp"
+            android:text="@string/create_gif" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_create_gif"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:padding="16dp"
-        android:text="@string/create_gif" />
-</LinearLayout>
+</ScrollView>
