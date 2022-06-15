@@ -85,6 +85,7 @@ object ImageUtil {
     }
 
     fun saveGif(bitmaps: ArrayList<Bitmap>, context: Context?) {
+        var filePath: File? = null
         try {
             EventBus.getDefault().post(ProgressUpdateEvent("Saving GIF"))
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
@@ -93,7 +94,7 @@ object ImageUtil {
                 file.mkdir()
             }
 
-            val filePath: File = File(
+            filePath = File(
                 getPath(),
                 "GIF_$timeStamp.gif"
             )
@@ -106,6 +107,7 @@ object ImageUtil {
             EventBus.getDefault().post(event)
             context?.let { scanMedia(filePath?.absolutePath, it) }
         } catch (e: Exception) {
+            filePath?.delete()
             EventBus.getDefault().post(ProgressUpdateEvent("Something bad happen " + e.localizedMessage))
             EventBus.getDefault().post(GifCreationEvent(null, true))
             e.printStackTrace()

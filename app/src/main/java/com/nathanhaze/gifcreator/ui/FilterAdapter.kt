@@ -46,7 +46,7 @@ internal class FilterAdapter(
 //                )
 //            )
             holder.title.typeface = Typeface.DEFAULT_BOLD
-            val filter = filterList[holder.absoluteAdapterPosition]
+            val filter = filterList[holder.absoluteAdapterPosition - 1]
             Utils.filter = filter
             this.notifyItemChanged(lastSelected)
             lastSelected = holder.absoluteAdapterPosition

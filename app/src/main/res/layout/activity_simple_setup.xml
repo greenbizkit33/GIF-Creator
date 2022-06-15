@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +41,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:valueFrom="50"
-                android:valueTo="5000" />
+                android:valueTo="2000" />
         </LinearLayout>
 
         <View
@@ -48,19 +49,26 @@
             android:layout_height="1dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
-            android:background="@color/midGray" />
+            android:background="@color/secondaryDarkColor" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="Set start and end time:" />
 
         <com.google.android.material.slider.RangeSlider
             android:id="@+id/range_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp" />
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"/>
 
         <!-- Start End Time -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="4dp">
+            android:padding="2dp">
 
             <TextView
                 android:id="@+id/tv_start_time"
@@ -83,7 +91,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
-            android:background="@color/midGray" />
+            android:background="@color/secondaryDarkColor" />
 
 
         <LinearLayout
@@ -115,17 +123,25 @@
             android:layout_height="1dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
-            android:background="@color/midGray" />
+            android:background="@color/secondaryDarkColor" />
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tv_add_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_a_filter" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_filters"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_add_filter" />
 
         </RelativeLayout>
 
@@ -135,7 +151,7 @@
             android:layout_marginLeft="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="24dp"
-            android:background="@color/midGray" />
+            android:background="@color/secondaryDarkColor" />
 
 
         <LinearLayout

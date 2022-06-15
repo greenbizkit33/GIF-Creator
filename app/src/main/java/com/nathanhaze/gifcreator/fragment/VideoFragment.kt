@@ -1,6 +1,5 @@
 package com.nathanhaze.gifcreator.fragment
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -50,6 +49,10 @@ class VideoFragment : Fragment() {
         mediaController.setAnchorView(videoView)
         videoView.setMediaController(mediaController)
         videoView.setVideoPath(activity?.let { Utils.getVideoPath(it) })
+
+        videoView.setOnPreparedListener {
+            it.setVolume(0f, 0f)
+        }
         videoView.start()
         return view
     }

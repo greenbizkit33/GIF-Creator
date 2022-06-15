@@ -87,7 +87,7 @@ class SimpleSetupActivity : AppCompatActivity() {
         val mediaRetriever: MediaMetadataRetriever = MediaMetadataRetriever()
         mediaRetriever.setDataSource(Utils.getVideoPath(this))
 
-        val extractionType = MediaMetadataRetriever.OPTION_CLOSEST
+        val extractionType = MediaMetadataRetriever.OPTION_CLOSEST_SYNC
 
         val time: String? =
             mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
@@ -179,7 +179,7 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             val layoutManager =
-                LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, true)
+                LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
             rvFilter.layoutManager = layoutManager
             rvFilter.itemAnimator = DefaultItemAnimator()
             rvFilter.adapter = filterAdapter
