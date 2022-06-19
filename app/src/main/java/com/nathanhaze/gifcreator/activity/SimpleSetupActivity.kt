@@ -30,6 +30,9 @@ class SimpleSetupActivity : AppCompatActivity() {
 
     private lateinit var filterAdapter: FilterAdapter
 
+    private lateinit var tvInfo: TextView
+    private lateinit var frequencyRange: Slider
+    private lateinit var rangeSlider: RangeSlider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +40,9 @@ class SimpleSetupActivity : AppCompatActivity() {
         setContentView(R.layout.activity_simple_setup)
 
         val tvFreq = findViewById<TextView>(R.id.tv_freq)
-        val frequencyRange = findViewById<Slider>(R.id.frame_rate)
-        val rangeSlider = findViewById<RangeSlider>(R.id.range_time)
+        tvInfo = findViewById<TextView>(R.id.tv_info)
+        frequencyRange = findViewById<Slider>(R.id.frame_rate)
+        rangeSlider = findViewById<RangeSlider>(R.id.range_time)
         val tvStart = findViewById<TextView>(R.id.tv_start_time)
         val tvEnd = findViewById<TextView>(R.id.tv_end_time)
         val rvFilter = findViewById<RecyclerView>(R.id.rv_filters)
@@ -56,10 +60,11 @@ class SimpleSetupActivity : AppCompatActivity() {
             df.format(value).toString() + "%"
 
             tvSize.text = resources.getString(R.string.bitmap_size, df.format(value))
+
         }
         tvSize.text = resources.getString(R.string.bitmap_size, "100")
 
-        sliderSize.setLabelFormatter(LabelFormatter { value -> //It is just an example
+        sliderSize.setLabelFormatter(LabelFormatter { value ->
             val df = DecimalFormat("#.##")
             df.roundingMode = RoundingMode.CEILING
             df.format(value).toString() + "%"
@@ -72,16 +77,18 @@ class SimpleSetupActivity : AppCompatActivity() {
             df.format(value).toString() + "%"
 
             tvFreq.text = resources.getString(R.string.range_frequency, df.format(value / 1000))
+            updateInfo()
         }
 
-        frequencyRange.setLabelFormatter(LabelFormatter { value -> //It is just an example
+        frequencyRange.setLabelFormatter(LabelFormatter { value ->
             val df = DecimalFormat("#.##")
             df.roundingMode = RoundingMode.CEILING
             df.format(value / 1000).toString()
         })
 
-        frequencyRange.value = 1000F
-        tvFreq.text = resources.getString(R.string.range_frequency, 1.00.toString())
+        frequencyRange.value = 70F
+        tvFreq.text =
+            resources.getString(R.string.range_frequency, (frequencyRange.value / 1000).toString())
 
 
         val mediaRetriever: MediaMetadataRetriever = MediaMetadataRetriever()
@@ -102,16 +109,27 @@ class SimpleSetupActivity : AppCompatActivity() {
         Utils.startTimeMilli = 0
         Utils.endTimeMilli = videoLengthMilli.toInt()
 
-        rangeSlider.setValues(0.0f, 1.0f);
+        rangeSlider.setValues(0.4f, 0.6f);
 
-        val end = String.format(
-            "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(videoLengthMilli.toLong()),
+        val start = String.format(
+            "%02d:%02d:%02d",
+            TimeUnit.MILLISECONDS.toHours((videoLengthMilli.toLong() * 0.4f).toLong()),
             TimeUnit.MILLISECONDS.toMinutes(videoLengthMilli.toLong()) % TimeUnit.HOURS.toMinutes(1),
             TimeUnit.MILLISECONDS.toSeconds(videoLengthMilli.toLong()) % TimeUnit.MINUTES.toSeconds(
                 1
             )
         )
 
+        val end = String.format(
+            "%02d:%02d:%02d",
+            TimeUnit.MILLISECONDS.toHours((videoLengthMilli.toLong() * 0.6f).toLong()),
+            TimeUnit.MILLISECONDS.toMinutes(videoLengthMilli.toLong()) % TimeUnit.HOURS.toMinutes(1),
+            TimeUnit.MILLISECONDS.toSeconds(videoLengthMilli.toLong()) % TimeUnit.MINUTES.toSeconds(
+                1
+            )
+        )
+
+        tvStart.setText(start)
         tvEnd.setText(end)
 
         rangeSlider.setLabelFormatter(LabelFormatter { value -> //It is just an example
@@ -151,6 +169,7 @@ class SimpleSetupActivity : AppCompatActivity() {
 
                 Utils.startTimeMilli = startMilli.toInt()
                 Utils.endTimeMilli = endMilli.toInt()
+                updateInfo()
             }
 
 
@@ -208,6 +227,20 @@ class SimpleSetupActivity : AppCompatActivity() {
         }
 
     }
+
+    fun updateInfo() {
+
+        val freq = frequencyRange.value
+        val start = rangeSlider.valueTo
+        val end = rangeSlider.valueFrom
+
+        val frames = (end - start) / freq
+
+        tvInfo?.text = frames.toString()
+
+    }
+
+
 //
 //    class object {
 //        {

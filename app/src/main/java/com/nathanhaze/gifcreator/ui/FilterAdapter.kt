@@ -30,6 +30,7 @@ internal class FilterAdapter(
 
     private var lastSelected = 0
     private lateinit var lastHolder: RecyclerView.ViewHolder
+    private var originalSelected = 0
 
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -40,21 +41,24 @@ internal class FilterAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.image.setOnClickListener {
-//            holder.title.setBackgroundColor(
-//                context.resources.getColor(
-//                    R.color.accent
-//                )
-//            )
             holder.title.typeface = Typeface.DEFAULT_BOLD
-            val filter = filterList[holder.absoluteAdapterPosition - 1]
-            Utils.filter = filter
+            if (position != 0) {
+                val filter = filterList[holder.absoluteAdapterPosition - 1]
+                Utils.filter = filter
+            } else {
+                Utils.filter = null
+            }
+            originalSelected = -1
             this.notifyItemChanged(lastSelected)
             lastSelected = holder.absoluteAdapterPosition
+            holder.title.setTextColor(context.getColor(R.color.materialRed))
             holder.selected = true
             holder.image.setColorFilter(R.color.blue_btn_bg_color, PorterDuff.Mode.SRC_OVER)
         }
-        if (holder.selected) {
+        if (holder.selected || originalSelected == position) {
             holder.title.typeface = Typeface.DEFAULT_BOLD
+            holder.title.setTextColor(context.getColor(R.color.materialRed))
+            holder.image.setColorFilter(R.color.blue_btn_bg_color, PorterDuff.Mode.SRC_OVER)
         }
         if (position == 0) {
             holder.title.text = "no filter"
@@ -73,6 +77,8 @@ internal class FilterAdapter(
                         )
                     )
                 )
+                holder.image.clearColorFilter()
+                holder.title.setTextColor(context.getColor(R.color.primaryTextColor))
             } catch (ex: Exception) {
 
             }
