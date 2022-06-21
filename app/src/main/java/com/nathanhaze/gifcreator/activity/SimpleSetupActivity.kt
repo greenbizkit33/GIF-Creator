@@ -24,6 +24,7 @@ import com.zomato.photofilters.imageprocessors.Filter
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
+import kotlin.math.roundToInt
 
 
 class SimpleSetupActivity : AppCompatActivity() {
@@ -33,6 +34,7 @@ class SimpleSetupActivity : AppCompatActivity() {
     private lateinit var tvInfo: TextView
     private lateinit var frequencyRange: Slider
     private lateinit var rangeSlider: RangeSlider
+    private var videoLengthMilli: Float = 0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,7 +100,7 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         val time: String? =
             mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-        val videoLengthMilli: Float = time?.toFloat() ?: 0F
+        videoLengthMilli = time?.toFloat() ?: 0F
 
 //        rangeSlider.valueFrom = 0F
 //        if (videoLengthMilli != null) {
@@ -230,11 +232,14 @@ class SimpleSetupActivity : AppCompatActivity() {
 
     fun updateInfo() {
 
+        if (rangeSlider.values.size < 2) {
+            return
+        }
         val freq = frequencyRange.value
-        val start = rangeSlider.valueTo
-        val end = rangeSlider.valueFrom
+        val start = rangeSlider.values[0].times(videoLengthMilli).toLong()
+        val end = rangeSlider.values[1].times(videoLengthMilli).toLong()
 
-        val frames = (end - start) / freq
+        val frames : Int = ((end - start) / freq).roundToInt()
 
         tvInfo?.text = frames.toString()
 

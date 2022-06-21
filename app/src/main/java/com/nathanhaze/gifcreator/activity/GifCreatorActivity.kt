@@ -141,7 +141,7 @@ class GifCreatorActivity : AppCompatActivity() {
                 bitmap?.let {
                     frameList.add(bitmap)
                 }
-                currentMilli = currentMilli + Utils.frameFrequencyMilli
+                currentMilli += Utils.frameFrequencyMilli
             }
 
             runOnUiThread {
