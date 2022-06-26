@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.os.HandlerCompat
+import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
 import com.bumptech.glide.Glide
 import com.nathanhaze.gifcreator.R
 import com.nathanhaze.gifcreator.event.GifCreationEvent
@@ -38,8 +39,9 @@ class GifCreatorActivity : AppCompatActivity() {
 
     private var gifFile: File? = null
     private val PERMISSION_EXTRCT = 0
+    private var isGettingImages = false
 
-    lateinit var progressbar: ProgressBar
+    lateinit var progressbar: CircularProgressIndicator
 
     lateinit var gifImage: ImageView
     lateinit var llSelection: LinearLayout
@@ -55,7 +57,7 @@ class GifCreatorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gif_creator)
-        progressbar = findViewById<View>(R.id.progress_circular) as ProgressBar
+        progressbar = findViewById<View>(R.id.progress_circular) as CircularProgressIndicator
         gifImage = findViewById<View>(R.id.iv_gif) as ImageView
         llSelection = findViewById(R.id.ll_selection)
         btnShare = findViewById(R.id.button_share)
@@ -86,10 +88,15 @@ class GifCreatorActivity : AppCompatActivity() {
     }
 
     private fun getImages() {
+        if (isGettingImages) {
+            return
+        }
         val filePath = Utils.getVideoPath(this)
         progressbar.visibility = View.VISIBLE
         Executors.newSingleThreadExecutor().execute {
-            EventBus.getDefault().post(ProgressUpdateEvent("Starting up..."))
+            Log.d("nathanx", "starting thread")
+            isGettingImages = true
+            EventBus.getDefault().post(ProgressUpdateEvent("Starting up...", 0))
             var frameList = ArrayList<Bitmap>()
             val mediaRetriever: MediaMetadataRetriever = MediaMetadataRetriever()
             mediaRetriever.setDataSource(filePath)
@@ -111,10 +118,11 @@ class GifCreatorActivity : AppCompatActivity() {
                 "start " + currentMilli + " " + endMilli + " " + Utils.frameFrequencyMilli
             )
 
+            progressbar.maxProgress = endMilli.toDouble()
             while (currentMilli < endMilli) {
                 EventBus.getDefault().post(
                     ProgressUpdateEvent(
-                        "Grabbing image at milliseconds $currentMilli end time $endMilli"
+                        "Grabbing image at milliseconds $currentMilli end time $endMilli", currentMilli
                     )
                 )
 
@@ -141,7 +149,11 @@ class GifCreatorActivity : AppCompatActivity() {
                 bitmap?.let {
                     frameList.add(bitmap)
                 }
+//                Log.d("nathanx", "before  " + currentMilli + " " + Utils.frameFrequencyMilli);
+
                 currentMilli += Utils.frameFrequencyMilli
+//                Log.d("nathanx", "after" + currentMilli);
+
             }
 
             runOnUiThread {
@@ -162,6 +174,7 @@ class GifCreatorActivity : AppCompatActivity() {
 
     @Subscribe
     fun onEvent(event: GifCreationEvent) {
+        isGettingImages = false
         gifFile = event.filePath
         Glide.with(this).asGif().load(event.filePath).into(gifImage)
         progressbar.visibility = View.GONE
@@ -208,6 +221,7 @@ class GifCreatorActivity : AppCompatActivity() {
     @Subscribe
     fun onEvent(event: ProgressUpdateEvent) {
         this.runOnUiThread {
+            progressbar.setCurrentProgress(event.currentMilli.toDouble())
             tvProgress.text = event.message
         }
     }

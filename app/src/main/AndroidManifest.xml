@@ -21,9 +21,11 @@
         tools:replace="android:icon">
         <activity
             android:name=".activity.GifCreatorActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name=".activity.SimpleSetupActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"

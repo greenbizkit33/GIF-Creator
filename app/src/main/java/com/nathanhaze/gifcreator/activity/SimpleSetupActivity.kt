@@ -6,7 +6,9 @@ import android.media.MediaMetadataRetriever
 import android.os.Bundle
 import android.os.Handler
 import android.util.TypedValue
+import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
@@ -34,6 +36,7 @@ class SimpleSetupActivity : AppCompatActivity() {
     private lateinit var tvInfo: TextView
     private lateinit var frequencyRange: Slider
     private lateinit var rangeSlider: RangeSlider
+    private lateinit var ivWarning: ImageView
     private var videoLengthMilli: Float = 0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +48,8 @@ class SimpleSetupActivity : AppCompatActivity() {
         tvInfo = findViewById<TextView>(R.id.tv_info)
         frequencyRange = findViewById<Slider>(R.id.frame_rate)
         rangeSlider = findViewById<RangeSlider>(R.id.range_time)
+        ivWarning = findViewById<ImageView>(R.id.iv_warning)
+
         val tvStart = findViewById<TextView>(R.id.tv_start_time)
         val tvEnd = findViewById<TextView>(R.id.tv_end_time)
         val rvFilter = findViewById<RecyclerView>(R.id.rv_filters)
@@ -241,7 +246,13 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         val frames : Int = ((end - start) / freq).roundToInt()
 
-        tvInfo?.text = frames.toString()
+        if (frames > 100) {
+            ivWarning.visibility = View.VISIBLE
+            tvInfo?.text = "Too many frame: " + frames.toString()
+        } else {
+            tvInfo?.text = "Number of frames " + frames.toString()
+            ivWarning.visibility = View.INVISIBLE
+        }
 
     }
 

@@ -87,7 +87,7 @@ object ImageUtil {
     fun saveGif(bitmaps: ArrayList<Bitmap>, context: Context?) {
         var filePath: File? = null
         try {
-            EventBus.getDefault().post(ProgressUpdateEvent("Saving GIF"))
+            EventBus.getDefault().post(ProgressUpdateEvent("Saving GIF", Utils.endTimeMilli))
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
             val file: File = File(getPath())
             if (!file.exists()) {
@@ -108,16 +108,16 @@ object ImageUtil {
             context?.let { scanMedia(filePath?.absolutePath, it) }
         } catch (e: Exception) {
             filePath?.delete()
-            EventBus.getDefault().post(ProgressUpdateEvent("Something bad happen " + e.localizedMessage))
+            EventBus.getDefault().post(ProgressUpdateEvent("Something bad happen " + e.localizedMessage, Utils.endTimeMilli))
             EventBus.getDefault().post(GifCreationEvent(null, true))
             e.printStackTrace()
         }
     }
 
     fun generateGIF(bitmaps: ArrayList<Bitmap>): ByteArray? {
-        EventBus.getDefault().post(ProgressUpdateEvent("Have images generating GIF"))
+        EventBus.getDefault().post(ProgressUpdateEvent("Have images generating GIF", Utils.endTimeMilli -100))
         if (bitmaps.isEmpty()) {
-            EventBus.getDefault().post(ProgressUpdateEvent("Images was empty"))
+            EventBus.getDefault().post(ProgressUpdateEvent("Images was empty", Utils.endTimeMilli -200))
             return null
         }
         val bos = ByteArrayOutputStream()
@@ -128,11 +128,11 @@ object ImageUtil {
         for (bitmap in bitmaps) {
             encoder.addFrame(bitmap)
             index++
-            EventBus.getDefault().post(ProgressUpdateEvent("Adding Image " + index + " of "  + bitmaps.size + " to GIF"))
+            EventBus.getDefault().post(ProgressUpdateEvent("Adding Image " + index + " of "  + bitmaps.size + " to GIF", index))
 
         }
         encoder.finish()
-        EventBus.getDefault().post(ProgressUpdateEvent("Done Generating GIF"))
+        EventBus.getDefault().post(ProgressUpdateEvent("Done Generating GIF", Utils.endTimeMilli))
         return bos.toByteArray()
     }
 }
