@@ -21,6 +21,7 @@ import androidx.core.content.FileProvider
 import androidx.core.os.HandlerCompat
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
 import com.bumptech.glide.Glide
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.nathanhaze.gifcreator.R
 import com.nathanhaze.gifcreator.event.GifCreationEvent
 import com.nathanhaze.gifcreator.event.ProgressUpdateEvent
@@ -33,6 +34,7 @@ import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+import kotlin.math.roundToInt
 
 class GifCreatorActivity : AppCompatActivity() {
 
@@ -41,7 +43,7 @@ class GifCreatorActivity : AppCompatActivity() {
     private val PERMISSION_EXTRCT = 0
     private var isGettingImages = false
 
-    lateinit var progressbar: CircularProgressIndicator
+    lateinit var progressbar: LinearProgressIndicator
 
     lateinit var gifImage: ImageView
     lateinit var llSelection: LinearLayout
@@ -57,7 +59,7 @@ class GifCreatorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gif_creator)
-        progressbar = findViewById<View>(R.id.progress_circular) as CircularProgressIndicator
+        progressbar = findViewById<View>(R.id.progress_circular) as LinearProgressIndicator
         gifImage = findViewById<View>(R.id.iv_gif) as ImageView
         llSelection = findViewById(R.id.ll_selection)
         btnShare = findViewById(R.id.button_share)
@@ -118,7 +120,6 @@ class GifCreatorActivity : AppCompatActivity() {
                 "start " + currentMilli + " " + endMilli + " " + Utils.frameFrequencyMilli
             )
 
-            progressbar.maxProgress = endMilli.toDouble()
             while (currentMilli < endMilli) {
                 EventBus.getDefault().post(
                     ProgressUpdateEvent(
@@ -221,7 +222,11 @@ class GifCreatorActivity : AppCompatActivity() {
     @Subscribe
     fun onEvent(event: ProgressUpdateEvent) {
         this.runOnUiThread {
-            progressbar.setCurrentProgress(event.currentMilli.toDouble())
+            Log.d("nathanx", "" + (event.currentMilli.div(Utils.endTimeMilli.toFloat())))
+            Log.d("nathanx", "xx " +    (event.currentMilli.toDouble() / (Utils.endTimeMilli.toFloat())))
+
+            progressbar.max = 100
+            progressbar.progress = (event.currentMilli.div(Utils.endTimeMilli.toFloat()).toInt()) * 100
             tvProgress.text = event.message
         }
     }

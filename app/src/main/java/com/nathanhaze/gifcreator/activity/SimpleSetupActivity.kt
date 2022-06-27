@@ -114,7 +114,7 @@ class SimpleSetupActivity : AppCompatActivity() {
 //        }
 
         Utils.startTimeMilli = 0
-        Utils.endTimeMilli = videoLengthMilli.toInt()
+        Utils.endTimeMilli = (videoLengthMilli * 0.6f).toInt()
 
         rangeSlider.setValues(0.4f, 0.6f);
 
