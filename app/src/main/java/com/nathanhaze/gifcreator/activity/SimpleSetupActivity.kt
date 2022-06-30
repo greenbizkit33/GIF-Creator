@@ -232,6 +232,7 @@ class SimpleSetupActivity : AppCompatActivity() {
             Utils.frameFrequencyMilli = frequencyRange.value.toInt()
             startActivity(Intent(this, GifCreatorActivity::class.java))
         }
+        updateInfo()
 
     }
 
@@ -248,9 +249,9 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         if (frames > 100) {
             ivWarning.visibility = View.VISIBLE
-            tvInfo?.text = "Too many frame: " + frames.toString()
+            tvInfo?.text = "Too many frame: " + frames.toString() + " Length: " + TimeUnit.MILLISECONDS.toSeconds(end -start) + " seconds"
         } else {
-            tvInfo?.text = "Number of frames " + frames.toString()
+            tvInfo?.text = "Number of frames " + frames.toString()  + " Length: " + TimeUnit.MILLISECONDS.toSeconds(end -start) + " seconds"
             ivWarning.visibility = View.INVISIBLE
         }
 

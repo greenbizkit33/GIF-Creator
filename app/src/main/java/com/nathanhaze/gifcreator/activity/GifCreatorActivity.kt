@@ -6,20 +6,15 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.os.HandlerCompat
-import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
 import com.bumptech.glide.Glide
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.nathanhaze.gifcreator.R
@@ -34,7 +29,6 @@ import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-import kotlin.math.roundToInt
 
 class GifCreatorActivity : AppCompatActivity() {
 
@@ -51,11 +45,13 @@ class GifCreatorActivity : AppCompatActivity() {
     lateinit var btnShare: FancyButton
     lateinit var btnStartOver: FancyButton
     lateinit var tvProgress: TextView
+    var stopThread = false
 
-    val executorService: ExecutorService = Executors.newFixedThreadPool(4)
-    val mainThreadHandler: Handler = HandlerCompat.createAsync(Looper.getMainLooper())
+    //val executorService: ExecutorService = Executors.newFixedThreadPool(4)
+    //val mainThreadHandler: Handler = HandlerCompat.createAsync(Looper.getMainLooper())
 
 
+    lateinit var service: ExecutorService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gif_creator)
@@ -76,6 +72,7 @@ class GifCreatorActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
+        stopThread = false
         extractPermission()
     }
 
@@ -89,13 +86,28 @@ class GifCreatorActivity : AppCompatActivity() {
         EventBus.getDefault().unregister(this)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("nathanx", "destory")
+        service.shutdownNow()
+        service.shutdown()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        stopThread = true
+        Log.d("nathanx", "back pressed")
+    }
+
     private fun getImages() {
         if (isGettingImages) {
             return
         }
         val filePath = Utils.getVideoPath(this)
         progressbar.visibility = View.VISIBLE
-        Executors.newSingleThreadExecutor().execute {
+        service = Executors.newSingleThreadExecutor()
+
+        service.execute {
             Log.d("nathanx", "starting thread")
             isGettingImages = true
             EventBus.getDefault().post(ProgressUpdateEvent("Starting up...", 0))
@@ -120,10 +132,11 @@ class GifCreatorActivity : AppCompatActivity() {
                 "start " + currentMilli + " " + endMilli + " " + Utils.frameFrequencyMilli
             )
 
-            while (currentMilli < endMilli) {
+            while (currentMilli < endMilli && !stopThread) {
                 EventBus.getDefault().post(
                     ProgressUpdateEvent(
-                        "Grabbing image at milliseconds $currentMilli end time $endMilli", currentMilli
+                        "Grabbing image at milliseconds $currentMilli end time $endMilli",
+                        currentMilli
                     )
                 )
 
@@ -157,17 +170,19 @@ class GifCreatorActivity : AppCompatActivity() {
 
             }
 
-            runOnUiThread {
-                frameList.let {
-                    if (Utils.reverseOrder) {
-                        frameList.reverse()
+            if (!stopThread) {
+                runOnUiThread {
+                    frameList.let {
+                        if (Utils.reverseOrder) {
+                            frameList.reverse()
+                        }
+                        if (Utils.double) {
+                            val temp = frameList.toArray()
+                            temp.reverse()
+                            frameList = (frameList + temp) as ArrayList<Bitmap>
+                        }
+                        ImageUtil.saveGif(frameList, this)
                     }
-                    if (Utils.double) {
-                        val temp = frameList.toArray()
-                        temp.reverse()
-                        frameList = (frameList + temp) as ArrayList<Bitmap>
-                    }
-                    ImageUtil.saveGif(frameList, this)
                 }
             }
         }
@@ -222,11 +237,15 @@ class GifCreatorActivity : AppCompatActivity() {
     @Subscribe
     fun onEvent(event: ProgressUpdateEvent) {
         this.runOnUiThread {
-            Log.d("nathanx", "" + (event.currentMilli.div(Utils.endTimeMilli.toFloat())))
-            Log.d("nathanx", "xx " +    (event.currentMilli.toDouble() / (Utils.endTimeMilli.toFloat())))
+            Log.d("nathanx", "" + (event.currentMilli.div(Utils.endTimeMilli.toFloat()) * 100))
+            Log.d(
+                "nathanx",
+                "xx " + (event.currentMilli.toDouble() / (Utils.endTimeMilli.toFloat()))
+            )
 
             progressbar.max = 100
-            progressbar.progress = (event.currentMilli.div(Utils.endTimeMilli.toFloat()).toInt()) * 100
+            progressbar.progress =
+                (event.currentMilli.div(Utils.endTimeMilli.toFloat()) * 100).toInt()
             tvProgress.text = event.message
         }
     }

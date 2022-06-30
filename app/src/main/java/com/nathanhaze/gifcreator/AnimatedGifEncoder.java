@@ -4,6 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
+
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -233,8 +236,8 @@ public class AnimatedGifEncoder {
      * Sets the GIF frame position. The position is 0,0 by default.
      * Useful for only updating a section of the image
      *
-     * @param w int frame width.
-     * @param h int frame width.
+     * @param x int frame width.
+     * @param y int frame width.
      */
     public void setPosition(int x, int y) {
         this.x = x;
@@ -1206,10 +1209,15 @@ class LZWEncoder {
 
     // Flush the packet to disk, and reset the accumulator
     void flush_char(OutputStream outs) throws IOException {
-        if (a_count > 0) {
-            outs.write(a_count);
-            outs.write(accum, 0, a_count);
-            a_count = 0;
+        try {
+            if (a_count > 0) {
+                outs.write(a_count);
+                outs.write(accum, 0, a_count);
+                a_count = 0;
+            }
+        } catch (OutOfMemoryError ex) {
+            Log.d("nathanx", "out of memory");
+            FirebaseCrashlytics.getInstance().recordException(ex);
         }
     }
 
