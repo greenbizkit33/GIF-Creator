@@ -7,6 +7,9 @@ import android.graphics.Paint;
 import android.util.Log;
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.nathanhaze.gifcreator.event.ProgressUpdateEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -1217,6 +1220,7 @@ class LZWEncoder {
             }
         } catch (OutOfMemoryError ex) {
             Log.d("nathanx", "out of memory");
+            EventBus.getDefault().post(new ProgressUpdateEvent("Out of memory", 0));
             FirebaseCrashlytics.getInstance().recordException(ex);
         }
     }

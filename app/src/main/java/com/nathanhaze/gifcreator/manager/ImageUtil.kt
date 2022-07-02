@@ -130,6 +130,7 @@ object ImageUtil {
             index++
             EventBus.getDefault().post(ProgressUpdateEvent("Adding Image " + index + " of "  + bitmaps.size + " to GIF", index))
 
+            bitmap.recycle()
         }
         encoder.finish()
         EventBus.getDefault().post(ProgressUpdateEvent("Done Generating GIF", Utils.endTimeMilli))

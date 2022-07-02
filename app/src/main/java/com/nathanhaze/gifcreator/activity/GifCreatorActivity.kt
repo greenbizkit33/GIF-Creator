@@ -47,6 +47,8 @@ class GifCreatorActivity : AppCompatActivity() {
     lateinit var tvProgress: TextView
     var stopThread = false
 
+    var totalFrames: Int = 0
+
     //val executorService: ExecutorService = Executors.newFixedThreadPool(4)
     //val mainThreadHandler: Handler = HandlerCompat.createAsync(Looper.getMainLooper())
 
@@ -107,6 +109,8 @@ class GifCreatorActivity : AppCompatActivity() {
         progressbar.visibility = View.VISIBLE
         service = Executors.newSingleThreadExecutor()
 
+        totalFrames =
+            ((Utils.endTimeMilli - Utils.startTimeMilli).div(Utils.frameFrequencyMilli.toFloat())).toInt()
         service.execute {
             Log.d("nathanx", "starting thread")
             isGettingImages = true
@@ -237,16 +241,25 @@ class GifCreatorActivity : AppCompatActivity() {
     @Subscribe
     fun onEvent(event: ProgressUpdateEvent) {
         this.runOnUiThread {
-            Log.d("nathanx", "" + (event.currentMilli.div(Utils.endTimeMilli.toFloat()) * 100))
-            Log.d(
-                "nathanx",
-                "xx " + (event.currentMilli.toDouble() / (Utils.endTimeMilli.toFloat()))
-            )
+            Log.d("nathanx", "" + Utils.endTimeMilli)
+
+
 
             progressbar.max = 100
+            var framesLeft =
+                ((Utils.endTimeMilli - event.currentMilli).div(Utils.frameFrequencyMilli.toFloat())).toInt()
+
+            Log.d("nathanx", "" + event.currentMilli)
+
+            Log.d(
+                "nathanx",
+                "xxx " + (totalFrames - framesLeft).div(totalFrames.toFloat()).toInt() * 100
+            )
+
             progressbar.progress =
-                (event.currentMilli.div(Utils.endTimeMilli.toFloat()) * 100).toInt()
-            tvProgress.text = event.message
+                (totalFrames.toFloat() - framesLeft.toFloat()).div(totalFrames.toFloat()).toInt() * 100
+
+            tvProgress.text = "Frames Left " + framesLeft
         }
     }
 
