@@ -85,6 +85,7 @@ class GifCreatorActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        Log.d("nathanx", "unreg")
         EventBus.getDefault().unregister(this)
     }
 

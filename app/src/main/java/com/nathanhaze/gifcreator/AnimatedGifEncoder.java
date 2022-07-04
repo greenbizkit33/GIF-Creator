@@ -1106,8 +1106,10 @@ class LZWEncoder {
     // characters, flush the packet to disk.
     void char_out(byte c, OutputStream outs) throws IOException {
         accum[a_count++] = c;
-        if (a_count >= 254)
+        if (a_count >= 254) {
+        //    Log.d("nathanx", "here 2");
             flush_char(outs);
+        }
     }
 
     // Clear out the hash table
@@ -1282,6 +1284,7 @@ class LZWEncoder {
                 cur_bits -= 8;
             }
 
+            Log.d("nathanx", "here 1");
             flush_char(outs);
         }
     }

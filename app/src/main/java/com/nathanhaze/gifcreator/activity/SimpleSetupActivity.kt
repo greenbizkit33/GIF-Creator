@@ -113,11 +113,6 @@ class SimpleSetupActivity : AppCompatActivity() {
 //            rangeSlider.valueTo = 10F
 //        }
 
-        Utils.startTimeMilli = 0
-        Utils.endTimeMilli = (videoLengthMilli * 0.6f).toInt()
-
-        rangeSlider.setValues(0.4f, 0.6f);
-
         val start = String.format(
             "%02d:%02d:%02d",
             TimeUnit.MILLISECONDS.toHours((videoLengthMilli.toLong() * 0.4f).toLong()),
@@ -136,8 +131,8 @@ class SimpleSetupActivity : AppCompatActivity() {
             )
         )
 
-        tvStart.setText(start)
-        tvEnd.setText(end)
+//        tvStart.setText(start)
+//        tvEnd.setText(end)
 
         rangeSlider.setLabelFormatter(LabelFormatter { value -> //It is just an example
             val milli = value.times(videoLengthMilli).toLong()
@@ -181,6 +176,40 @@ class SimpleSetupActivity : AppCompatActivity() {
 
 
         })
+
+
+        rangeSlider.addOnChangeListener { slider, value, fromUser ->
+
+            if (!fromUser) {
+                val values = rangeSlider.values
+
+                val startMilli = values[0].times(videoLengthMilli).toLong()
+                val start = String.format(
+                    "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(startMilli),
+                    TimeUnit.MILLISECONDS.toMinutes(startMilli) % TimeUnit.HOURS.toMinutes(1),
+                    TimeUnit.MILLISECONDS.toSeconds(startMilli) % TimeUnit.MINUTES.toSeconds(1)
+                )
+
+                val endMilli = values[1].times(videoLengthMilli).toLong()
+
+                val end = String.format(
+                    "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(endMilli),
+                    TimeUnit.MILLISECONDS.toMinutes(endMilli) % TimeUnit.HOURS.toMinutes(1),
+                    TimeUnit.MILLISECONDS.toSeconds(endMilli) % TimeUnit.MINUTES.toSeconds(1)
+                )
+                tvStart.setText(start)
+                tvEnd.setText(end)
+
+                Utils.startTimeMilli = startMilli.toInt()
+                Utils.endTimeMilli = endMilli.toInt()
+                updateInfo()
+            }
+        }
+
+        Utils.startTimeMilli = 0
+        Utils.endTimeMilli = (videoLengthMilli * 0.6f).toInt()
+
+        rangeSlider.setValues(0.4f, 0.6f);
 
         var sample = mediaRetriever.getFrameAtTime(
             TimeUnit.SECONDS.toMicros(1000),
@@ -245,13 +274,19 @@ class SimpleSetupActivity : AppCompatActivity() {
         val start = rangeSlider.values[0].times(videoLengthMilli).toLong()
         val end = rangeSlider.values[1].times(videoLengthMilli).toLong()
 
-        val frames : Int = ((end - start) / freq).roundToInt()
+        val frames: Int = ((end - start) / freq).roundToInt()
 
         if (frames > 100) {
             ivWarning.visibility = View.VISIBLE
-            tvInfo?.text = "Too many frame: " + frames.toString() + " Length: " + TimeUnit.MILLISECONDS.toSeconds(end -start) + " seconds"
+            tvInfo?.text =
+                "Too many frame: " + frames.toString() + " Length: " + TimeUnit.MILLISECONDS.toSeconds(
+                    end - start
+                ) + " seconds"
         } else {
-            tvInfo?.text = "Number of frames " + frames.toString()  + " Length: " + TimeUnit.MILLISECONDS.toSeconds(end -start) + " seconds"
+            tvInfo?.text =
+                "Number of frames " + frames.toString() + " Length: " + TimeUnit.MILLISECONDS.toSeconds(
+                    end - start
+                ) + " seconds"
             ivWarning.visibility = View.INVISIBLE
         }
 
