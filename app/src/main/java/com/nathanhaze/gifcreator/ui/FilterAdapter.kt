@@ -41,6 +41,9 @@ internal class FilterAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.image.setOnClickListener {
+            if (lastSelected == holder.absoluteAdapterPosition) {
+                return@setOnClickListener
+            }
             holder.title.typeface = Typeface.DEFAULT_BOLD
             if (position != 0) {
                 val filter = filterList[holder.absoluteAdapterPosition - 1]
@@ -61,7 +64,7 @@ internal class FilterAdapter(
             holder.image.setColorFilter(R.color.blue_btn_bg_color, PorterDuff.Mode.SRC_OVER)
         }
         if (position == 0) {
-            holder.title.text = "no filter"
+            holder.title.text = "No Filter"
             holder.image.setImageBitmap(
                 sample
             )

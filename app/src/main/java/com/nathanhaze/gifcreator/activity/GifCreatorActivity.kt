@@ -140,7 +140,7 @@ class GifCreatorActivity : AppCompatActivity() {
             while (currentMilli < endMilli && !stopThread) {
                 EventBus.getDefault().post(
                     ProgressUpdateEvent(
-                        "Grabbing image at milliseconds $currentMilli end time $endMilli",
+                        "",
                         currentMilli
                     )
                 )
@@ -242,25 +242,19 @@ class GifCreatorActivity : AppCompatActivity() {
     @Subscribe
     fun onEvent(event: ProgressUpdateEvent) {
         this.runOnUiThread {
-            Log.d("nathanx", "" + Utils.endTimeMilli)
+            if (event.message.isBlank()) {
+                progressbar.max = 100
+                val framesLeft =
+                    ((Utils.endTimeMilli - event.currentMilli).div(Utils.frameFrequencyMilli.toFloat())).toInt()
 
+                val difference = totalFrames.toFloat() - framesLeft.toFloat()
+                progressbar.progress =
+                    (difference.toFloat().div(totalFrames.toFloat()) * 100).toInt()
 
-
-            progressbar.max = 100
-            var framesLeft =
-                ((Utils.endTimeMilli - event.currentMilli).div(Utils.frameFrequencyMilli.toFloat())).toInt()
-
-            Log.d("nathanx", "" + event.currentMilli)
-
-            Log.d(
-                "nathanx",
-                "xxx " + (totalFrames - framesLeft).div(totalFrames.toFloat()).toInt() * 100
-            )
-
-            progressbar.progress =
-                (totalFrames.toFloat() - framesLeft.toFloat()).div(totalFrames.toFloat()).toInt() * 100
-
-            tvProgress.text = "Frames Left " + framesLeft
+                tvProgress.text = "Frames Left " + framesLeft
+            } else {
+                tvProgress.text = event.message
+            }
         }
     }
 

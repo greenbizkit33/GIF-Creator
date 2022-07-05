@@ -1104,12 +1104,16 @@ class LZWEncoder {
 
     // Add a character to the end of the current packet, and if it is 254
     // characters, flush the packet to disk.
-    void char_out(byte c, OutputStream outs) throws IOException {
+    boolean char_out(byte c, OutputStream outs) throws IOException {
+        if (a_count + 1 >= accum.length ) {
+            return true;
+        }
         accum[a_count++] = c;
         if (a_count >= 254) {
         //    Log.d("nathanx", "here 2");
-            flush_char(outs);
+            return flush_char(outs);
         }
+        return true;
     }
 
     // Clear out the hash table
@@ -1213,17 +1217,19 @@ class LZWEncoder {
     }
 
     // Flush the packet to disk, and reset the accumulator
-    void flush_char(OutputStream outs) throws IOException {
+    boolean flush_char(OutputStream outs) throws IOException {
         try {
             if (a_count > 0) {
                 outs.write(a_count);
                 outs.write(accum, 0, a_count);
                 a_count = 0;
             }
+            return true;
         } catch (OutOfMemoryError ex) {
             Log.d("nathanx", "out of memory");
             EventBus.getDefault().post(new ProgressUpdateEvent("Out of memory", 0));
             FirebaseCrashlytics.getInstance().recordException(ex);
+            return false;
         }
     }
 
