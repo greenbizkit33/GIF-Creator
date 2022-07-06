@@ -176,18 +176,18 @@ class GifCreatorActivity : AppCompatActivity() {
             }
 
             if (!stopThread) {
-                runOnUiThread {
-                    frameList.let {
-                        if (Utils.reverseOrder) {
-                            frameList.reverse()
-                        }
-                        if (Utils.double) {
-                            val temp = frameList.toArray()
-                            temp.reverse()
-                            frameList = (frameList + temp) as ArrayList<Bitmap>
-                        }
-                        ImageUtil.saveGif(frameList, this)
+//                runOnUiThread {
+                frameList.let {
+                    if (Utils.reverseOrder) {
+                        frameList.reverse()
                     }
+                    if (Utils.double) {
+                        val temp = frameList.toArray()
+                        temp.reverse()
+                        frameList = (frameList + temp) as ArrayList<Bitmap>
+                    }
+                    ImageUtil.saveGif(frameList, this)
+                    //     }
                 }
             }
         }
@@ -197,7 +197,9 @@ class GifCreatorActivity : AppCompatActivity() {
     fun onEvent(event: GifCreationEvent) {
         isGettingImages = false
         gifFile = event.filePath
-        Glide.with(this).asGif().load(event.filePath).into(gifImage)
+        runOnUiThread {
+            Glide.with(this).asGif().load(event.filePath).into(gifImage)
+        }
         progressbar.visibility = View.GONE
         llSelection.visibility = View.VISIBLE
         tvProgress.visibility = View.GONE
@@ -255,6 +257,7 @@ class GifCreatorActivity : AppCompatActivity() {
             } else {
                 tvProgress.text = event.message
             }
+            Log.d("nathanx", "get message " + tvProgress.text)
         }
     }
 
