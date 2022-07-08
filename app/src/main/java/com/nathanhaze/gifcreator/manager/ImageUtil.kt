@@ -126,7 +126,10 @@ object ImageUtil {
         encoder.start(bos)
         var index = 0
         for (bitmap in bitmaps) {
-            encoder.addFrame(bitmap)
+            val worked  = encoder.addFrame(bitmap)
+            if (!worked) {
+                break
+            }
             index++
             EventBus.getDefault().post(ProgressUpdateEvent("Adding Image " + index + " of "  + bitmaps.size + " to GIF", index))
 

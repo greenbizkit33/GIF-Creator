@@ -23,6 +23,7 @@ import com.nathanhaze.gifcreator.manager.Utils
 import com.nathanhaze.gifcreator.ui.FilterAdapter
 import com.zomato.photofilters.FilterPack
 import com.zomato.photofilters.imageprocessors.Filter
+import org.greenrobot.eventbus.EventBus
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
@@ -263,6 +264,11 @@ class SimpleSetupActivity : AppCompatActivity() {
         }
         updateInfo()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Utils.outOfMemory = false
     }
 
     fun updateInfo() {

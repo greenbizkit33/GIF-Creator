@@ -21,6 +21,7 @@ object Utils {
     var filter: Filter? = null
     var reverseOrder = false
     var double = false
+    var outOfMemory = false
 
 
     fun resetValues() {

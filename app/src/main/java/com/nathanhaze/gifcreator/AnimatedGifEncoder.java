@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.nathanhaze.gifcreator.event.ProgressUpdateEvent;
+import com.nathanhaze.gifcreator.manager.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -152,6 +153,8 @@ public class AnimatedGifEncoder {
             writePixels(); // encode and write pixel data
             firstFrame = false;
         } catch (IOException e) {
+            ok = false;
+        } catch (OutOfMemoryError e){
             ok = false;
         }
 
@@ -460,9 +463,13 @@ public class AnimatedGifEncoder {
     /**
      * Encodes and writes pixel data
      */
-    protected void writePixels() throws IOException {
+    protected void writePixels() throws IOException, OutOfMemoryError {
         LZWEncoder encoder = new LZWEncoder(width, height, indexedPixels, colorDepth);
-        encoder.encode(out);
+        try {
+            encoder.encode(out);
+        } catch (OutOfMemoryError ex) {
+            throw new OutOfMemoryError();
+        }
     }
 
     /**
@@ -1104,14 +1111,18 @@ class LZWEncoder {
 
     // Add a character to the end of the current packet, and if it is 254
     // characters, flush the packet to disk.
-    boolean char_out(byte c, OutputStream outs) throws IOException {
-        if (a_count + 1 >= accum.length ) {
+    boolean char_out(byte c, OutputStream outs) throws IOException, OutOfMemoryError {
+        if (a_count + 1 >= accum.length) {
             return true;
         }
         accum[a_count++] = c;
         if (a_count >= 254) {
-        //    Log.d("nathanx", "here 2");
-            return flush_char(outs);
+            //    Log.d("nathanx", "here 2");
+            try {
+                return flush_char(outs);
+            } catch (OutOfMemoryError ex) {
+                throw new OutOfMemoryError();
+            }
         }
         return true;
     }
@@ -1133,7 +1144,7 @@ class LZWEncoder {
             htab[i] = -1;
     }
 
-    void compress(int init_bits, OutputStream outs) throws IOException {
+    void compress(int init_bits, OutputStream outs) throws IOException, OutOfMemoryError {
         int fcode;
         int i /* = 0 */;
         int c;
@@ -1191,7 +1202,11 @@ class LZWEncoder {
                     }
                 } while (htab[i] >= 0);
             }
-            output(ent, outs);
+            try {
+                output(ent, outs);
+            } catch (OutOfMemoryError ex) {
+                throw new OutOfMemoryError();
+            }
             ent = c;
             if (free_ent < maxmaxcode) {
                 codetab[i] = free_ent++; // code -> hashtable
@@ -1205,19 +1220,22 @@ class LZWEncoder {
     }
 
     // ----------------------------------------------------------------------------
-    void encode(OutputStream os) throws IOException {
+    void encode(OutputStream os) throws IOException, OutOfMemoryError {
         os.write(initCodeSize); // write "initial code size" byte
 
         remaining = imgW * imgH; // reset navigation variables
         curPixel = 0;
 
-        compress(initCodeSize + 1, os); // compress and write the pixel data
-
+        try {
+            compress(initCodeSize + 1, os); // compress and write the pixel data
+        } catch (OutOfMemoryError ex) {
+            throw new OutOfMemoryError();
+        }
         os.write(0); // write block terminator
     }
 
     // Flush the packet to disk, and reset the accumulator
-    boolean flush_char(OutputStream outs) throws IOException {
+    boolean flush_char(OutputStream outs) throws IOException, OutOfMemoryError {
         try {
             if (a_count > 0) {
                 outs.write(a_count);
@@ -1226,10 +1244,11 @@ class LZWEncoder {
             }
             return true;
         } catch (OutOfMemoryError ex) {
+            Utils.INSTANCE.setOutOfMemory(true);
             Log.d("nathanx", "out of memory");
             EventBus.getDefault().post(new ProgressUpdateEvent("Out of memory", 0));
             FirebaseCrashlytics.getInstance().recordException(ex);
-            return false;
+            throw new OutOfMemoryError();
         }
     }
 
@@ -1251,7 +1270,7 @@ class LZWEncoder {
         return pix & 0xff;
     }
 
-    void output(int code, OutputStream outs) throws IOException {
+    boolean output(int code, OutputStream outs) throws IOException, OutOfMemoryError {
         cur_accum &= masks[cur_bits];
 
         if (cur_bits > 0)
@@ -1262,7 +1281,11 @@ class LZWEncoder {
         cur_bits += n_bits;
 
         while (cur_bits >= 8) {
-            char_out((byte) (cur_accum & 0xff), outs);
+            try {
+                char_out((byte) (cur_accum & 0xff), outs);
+            } catch (OutOfMemoryError ex) {
+                throw new OutOfMemoryError();
+            }
             cur_accum >>= 8;
             cur_bits -= 8;
         }
@@ -1291,7 +1314,8 @@ class LZWEncoder {
             }
 
             Log.d("nathanx", "here 1");
-            flush_char(outs);
+            return flush_char(outs);
         }
+        return true;
     }
 }

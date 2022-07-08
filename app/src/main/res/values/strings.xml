@@ -131,4 +131,6 @@
     <string name="add_a_filter">Add a filter</string>
 
 
+    <string name="out_memory_title">Ran Out of Memory</string>
+    <string name="out_memory_message">The app ran out of memory was creating GIF. Try looking the time frame, frequency or size</string>
 </resources>

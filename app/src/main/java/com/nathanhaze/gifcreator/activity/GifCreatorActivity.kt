@@ -1,6 +1,7 @@
 package com.nathanhaze.gifcreator.activity
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -195,14 +196,32 @@ class GifCreatorActivity : AppCompatActivity() {
 
     @Subscribe
     fun onEvent(event: GifCreationEvent) {
+        if (Utils.outOfMemory) {
+            showDialog()
+        }
         isGettingImages = false
         gifFile = event.filePath
         runOnUiThread {
             Glide.with(this).asGif().load(event.filePath).into(gifImage)
+
+            progressbar.visibility = View.GONE
+            llSelection.visibility = View.VISIBLE
+            tvProgress.visibility = View.GONE
         }
-        progressbar.visibility = View.GONE
-        llSelection.visibility = View.VISIBLE
-        tvProgress.visibility = View.GONE
+    }
+
+    private fun showDialog() {
+        val alertDialog = AlertDialog.Builder(this)
+
+        alertDialog.apply {
+            //   setIcon(R.drawable.ic_hello)
+            setTitle(getString(R.string.out_memory_title))
+            setMessage(getString(R.string.out_memory_message))
+            setPositiveButton("OK") { _, _ ->
+                finish()
+            }
+        }.create().show()
+
     }
 
     private fun extractPermission() {
