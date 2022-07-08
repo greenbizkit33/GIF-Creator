@@ -211,16 +211,19 @@ class GifCreatorActivity : AppCompatActivity() {
     }
 
     private fun showDialog() {
-        val alertDialog = AlertDialog.Builder(this)
+        runOnUiThread {
+            val alertDialog = AlertDialog.Builder(this)
 
-        alertDialog.apply {
-            //   setIcon(R.drawable.ic_hello)
-            setTitle(getString(R.string.out_memory_title))
-            setMessage(getString(R.string.out_memory_message))
-            setPositiveButton("OK") { _, _ ->
-                finish()
-            }
-        }.create().show()
+            alertDialog.apply {
+                //   setIcon(R.drawable.ic_hello)
+                setTitle(getString(R.string.out_memory_title))
+                setMessage(getString(R.string.out_memory_message))
+                setPositiveButton("OK") { _, _ ->
+                    finish()
+                }
+            }.create().show()
+        }
+
 
     }
 
