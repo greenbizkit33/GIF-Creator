@@ -36,7 +36,7 @@
             android:layout_marginTop="8dp" />
     </LinearLayout>
 
-    <ImageView
+    <pl.droidsonroids.gif.GifImageView
         android:id="@+id/iv_gif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -9,7 +9,6 @@ import android.media.MediaMetadataRetriever
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +25,7 @@ import com.nathanhaze.gifcreator.manager.Utils
 import mehdi.sakout.fancybuttons.FancyButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import pl.droidsonroids.gif.GifImageView
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -37,10 +37,11 @@ class GifCreatorActivity : AppCompatActivity() {
     private var gifFile: File? = null
     private val PERMISSION_EXTRCT = 0
     private var isGettingImages = false
+    private var numberFrames = 0
 
     lateinit var progressbar: LinearProgressIndicator
 
-    lateinit var gifImage: ImageView
+    lateinit var gifImage: GifImageView
     lateinit var llSelection: LinearLayout
 
     lateinit var btnShare: FancyButton
@@ -55,11 +56,12 @@ class GifCreatorActivity : AppCompatActivity() {
 
 
     lateinit var service: ExecutorService
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gif_creator)
         progressbar = findViewById<View>(R.id.progress_circular) as LinearProgressIndicator
-        gifImage = findViewById<View>(R.id.iv_gif) as ImageView
+        gifImage = findViewById<View>(R.id.iv_gif) as GifImageView
         llSelection = findViewById(R.id.ll_selection)
         btnShare = findViewById(R.id.button_share)
         btnStartOver = findViewById(R.id.button_start_over)
@@ -87,14 +89,14 @@ class GifCreatorActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         Log.d("nathanx", "unreg")
-        EventBus.getDefault().unregister(this)
+        //EventBus.getDefault().unregister(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         Log.d("nathanx", "destory")
-        service.shutdownNow()
-        service.shutdown()
+        //  service.shutdownNow()
+        //  service.shutdown()
     }
 
     override fun onBackPressed() {
@@ -104,6 +106,9 @@ class GifCreatorActivity : AppCompatActivity() {
     }
 
     private fun getImages() {
+        if (this::service.isInitialized && service != null) {
+            Log.d("nathanx", "get images " + service.isShutdown + " " + service.isTerminated)
+        }
         if (isGettingImages) {
             return
         }
@@ -116,7 +121,7 @@ class GifCreatorActivity : AppCompatActivity() {
         service.execute {
             Log.d("nathanx", "starting thread")
             isGettingImages = true
-            EventBus.getDefault().post(ProgressUpdateEvent("Starting up...", 0))
+            EventBus.getDefault().post(ProgressUpdateEvent("Starting up...", 0, false, false))
             var frameList = ArrayList<Bitmap>()
             val mediaRetriever: MediaMetadataRetriever = MediaMetadataRetriever()
             mediaRetriever.setDataSource(filePath)
@@ -142,7 +147,7 @@ class GifCreatorActivity : AppCompatActivity() {
                 EventBus.getDefault().post(
                     ProgressUpdateEvent(
                         "",
-                        currentMilli
+                        currentMilli, true, false
                     )
                 )
 
@@ -172,7 +177,7 @@ class GifCreatorActivity : AppCompatActivity() {
 //                Log.d("nathanx", "before  " + currentMilli + " " + Utils.frameFrequencyMilli);
 
                 currentMilli += Utils.frameFrequencyMilli
-//                Log.d("nathanx", "after" + currentMilli);
+                Log.d("nathanx", "after" + currentMilli + " " + stopThread);
 
             }
 
@@ -187,6 +192,7 @@ class GifCreatorActivity : AppCompatActivity() {
                         temp.reverse()
                         frameList = (frameList + temp) as ArrayList<Bitmap>
                     }
+                    numberFrames = frameList.size
                     ImageUtil.saveGif(frameList, this)
                     //     }
                 }
@@ -196,14 +202,16 @@ class GifCreatorActivity : AppCompatActivity() {
 
     @Subscribe
     fun onEvent(event: GifCreationEvent) {
-        if (Utils.outOfMemory) {
-            showDialog()
-        }
+
+        Log.d("nathanx", "got gif")
         isGettingImages = false
         gifFile = event.filePath
         runOnUiThread {
-            Glide.with(this).asGif().load(event.filePath).into(gifImage)
-
+            if (Utils.outOfMemory) {
+                showDialog()
+            } else {
+                Glide.with(this).asGif().load(event.filePath).into(gifImage)
+            }
             progressbar.visibility = View.GONE
             llSelection.visibility = View.VISIBLE
             tvProgress.visibility = View.GONE
@@ -212,6 +220,7 @@ class GifCreatorActivity : AppCompatActivity() {
 
     private fun showDialog() {
         runOnUiThread {
+            Log.d("nathanx", "show dialog")
             val alertDialog = AlertDialog.Builder(this)
 
             alertDialog.apply {
@@ -265,17 +274,25 @@ class GifCreatorActivity : AppCompatActivity() {
 
     @Subscribe
     fun onEvent(event: ProgressUpdateEvent) {
+        Log.d("nathanx", "progress " + event.message)
         this.runOnUiThread {
-            if (event.message.isBlank()) {
-                progressbar.max = 100
+            progressbar.max = 100
+            if (event.creatingFrame) {
                 val framesLeft =
                     ((Utils.endTimeMilli - event.currentMilli).div(Utils.frameFrequencyMilli.toFloat())).toInt()
 
                 val difference = totalFrames.toFloat() - framesLeft.toFloat()
                 progressbar.progress =
-                    (difference.toFloat().div(totalFrames.toFloat()) * 100).toInt()
+                    (difference.toFloat().div(totalFrames.toFloat()) * 50).toInt()
 
                 tvProgress.text = "Frames Left " + framesLeft
+            } else if (event.addingFrames) {
+
+                val difference = numberFrames - (numberFrames - event.currentMilli)
+                progressbar.progress =
+                    (difference.toFloat().div(numberFrames.toFloat()) * 50).toInt() + 50
+
+                tvProgress.text = event.message
             } else {
                 tvProgress.text = event.message
             }
