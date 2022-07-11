@@ -104,6 +104,7 @@ object ImageUtil {
             outStream.write(bitmaps?.let { generateGIF(it) })
             outStream.close()
             val event = GifCreationEvent(filePath, false)
+            Utils.lastGifFilePath = filePath
             EventBus.getDefault().post(event)
             context?.let { scanMedia(filePath?.absolutePath, it) }
         } catch (e: Exception) {

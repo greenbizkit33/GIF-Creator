@@ -269,6 +269,7 @@ class SimpleSetupActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Utils.outOfMemory = false
+        Utils.lastGifFilePath = null
     }
 
     fun updateInfo() {

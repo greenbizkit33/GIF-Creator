@@ -22,6 +22,7 @@ import com.nathanhaze.gifcreator.event.GifCreationEvent
 import com.nathanhaze.gifcreator.event.ProgressUpdateEvent
 import com.nathanhaze.gifcreator.manager.ImageUtil
 import com.nathanhaze.gifcreator.manager.Utils
+import com.nathanhaze.gifcreator.manager.Utils.isGettingImages
 import mehdi.sakout.fancybuttons.FancyButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -36,7 +37,6 @@ class GifCreatorActivity : AppCompatActivity() {
 
     private var gifFile: File? = null
     private val PERMISSION_EXTRCT = 0
-    private var isGettingImages = false
     private var numberFrames = 0
 
     lateinit var progressbar: LinearProgressIndicator
@@ -48,7 +48,6 @@ class GifCreatorActivity : AppCompatActivity() {
     lateinit var btnStartOver: FancyButton
     lateinit var tvProgress: TextView
     var stopThread = false
-
     var totalFrames: Int = 0
 
     //val executorService: ExecutorService = Executors.newFixedThreadPool(4)
@@ -83,7 +82,9 @@ class GifCreatorActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        EventBus.getDefault().register(this)
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
     }
 
     override fun onPause() {
@@ -106,10 +107,13 @@ class GifCreatorActivity : AppCompatActivity() {
     }
 
     private fun getImages() {
-        if (this::service.isInitialized && service != null) {
-            Log.d("nathanx", "get images " + service.isShutdown + " " + service.isTerminated)
-        }
+//        if (this::service.isInitialized && service != null) {
+//            Log.d("nathanx", "get images " + service.isShutdown + " " + service.isTerminated)
+//        }
         if (isGettingImages) {
+            if (Utils.lastGifFilePath != null) {
+                Glide.with(this).asGif().load(Utils.lastGifFilePath).into(gifImage)
+            }
             return
         }
         val filePath = Utils.getVideoPath(this)
@@ -196,13 +200,14 @@ class GifCreatorActivity : AppCompatActivity() {
                     ImageUtil.saveGif(frameList, this)
                     //     }
                 }
+            } else {
+                isGettingImages = false
             }
         }
     }
 
     @Subscribe
     fun onEvent(event: GifCreationEvent) {
-
         Log.d("nathanx", "got gif")
         isGettingImages = false
         gifFile = event.filePath

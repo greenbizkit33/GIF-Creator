@@ -9,6 +9,7 @@ import com.google.android.gms.ads.AdSize
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.nathanhaze.gifcreator.R
 import com.zomato.photofilters.imageprocessors.Filter
+import java.io.File
 
 object Utils {
 
@@ -22,7 +23,8 @@ object Utils {
     var reverseOrder = false
     var double = false
     var outOfMemory = false
-
+    var isGettingImages = false
+    var lastGifFilePath: File? = null
 
     fun resetValues() {
         filter = null
