@@ -71,19 +71,21 @@ internal class FilterAdapter(
         } else {
             val filter = filterList[position - 1]
             holder.title.text = filter.name
-            try {
-                holder.image.setImageBitmap(
-                    filter.processFilter(
-                        sample?.copy(
-                            sample?.config,
-                            true
+            if (filter != null && sample != null && sample?.height!! > 0) {
+                try {
+                    holder.image.setImageBitmap(
+                        filter.processFilter(
+                            sample?.copy(
+                                sample?.config,
+                                true
+                            )
                         )
                     )
-                )
-                holder.image.clearColorFilter()
-                holder.title.setTextColor(context.getColor(R.color.primaryTextColor))
-            } catch (ex: Exception) {
+                    holder.image.clearColorFilter()
+                    holder.title.setTextColor(context.getColor(R.color.primaryTextColor))
 
+                } catch (ex: Exception) {
+                }
             }
         }
         holder.title.typeface = Typeface.DEFAULT

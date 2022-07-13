@@ -58,7 +58,7 @@ class SimpleSetupActivity : AppCompatActivity() {
         val sliderSize = findViewById<Slider>(R.id.s_size)
         val tvSize = findViewById<TextView>(R.id.tv_size)
 
-        Utils.size = 1f
+        Utils.size = 0.7f
 
         sliderSize.addOnChangeListener { slider, value, fromUser ->
             Utils.size = value / 100
@@ -70,8 +70,9 @@ class SimpleSetupActivity : AppCompatActivity() {
             tvSize.text = resources.getString(R.string.bitmap_size, df.format(value))
 
         }
-        tvSize.text = resources.getString(R.string.bitmap_size, "100")
+        tvSize.text = resources.getString(R.string.bitmap_size, "70")
 
+        sliderSize.value = 70f
         sliderSize.setLabelFormatter(LabelFormatter { value ->
             val df = DecimalFormat("#.##")
             df.roundingMode = RoundingMode.CEILING

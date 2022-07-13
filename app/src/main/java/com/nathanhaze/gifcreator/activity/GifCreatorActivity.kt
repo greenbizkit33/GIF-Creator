@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.lifecycle.Lifecycle
 import com.bumptech.glide.Glide
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.nathanhaze.gifcreator.R
@@ -84,6 +85,18 @@ class GifCreatorActivity : AppCompatActivity() {
         super.onResume()
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
+        }
+        Log.d("nathanx", "onresume " + Utils.lastGifFilePath + " " + isGettingImages);
+        if (Utils.lastGifFilePath != null && !isGettingImages) {
+            if (Utils.outOfMemory) {
+                showDialog()
+            } else {
+                Glide.with(this).asGif().load(Utils.lastGifFilePath).into(gifImage)
+            }
+            Log.d("nathanx", "do your thing")
+            progressbar.visibility = View.GONE
+            llSelection.visibility = View.VISIBLE
+            tvProgress.visibility = View.GONE
         }
     }
 
@@ -210,6 +223,9 @@ class GifCreatorActivity : AppCompatActivity() {
     fun onEvent(event: GifCreationEvent) {
         Log.d("nathanx", "got gif")
         isGettingImages = false
+        if (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+            return
+        }
         gifFile = event.filePath
         runOnUiThread {
             if (Utils.outOfMemory) {
