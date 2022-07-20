@@ -1,94 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.GifCreatorActivity">
+    android:fillViewport="true">
 
-    <LinearLayout
-        android:id="@+id/ll_parent_progress"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
+        tools:background="@color/black"
+        tools:context=".activity.GifCreatorActivity">
 
-        <TextView
-            android:id="@+id/tv_progress"
+        <LinearLayout
+            android:id="@+id/ll_parent_progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:fontFamily="@font/old_type"
-            android:gravity="center"
-            android:textColor="@color/primaryTextColor"
-            android:textSize="16sp"
-            tools:text="TEST" />
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
 
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/progress_circular"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:visibility="gone"
-            android:layout_gravity="center"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:fontFamily="@font/old_type"
+                android:gravity="center"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="16sp"
+                tools:text="TEST" />
 
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/iv_gif"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_circular"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_selection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/iv_gif"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <mehdi.sakout.fancybuttons.FancyButton
-            android:id="@+id/button_share"
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/iv_gif"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:clickable="true"
-            android:focusable="true"
-            android:paddingLeft="40dp"
-            android:paddingTop="12dp"
-            android:paddingRight="40dp"
-            android:paddingBottom="12dp"
-            fancy:fb_defaultColor="@color/secondaryColor"
-            fancy:fb_focusColor="#01303e"
-            fancy:fb_iconPosition="left"
-            fancy:fb_radius="24dp"
-            fancy:fb_text="@string/share"
-            fancy:fb_textColor="@color/secondaryTextColor"
-            fancy:fb_textSize="18sp" />
+            android:layout_centerInParent="true" />
 
-        <mehdi.sakout.fancybuttons.FancyButton
-            android:id="@+id/button_start_over"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/ll_selection"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="32dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:paddingLeft="40dp"
-            android:paddingTop="12dp"
-            android:paddingRight="40dp"
-            android:paddingBottom="12dp"
-            fancy:fb_defaultColor="@color/secondaryColor"
-            fancy:fb_focusColor="#01303e"
-            fancy:fb_iconPosition="left"
-            fancy:fb_radius="24dp"
-            fancy:fb_text="@string/start_over"
-            fancy:fb_textColor="@color/secondaryTextColor"
-            fancy:fb_textSize="18sp" />
+            android:layout_below="@id/iv_gif"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-    </LinearLayout>
-</RelativeLayout>
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/button_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingLeft="40dp"
+                android:paddingTop="12dp"
+                android:paddingRight="40dp"
+                android:paddingBottom="12dp"
+                fancy:fb_defaultColor="@color/secondaryColor"
+                fancy:fb_focusColor="#01303e"
+                fancy:fb_iconPosition="left"
+                fancy:fb_radius="24dp"
+                fancy:fb_text="@string/share"
+                fancy:fb_textColor="@color/secondaryTextColor"
+                fancy:fb_textSize="18sp" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/button_start_over"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="32dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingLeft="40dp"
+                android:paddingTop="12dp"
+                android:paddingRight="40dp"
+                android:paddingBottom="12dp"
+                fancy:fb_defaultColor="@color/secondaryColor"
+                fancy:fb_focusColor="#01303e"
+                fancy:fb_iconPosition="left"
+                fancy:fb_radius="24dp"
+                fancy:fb_text="@string/start_over"
+                fancy:fb_textColor="@color/secondaryTextColor"
+                fancy:fb_textSize="18sp" />
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                style="@style/ad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/banner_ad_unit_id" />
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
