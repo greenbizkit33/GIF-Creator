@@ -56,12 +56,12 @@ internal class FilterAdapter(
             lastSelected = holder.absoluteAdapterPosition
             holder.title.setTextColor(context.getColor(R.color.materialRed))
             holder.selected = true
-            holder.image.setColorFilter(R.color.blue_btn_bg_color, PorterDuff.Mode.SRC_OVER)
+            holder.image.setColorFilter(R.color.materialBlue, PorterDuff.Mode.SRC_OVER)
         }
         if (holder.selected || originalSelected == position) {
             holder.title.typeface = Typeface.DEFAULT_BOLD
             holder.title.setTextColor(context.getColor(R.color.materialRed))
-            holder.image.setColorFilter(R.color.blue_btn_bg_color, PorterDuff.Mode.SRC_OVER)
+            holder.image.setColorFilter(R.color.materialBlue, PorterDuff.Mode.SRC_OVER)
         }
         if (position == 0) {
             holder.title.text = "No Filter"

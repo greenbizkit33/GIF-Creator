@@ -50,8 +50,8 @@
     <string name="no">no</string>
 
     <!-- Progress -->
-    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2377934805759836/1195734277</string>
-    <string name="admob_account" translatable="false">ca-app-pub-2377934805759836~7914267438</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2377934805759836/6301605656</string>
+    <string name="admob_account" translatable="false">ca-app-pub-2377934805759836~9426462443</string>
     <string name="title_activity_setting">Settings</string>
 
     <string-array name="video_speeds">

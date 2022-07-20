@@ -22,7 +22,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.amazon.device.ads.AdLayout
+import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.nathanhaze.gifcreator.R
@@ -35,7 +35,6 @@ import org.greenrobot.eventbus.EventBus
 class MainActivity : AppCompatActivity() {
 
     private var pd: ProgressDialog? = null
-    private var amazonAd: AdLayout? = null
     private var mAdView: AdView? = null
 
     private val MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 0
@@ -54,10 +53,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //MobileAds.initialize(this, getResources().getString(R.string.admob_account));
-//        MobileAds.initialize(this, object : OnInitializationCompleteListener {
-//            override fun onInitializationComplete(initializationStatus: InitializationStatus?) {}
-//        })
         val btnVideoPicker = findViewById<View>(R.id.button_pick_video) as LinearLayout
         btnVideoPicker.setOnClickListener { importVideo() }
 
@@ -78,25 +73,8 @@ class MainActivity : AppCompatActivity() {
         pd = ProgressDialog(this)
         pd!!.setCancelable(false)
         pd!!.setCanceledOnTouchOutside(false)
-        amazonAd = findViewById<View>(R.id.adview_amazon) as AdLayout
         val act: Activity = this
         val llAd = findViewById<View>(R.id.ll_ads) as LinearLayout
-        if (Utils.getPurchased(this)) {
-//            llAd.visibility = View.VISIBLE
-//            mAdView = Utils.getAdmobAd(this)
-//            removeAds!!.visibility = View.VISIBLE
-//            llAd.addView(mAdView, 0)
-//            mAdView?.setAdListener(object : AdListener() {
-//                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-//                    super.onAdFailedToLoad(loadAdError)
-//                    mAdView?.setVisibility(View.GONE)
-//                }
-//            })
-        } else {
-            llAd.visibility = View.GONE
-            mAdView?.setVisibility(View.GONE)
-            removeAds?.visibility = View.GONE
-        }
 
         // Get intent, action and MIME type
         val intent = intent
@@ -108,6 +86,10 @@ class MainActivity : AppCompatActivity() {
         Utils.trackScreenView(this, "Chooser Page")
         // EventBus.getDefault().register(this)
         Utils.resetValues()
+
+        val mAdView = findViewById<View>(R.id.adView) as AdView
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
     }
 
     override fun onResume() {

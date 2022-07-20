@@ -8,8 +8,8 @@
     <VideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:maxHeight="400dp"
-        android:minHeight="275dp"
-        android:layout_height="wrap_content"/>
+        android:minHeight="275dp" />
 
 </FrameLayout>

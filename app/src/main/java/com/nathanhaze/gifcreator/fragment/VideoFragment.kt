@@ -45,14 +45,17 @@ class VideoFragment : Fragment() {
 
 
         videoView = view.findViewById(R.id.video_view)
-        val mediaController = MediaController(context)
-        mediaController.setAnchorView(videoView)
-        videoView.setMediaController(mediaController)
+
         videoView.setVideoPath(activity?.let { Utils.getVideoPath(it) })
 
         videoView.setOnPreparedListener {
             it.setVolume(0f, 0f)
+            val mediaController = MediaController(context)
+            mediaController.setPadding(0, 0, 0, 5);
+            videoView.setMediaController(mediaController)
+            mediaController.setAnchorView(videoView)
         }
+
         videoView.start()
         return view
     }

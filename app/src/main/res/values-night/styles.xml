@@ -60,6 +60,6 @@
 
     <style name="slider" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Add attributes here -->
-        <item name="colorPrimary">@color/main_blue_color</item>
+        <item name="colorPrimary">@color/materialRed</item>
     </style>
 </resources>

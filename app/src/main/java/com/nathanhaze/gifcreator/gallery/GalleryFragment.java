@@ -22,8 +22,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.amazon.device.ads.AdLayout;
-import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.nathanhaze.gifcreator.GifCreatorApp;
@@ -48,13 +46,11 @@ public class GalleryFragment extends Fragment {
 
     private RecyclerView recyclerview;
     private PhotoGalleryAdapter adapter;
-    private AdLayout amazonAd;
     private TextView tvNoImages;
     private LinearLayout galleryControls;
     private ImageView trashButton;
     private GifCreatorApp application;
     private List<String> list;
-    private SpinKitView spinner;
 
     public String defaultImage;
 
@@ -93,7 +89,6 @@ public class GalleryFragment extends Fragment {
         trashButton = (ImageView) view.findViewById(R.id.iv_delete);
         ImageView ivUnSelectAll = (ImageView) view.findViewById(R.id.iv_unselect);
         ImageView tvSelectAll = (ImageView) view.findViewById(R.id.tv_select_all);
-        spinner = view.findViewById(R.id.spin_kit);
         list = Arrays.asList(application.getListFiles());
 
         tvNoImages = (TextView) view.findViewById(R.id.tv_no_images);
@@ -230,9 +225,6 @@ public class GalleryFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        if (amazonAd != null) {
-            amazonAd.destroy();
-        }
         EventBus.getDefault().unregister(this);
         super.onDestroyView();
     }

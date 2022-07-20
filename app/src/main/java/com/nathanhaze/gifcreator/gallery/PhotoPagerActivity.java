@@ -20,7 +20,6 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.nathanhaze.gifcreator.GifCreatorApp;
 import com.nathanhaze.gifcreator.R;
 import com.nathanhaze.gifcreator.event.RefeshGalleryEvent;
-import com.yalantis.ucrop.UCrop;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -134,29 +133,6 @@ public class PhotoPagerActivity extends FragmentActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
-            try {
-                final Uri resultUri = UCrop.getOutput(data);
-                String[] temp2 = application.getListFiles();
-                viewPager.setAdapter(new ScreenSlidePagerAdapter(this, temp2));
-                EventBus.getDefault().post(new RefeshGalleryEvent());
-                int currentItem = temp2.length - 1;
-                if (currentItem < temp2.length) {
-                    viewPager.setCurrentItem(currentItem);
-                }
-                Bundle bundle = new Bundle();
-            } catch (Exception ex) {
-                Toast.makeText(this, "Your image was saved, but error occurred", Toast.LENGTH_LONG).show();
-                Bundle bundle = new Bundle();
-                bundle.putString("exception", ex.getMessage());
-            }
-        } else if (resultCode == UCrop.RESULT_ERROR) {
-            final Throwable cropError = UCrop.getError(data);
-            Toast.makeText(this, "Sorry there was an error", Toast.LENGTH_LONG).show();
-            Bundle bundle = new Bundle();
-            bundle.putInt("req_code", requestCode);
-            bundle.putInt("result_code", requestCode);
-        }
     }
 
     public void share(String path) {

@@ -1,11 +1,28 @@
 package com.nathanhaze.gifcreator
 
+import android.app.Application
 import android.os.Environment
-import androidx.multidex.MultiDexApplication
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import java.io.File
+import java.util.*
 
-class GifCreatorApp : MultiDexApplication() {
+class GifCreatorApp : Application() {
 
+    override fun onCreate() {
+        super.onCreate()
+
+        //MobileAds.initialize(this, getResources().getString(R.string.admob_account));
+//        MobileAds.initialize(this, object : OnInitializationCompleteListener {
+//            override fun onInitializationComplete(initializationStatus: InitializationStatus?) {}
+//        })
+
+        MobileAds.initialize(this) {}
+        val configuration = RequestConfiguration.Builder()
+            .setTestDeviceIds(Arrays.asList("0135F7F684D504931784BE16DAA97AF8")).build()
+        MobileAds.setRequestConfiguration(configuration)
+
+    }
 
     fun getParentFolder(): File? {
         val path = File(

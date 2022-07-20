@@ -15,6 +15,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.codemybrainsout.ratingdialog.RatingDialog
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
@@ -23,7 +24,6 @@ import com.nathanhaze.gifcreator.manager.Utils
 import com.nathanhaze.gifcreator.ui.FilterAdapter
 import com.zomato.photofilters.FilterPack
 import com.zomato.photofilters.imageprocessors.Filter
-import org.greenrobot.eventbus.EventBus
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
@@ -265,6 +265,12 @@ class SimpleSetupActivity : AppCompatActivity() {
         }
         updateInfo()
 
+
+        val ratingDialog: RatingDialog = RatingDialog.Builder(this)
+            .session(6)
+            .build()
+
+        ratingDialog.show()
     }
 
     override fun onResume() {
