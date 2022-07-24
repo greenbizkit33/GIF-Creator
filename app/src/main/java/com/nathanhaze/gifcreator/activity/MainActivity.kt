@@ -94,8 +94,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        btnOpenFolder?.setVisibility(View.GONE)
-        btnOpenInternalFolder?.setVisibility(View.VISIBLE)
+        btnOpenFolder?.visibility = View.GONE
+        btnOpenInternalFolder?.visibility = View.VISIBLE
     }
 
     override fun onDestroy() {

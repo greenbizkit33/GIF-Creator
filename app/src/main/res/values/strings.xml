@@ -1,136 +1,48 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
+
+    <!-- IDs -->
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2377934805759836/6301605656</string>
+    <string name="admob_account" translatable="false">ca-app-pub-2377934805759836~9426462443</string>
+
+    <string name="preference_purchased" translatable="false">key purchased</string>
+    <string name="preference_app" translatable="false">project pref</string>
+    <string name="preference_path" translatable="false">key path</string>
+
+
     <string name="app_name">GIF Creator</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_folder">Open External Photo Gallery</string>
     <string name="action_internal_folder">Open GIF Gallery</string>
 
-    <!-- Screen Titles -->
-    <string name="title_activity_picture_preview">Picture Preview</string>
-
-
-    <!-- Buttons -->
     <string name="create_gif">Create GIF</string>
     <string name="start_over">Start Over</string>
 
-    <!-- TextView -->
-    <string name="text_mode">Take frame at current position</string>
-    <string name="video_speed">Video Speed:&#160;</string>
-    <string name="extract">EXTRACT</string>
-    <string name="number_frames">Number of Frames: &#160;</string>
-    <string name="frames_per_second">Frames per Second</string>
-    <string name="end_time">End Time:&#160;</string>
-    <string name="start_time">Start Time:&#160;</string>
     <string name="no_image">You do not have any more images, extract more images</string>
 
-    <string name="grab_before_after">Grab frame before and after</string>
-    <string name="do_not_grab_side_frames">Do not grab side frames also</string>
-    <string name="grab_side_frames">Grab Side frames</string>
-    <string name="side_frames_description">Take the frame you current at but also take the key frame before your current frame and the key frame after. Total of 3 frames wil be saved if turned on</string>
-
-    <!-- Switch -->
-    <string name="switch_frame_on">Get current position frame</string>
-    <string name="switch_frame_off">Get range of frames</string>
-
-    <!-- Footer buttons -->
-    <string name="footer_btn_range">Range</string>
-    <string name="footer_btn_single">Single</string>
-    <string name="footer_btn_custom">Custom</string>
-    <string name="footer_btn_setting">Setting</string>
-    <string name="footer_btn_gallery">Gallery</string>
-    <string name="footer_btn_video">Video</string>
-    <!-- Error -->
-
-    <!-- Layout -->
-    <string name="on">On</string>
-    <string name="off">Off</string>
     <string name="ok">OK</string>
-    <string name="update">Update</string>
-    <string name="save">Save</string>
-    <string name="yes">yes</string>
-    <string name="no">no</string>
 
-    <!-- Progress -->
-    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2377934805759836/6301605656</string>
-    <string name="admob_account" translatable="false">ca-app-pub-2377934805759836~9426462443</string>
-    <string name="title_activity_setting">Settings</string>
-
-    <string-array name="video_speeds">
-        <item>1</item>
-        <item>.5</item>
-        <item>.2</item>
-        <item>.1</item>
-    </string-array>
-
-
-    <string name="title_activity_photo">Photo Activity</string>
-
-    <!-- Billing -->
-    <string name="billing_info">Show your love for the app by removing the ads. This is a one time charge that will remove ads from this application and give you cropping ability on the images.</string>
-    <string name="remove_ads">Remove Ads</string>
-    <string name="promo_code">Promo Code</string>
-    <string name="submit_code">Submit Code</string>
-
-    <!-- Setting -->
-    <string name="excite">Excite (may have lower quality)</string>
-    <string name="external_gallery_title">Use External Gallery When Opening Photos</string>
-    <string name="app_gallery">App Gallery</string>
-    <string name="external_gallery">External Gallery</string>
-    <string name="mute_video_title">Mute the video</string>
-    <string name="video_sound">Video has Sound</string>
-    <string name="video_muted">Video Muted</string>
-    <string name="number_files_title">Only use number for file name</string>
-    <string name="number_files_date">Use date file name</string>
-    <string name="number_files_index">Use number file name</string>
-    <string name="save_png_title">Save files as PNG</string>
-    <string name="save_jpeg">Save files as JPEG</string>
-    <string name="save_png">Save files as PNG</string>
-
-    <string name="save_location">Photos are saved to: internal/Pictures/VideoFrames</string>
-
-    <string name="fail_exact">Failed to get exact, but did the best I could</string>
-    <string name="saved_to_gallery">Photos was saved in your gallery</string>
-    <string name="snap_frame">Snapping Frame:&#160;</string>
-    <string name="grabbing_frames">Grabbing Frames</string>
     <string name="images">IMAGES</string>
 
-    <!-- new text -->
-    <string name="select_all" tools:ignore="MissingTranslation">Select All</string>
-    <string name="gif_error" tools:ignore="MissingTranslation">Error Creating GIF</string>
-    <string name="image_saved" tools:ignore="MissingTranslation">Image was saved in gallery</string>
-    <string name="photo_saved_gallery" tools:ignore="MissingTranslation">Photos was saved in your gallery</string>
-    <string name="delete" tools:ignore="MissingTranslation">Delete</string>
-    <string name="thank_you_purchase" tools:ignore="MissingTranslation">Thank you for your purchase</string>
-    <string name="sorry_wrong" tools:ignore="MissingTranslation">Sorry, something went wrong</string>
-    <string name="no_photo_gallery_app" tools:ignore="MissingTranslation">You do not have a photo gallery app that I can find. Try to download one and restart the app</string>
-    <string name="footer_btn_slider" tools:ignore="MissingTranslation">Slider</string>
-    <string name="cancel" tools:ignore="MissingTranslation">Cancel</string>
-    <string name="problem_deleting" tools:ignore="MissingTranslation">"There was problem deleting the file."</string>
-    <string name="picture_cropping" tools:ignore="MissingTranslation">"Picture cropping is a pro feature only for user that have paid to remove ads. Would you like to removes ads and get the cropping feature?</string>
-    <string name="share" tools:ignore="MissingTranslation">Share</string>
-    <string name="video_only_rate" tools:ignore="MissingTranslation">"The video is only "</string>
-    <string name="per_second" tools:ignore="MissingTranslation">" per second. Many images maybe the same."</string>
-    <string name="frame" tools:ignore="MissingTranslation">Frame: </string>
-    <string name="try_again" tools:ignore="MissingTranslation">Something went wrong. Please restart the process or try again</string>
-    <string name="jump_frame" tools:ignore="MissingTranslation">"Jump to frame"</string>
-    <string name="set_index_less" tools:ignore="MissingTranslation">Set an index less than </string>
-    <string name="grabbing_frame" tools:ignore="MissingTranslation">Grabbing Frames</string>
-    <string name="go_back" tools:ignore="MissingTranslation">"Do you want to go back? You will be forced to pick a video again. You may also use the tab bar below to navigate"</string>
-    <!--toast messages-->
-    <string name="toast_getting_path" tools:ignore="MissingTranslation">Error while getting path to the video</string>
-    <string name="toast_valid_file" tools:ignore="MissingTranslation">Error occurred, was this a valid file?</string>
-    <string name="preference_purchased">key purchased</string>
-    <string name="preference_app">project pref</string>
-    <string name="preference_path">key path</string>
+    <string name="select_all">Select All</string>
+    <string name="delete">Delete</string>
+    <string name="sorry_wrong">Sorry, something went wrong</string>
+    <string name="no_photo_gallery_app">You do not have a photo gallery app that I can find. Try to download one and restart the app</string>
+    <string name="cancel">Cancel</string>
+    <string name="problem_deleting">"There was problem deleting the file."</string>
+    <string name="share">Share</string>
+
 
     <string name="range_frequency">Seconds per frame:  %1$s seconds</string>
-    <string name="bitmap_size">Quality of the GIF (size):  %1$s\%%</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="bitmap_size">Quality of the GIF (size):  %1$s!</string>
 
-    <string name="reverse_order" tools:ignore="MissingTranslation">Reverse Image Order</string>
-    <string name="forward_plus_reverse" tools:ignore="MissingTranslation">Normal Plus Reverse</string>
+    <string name="reverse_order">Reverse Image Order</string>
+    <string name="forward_plus_reverse">Normal Plus Reverse</string>
     <string name="add_a_filter">Add a filter</string>
 
 
+    <string name="length">Length</string>
     <string name="out_memory_title">Ran Out of Memory</string>
     <string name="out_memory_message">The app ran out of memory was creating GIF. Try looking the time frame, frequency or size</string>
+    <string name="no_filter">No Filter</string>
+    <string name="set_start_and_end_time">Set start and end time:</string>
+    <string name="unselect">Unselect</string>
+    <string name="gif">GIF</string>
 </resources>

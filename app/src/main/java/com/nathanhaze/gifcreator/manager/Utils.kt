@@ -34,7 +34,7 @@ object Utils {
     }
 
     fun getPurchased(activity: Activity): Boolean {
-        val sharedPref = activity?.getSharedPreferences(
+        val sharedPref = activity.getSharedPreferences(
             activity.getString(R.string.preference_app), Context.MODE_PRIVATE
         )
         return sharedPref.getBoolean(activity.getString(R.string.preference_purchased), false)
@@ -44,7 +44,7 @@ object Utils {
         var lastIndex = getLastFileInt(activity)
 
         lastIndex++
-        val sharedPref = activity?.getSharedPreferences(
+        val sharedPref = activity.getSharedPreferences(
             activity.getString(R.string.preference_app), Context.MODE_PRIVATE
         ) ?: return
         with(sharedPref.edit()) {
@@ -54,21 +54,21 @@ object Utils {
     }
 
     fun getLastFileInt(activity: Activity): Int {
-        val sharedPref = activity?.getSharedPreferences(
+        val sharedPref = activity.getSharedPreferences(
             activity.getString(R.string.preference_app), Context.MODE_PRIVATE
         )
         return sharedPref.getInt(FILE_NUMBER, 0)
     }
 
     fun getVideoPath(activity: Activity): String? {
-        val sharedPref = activity?.getSharedPreferences(
+        val sharedPref = activity.getSharedPreferences(
             activity.getString(R.string.preference_app), Context.MODE_PRIVATE
         )
         return sharedPref.getString(activity.getString(R.string.preference_path), "")
     }
 
     fun setVideoPath(path: String, activity: Activity) {
-        val sharedPref = activity?.getSharedPreferences(
+        val sharedPref = activity.getSharedPreferences(
             activity.getString(R.string.preference_app),
             Context.MODE_PRIVATE
         ) ?: return

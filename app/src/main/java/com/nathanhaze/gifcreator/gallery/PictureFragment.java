@@ -1,10 +1,7 @@
 package com.nathanhaze.gifcreator.gallery;
 
 
-import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
-
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,26 +13,17 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.nathanhaze.gifcreator.GifCreatorApp;
 import com.nathanhaze.gifcreator.R;
 
 import java.io.File;
-
-import me.relex.photodraweeview.PhotoDraweeView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class PictureFragment extends Fragment {
 
-    private PhotoDraweeView mPhotoDraweeView;
 
-    private File currentimg;
-    private Bitmap myBitmap;
-
-    private AdRequest adRequest;
     private LinearLayout parentView;
     private AdView ad;
     private String filePath;
@@ -63,25 +51,12 @@ public class PictureFragment extends Fragment {
             Toast.makeText(view.getContext(), getResources().getString(R.string.sorry_wrong), Toast.LENGTH_LONG).show();
             return view;
         }
-        currentimg = new File(filePath); //null
-
-        GifCreatorApp application = (GifCreatorApp) getActivity().getApplication();
+        File currentimg = new File(filePath); //null
 
         if (currentimg == null || !currentimg.exists()) return view;
 
         ImageView gifImageView = (ImageView) view.findViewById(R.id.tv_gif);
         Glide.with(this).asGif().load(currentimg).into(gifImageView);
-
-        if (this.getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
-//            Random rand = new Random();
-//            int n = rand.nextInt(50);
-//            if (n % 2 == 0) {
-//                ad = application.getAdmobAd(getActivity());
-//                if (ad != null) {
-//                    parentView.addView(ad, 0);
-//                }
-//            }
-        }
 
         return view;
     }

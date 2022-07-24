@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
-import android.util.Log
 import com.nathanhaze.gifcreator.AnimatedGifEncoder
 import com.nathanhaze.gifcreator.event.GifCreationEvent
 import com.nathanhaze.gifcreator.event.ProgressUpdateEvent
@@ -87,7 +86,8 @@ object ImageUtil {
     fun saveGif(bitmaps: ArrayList<Bitmap>, context: Context?) {
         var filePath: File? = null
         try {
-            EventBus.getDefault().post(ProgressUpdateEvent("Saving GIF", Utils.endTimeMilli, false, false))
+            EventBus.getDefault()
+                .post(ProgressUpdateEvent("Saving GIF", Utils.endTimeMilli, false, false))
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
             val file: File = File(getPath())
             if (!file.exists()) {
@@ -101,24 +101,45 @@ object ImageUtil {
 
             filePath.createNewFile()
             val outStream = FileOutputStream(filePath)
-            outStream.write(bitmaps?.let { generateGIF(it) })
+            outStream.write(bitmaps.let { generateGIF(it) })
             outStream.close()
             val event = GifCreationEvent(filePath, false)
             Utils.lastGifFilePath = filePath
             EventBus.getDefault().post(event)
-            context?.let { scanMedia(filePath?.absolutePath, it) }
+            context?.let { scanMedia(filePath.absolutePath, it) }
         } catch (e: Exception) {
             filePath?.delete()
-            EventBus.getDefault().post(ProgressUpdateEvent("Something bad happen " + e.localizedMessage, Utils.endTimeMilli, false, false))
+            EventBus.getDefault().post(
+                ProgressUpdateEvent(
+                    "Something bad happen " + e.localizedMessage,
+                    Utils.endTimeMilli,
+                    false,
+                    false
+                )
+            )
             EventBus.getDefault().post(GifCreationEvent(null, true))
             e.printStackTrace()
         }
     }
 
     fun generateGIF(bitmaps: ArrayList<Bitmap>): ByteArray? {
-        EventBus.getDefault().post(ProgressUpdateEvent("Have images generating GIF", Utils.endTimeMilli -100, false, false))
+        EventBus.getDefault().post(
+            ProgressUpdateEvent(
+                "Have images generating GIF",
+                Utils.endTimeMilli - 100,
+                false,
+                false
+            )
+        )
         if (bitmaps.isEmpty()) {
-            EventBus.getDefault().post(ProgressUpdateEvent("Images was empty", Utils.endTimeMilli -200, false, false))
+            EventBus.getDefault().post(
+                ProgressUpdateEvent(
+                    "Images was empty",
+                    Utils.endTimeMilli - 200,
+                    false,
+                    false
+                )
+            )
             return null
         }
         val bos = ByteArrayOutputStream()
@@ -127,17 +148,25 @@ object ImageUtil {
         encoder.start(bos)
         var index = 0
         for (bitmap in bitmaps) {
-            val worked  = encoder.addFrame(bitmap)
+            val worked = encoder.addFrame(bitmap)
             if (!worked) {
                 break
             }
             index++
-            EventBus.getDefault().post(ProgressUpdateEvent("Adding Image " + index + " of "  + bitmaps.size + " to GIF", index, false, true))
+            EventBus.getDefault().post(
+                ProgressUpdateEvent(
+                    "Adding Image " + index + " of " + bitmaps.size + " to GIF",
+                    index,
+                    false,
+                    true
+                )
+            )
 
             bitmap.recycle()
         }
         encoder.finish()
-        EventBus.getDefault().post(ProgressUpdateEvent("Done Generating GIF", Utils.endTimeMilli, false, false))
+        EventBus.getDefault()
+            .post(ProgressUpdateEvent("Done Generating GIF", Utils.endTimeMilli, false, false))
         return bos.toByteArray()
     }
 }

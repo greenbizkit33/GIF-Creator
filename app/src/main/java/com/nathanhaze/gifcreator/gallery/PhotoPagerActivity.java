@@ -67,50 +67,42 @@ public class PhotoPagerActivity extends FragmentActivity {
         viewPager.setCurrentItem(index);
 
         ImageView shareIcon = findViewById(R.id.iv_share);
-        shareIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                share(fileList[viewPager.getCurrentItem()]);
-            }
-        });
+        shareIcon.setOnClickListener(view -> share(fileList[viewPager.getCurrentItem()]));
 
         FragmentActivity act = this;
         ImageView deleteIcon = findViewById(R.id.iv_delete);
-        deleteIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String[] temp = application.getListFiles();
-                File file = null;
+        deleteIcon.setOnClickListener(view -> {
+            String[] temp = application.getListFiles();
+            File file = null;
+            try {
+                file = new File(temp[viewPager.getCurrentItem()]);
+            } catch (IndexOutOfBoundsException ex) {
+                FirebaseCrashlytics.getInstance().recordException(ex);
                 try {
-                    file = new File(temp[viewPager.getCurrentItem()]);
-                } catch (IndexOutOfBoundsException ex) {
-                    FirebaseCrashlytics.getInstance().recordException(ex);
-                    try {
-                        Toast.makeText(deleteIcon.getContext(), getResources().getString(R.string.problem_deleting), Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        FirebaseCrashlytics.getInstance().recordException(e);
-                    }
-                }
-                if (file == null) {
                     Toast.makeText(deleteIcon.getContext(), getResources().getString(R.string.problem_deleting), Toast.LENGTH_LONG).show();
-                    return;
+                } catch (Exception e) {
+                    FirebaseCrashlytics.getInstance().recordException(e);
                 }
-                boolean deleted = file.delete();
-                if (deleted) {
-                    deleteIcon.getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-                    String[] temp2 = application.getListFiles();
-                    viewPager.setAdapter(new ScreenSlidePagerAdapter(act, temp2));
-                    EventBus.getDefault().post(new RefeshGalleryEvent());
-                    int currentItem = viewPager.getCurrentItem();
-                    if (currentItem < temp2.length) {
-                        viewPager.setCurrentItem(currentItem);
-                    } else {
-                        finish();
-                    }
-
+            }
+            if (file == null) {
+                Toast.makeText(deleteIcon.getContext(), getResources().getString(R.string.problem_deleting), Toast.LENGTH_LONG).show();
+                return;
+            }
+            boolean deleted = file.delete();
+            if (deleted) {
+                deleteIcon.getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+                String[] temp2 = application.getListFiles();
+                viewPager.setAdapter(new ScreenSlidePagerAdapter(act, temp2));
+                EventBus.getDefault().post(new RefeshGalleryEvent());
+                int currentItem = viewPager.getCurrentItem();
+                if (currentItem < temp2.length) {
+                    viewPager.setCurrentItem(currentItem);
                 } else {
-                    Toast.makeText(deleteIcon.getContext(), getResources().getString(R.string.problem_deleting), Toast.LENGTH_LONG).show();
+                    finish();
                 }
+
+            } else {
+                Toast.makeText(deleteIcon.getContext(), getResources().getString(R.string.problem_deleting), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -147,7 +139,7 @@ public class PhotoPagerActivity extends FragmentActivity {
         startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share)));
     }
 
-    private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
+    private static class ScreenSlidePagerAdapter extends FragmentStateAdapter {
         private String[] pictures;
 
         public ScreenSlidePagerAdapter(FragmentActivity fa, String[] data) {

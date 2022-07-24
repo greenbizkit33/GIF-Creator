@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.os.Bundle
 import android.os.Handler
-import android.util.TypedValue
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.codemybrainsout.ratingdialog.RatingDialog
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import com.nathanhaze.gifcreator.R
@@ -75,7 +73,7 @@ class SimpleSetupActivity : AppCompatActivity() {
         tvSize.text = resources.getString(R.string.bitmap_size, "70")
 
         sliderSize.value = 70f
-        sliderSize.setLabelFormatter(LabelFormatter { value ->
+        sliderSize.setLabelFormatter({ value ->
             val df = DecimalFormat("#.##")
             df.roundingMode = RoundingMode.CEILING
             df.format(value).toString() + "%"
@@ -91,18 +89,18 @@ class SimpleSetupActivity : AppCompatActivity() {
             updateInfo()
         }
 
-        frequencyRange.setLabelFormatter(LabelFormatter { value ->
+        frequencyRange.setLabelFormatter { value ->
             val df = DecimalFormat("#.##")
             df.roundingMode = RoundingMode.CEILING
             df.format(value / 1000).toString()
-        })
+        }
 
         frequencyRange.value = 70F
         tvFreq.text =
             resources.getString(R.string.range_frequency, (frequencyRange.value / 1000).toString())
 
 
-        val mediaRetriever: MediaMetadataRetriever = MediaMetadataRetriever()
+        val mediaRetriever = MediaMetadataRetriever()
         mediaRetriever.setDataSource(Utils.getVideoPath(this))
 
         val extractionType = MediaMetadataRetriever.OPTION_CLOSEST_SYNC
@@ -111,42 +109,15 @@ class SimpleSetupActivity : AppCompatActivity() {
             mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
         videoLengthMilli = time?.toFloat() ?: 0F
 
-//        rangeSlider.valueFrom = 0F
-//        if (videoLengthMilli != null) {
-//          //  rangeSlider.valueTo = videoLengthMilli
-//            rangeSlider.valueTo = 10F
-//        }
-
-        val start = String.format(
-            "%02d:%02d:%02d",
-            TimeUnit.MILLISECONDS.toHours((videoLengthMilli.toLong() * 0.4f).toLong()),
-            TimeUnit.MILLISECONDS.toMinutes(videoLengthMilli.toLong()) % TimeUnit.HOURS.toMinutes(1),
-            TimeUnit.MILLISECONDS.toSeconds(videoLengthMilli.toLong()) % TimeUnit.MINUTES.toSeconds(
-                1
-            )
-        )
-
-        val end = String.format(
-            "%02d:%02d:%02d",
-            TimeUnit.MILLISECONDS.toHours((videoLengthMilli.toLong() * 0.6f).toLong()),
-            TimeUnit.MILLISECONDS.toMinutes(videoLengthMilli.toLong()) % TimeUnit.HOURS.toMinutes(1),
-            TimeUnit.MILLISECONDS.toSeconds(videoLengthMilli.toLong()) % TimeUnit.MINUTES.toSeconds(
-                1
-            )
-        )
-
-//        tvStart.setText(start)
-//        tvEnd.setText(end)
-
-        rangeSlider.setLabelFormatter(LabelFormatter { value -> //It is just an example
+        rangeSlider.setLabelFormatter { value -> //It is just an example
             val milli = value.times(videoLengthMilli).toLong()
 
             String.format(
-                "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(milli.toLong()),
+                "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(milli),
                 TimeUnit.MILLISECONDS.toMinutes(milli.toLong()) % TimeUnit.HOURS.toMinutes(1),
                 TimeUnit.MILLISECONDS.toSeconds(milli.toLong()) % TimeUnit.MINUTES.toSeconds(1)
             )
-        })
+        }
 
         rangeSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: RangeSlider) {
@@ -170,8 +141,8 @@ class SimpleSetupActivity : AppCompatActivity() {
                     TimeUnit.MILLISECONDS.toMinutes(endMilli) % TimeUnit.HOURS.toMinutes(1),
                     TimeUnit.MILLISECONDS.toSeconds(endMilli) % TimeUnit.MINUTES.toSeconds(1)
                 )
-                tvStart.setText(start)
-                tvEnd.setText(end)
+                tvStart.text = start
+                tvEnd.text = end
 
                 Utils.startTimeMilli = startMilli.toInt()
                 Utils.endTimeMilli = endMilli.toInt()
@@ -201,8 +172,8 @@ class SimpleSetupActivity : AppCompatActivity() {
                     TimeUnit.MILLISECONDS.toMinutes(endMilli) % TimeUnit.HOURS.toMinutes(1),
                     TimeUnit.MILLISECONDS.toSeconds(endMilli) % TimeUnit.MINUTES.toSeconds(1)
                 )
-                tvStart.setText(start)
-                tvEnd.setText(end)
+                tvStart.text = start
+                tvEnd.text = end
 
                 Utils.startTimeMilli = startMilli.toInt()
                 Utils.endTimeMilli = endMilli.toInt()
@@ -213,17 +184,11 @@ class SimpleSetupActivity : AppCompatActivity() {
         Utils.startTimeMilli = 0
         Utils.endTimeMilli = (videoLengthMilli * 0.6f).toInt()
 
-        rangeSlider.setValues(0.4f, 0.6f);
+        rangeSlider.setValues(0.4f, 0.6f)
 
         var sample = mediaRetriever.getFrameAtTime(
             TimeUnit.SECONDS.toMicros(1000),
             extractionType
-        )
-
-        val px = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            128F,
-            resources.displayMetrics
         )
 
         val h = 128 // height in pixels
@@ -249,14 +214,14 @@ class SimpleSetupActivity : AppCompatActivity() {
         reverseSwitcher.setOnCheckedChangeListener { _, value ->
             Utils.reverseOrder = value
             if (value) {
-                doubleSwitcher.isChecked = false;
+                doubleSwitcher.isChecked = false
             }
         }
 
         doubleSwitcher.setOnCheckedChangeListener { _, value ->
             Utils.double = value
             if (value) {
-                reverseSwitcher.isChecked = false;
+                reverseSwitcher.isChecked = false
             }
         }
         val createGifButton = findViewById<Button>(R.id.btn_create_gif)
@@ -298,26 +263,16 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         if (frames > 100) {
             ivWarning.visibility = View.VISIBLE
-            tvInfo?.text =
-                "Too many frame: " + frames.toString() + " Length: " + TimeUnit.MILLISECONDS.toSeconds(
-                    end - start
-                ) + " seconds"
+            ("Too many frame: $frames Length: " + TimeUnit.MILLISECONDS.toSeconds(
+                end - start
+            ) + " seconds").also { tvInfo.text = it }
         } else {
-            tvInfo?.text =
-                "Number of frames " + frames.toString() + " Length: " + TimeUnit.MILLISECONDS.toSeconds(
-                    end - start
-                ) + " seconds"
+            ("Number of frames $frames Length: " + TimeUnit.MILLISECONDS.toSeconds(
+                end - start
+            ) + " seconds").also { tvInfo.text = it }
             ivWarning.visibility = View.INVISIBLE
         }
 
     }
-
-
-//
-//    class object {
-//        {
-//            System.loadLibrary("NativeImageProcessor")
-//        }
-//    }
 
 }

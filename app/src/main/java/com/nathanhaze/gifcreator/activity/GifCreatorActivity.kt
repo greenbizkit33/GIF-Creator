@@ -91,7 +91,7 @@ class GifCreatorActivity : AppCompatActivity() {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
-        Log.d("nathanx", "onresume " + Utils.lastGifFilePath + " " + isGettingImages);
+        Log.d("nathanx", "onresume " + Utils.lastGifFilePath + " " + isGettingImages)
         if (Utils.lastGifFilePath != null && !isGettingImages) {
             if (Utils.outOfMemory) {
                 showDialog()
@@ -182,11 +182,11 @@ class GifCreatorActivity : AppCompatActivity() {
                 bitmap = bitmap?.let {
                     Bitmap.createScaledBitmap(
                         it,
-                        ((bitmap!!.getWidth() * Utils.size).toInt()),
-                        ((bitmap!!.getHeight() * Utils.size).toInt()),
+                        ((bitmap!!.width * Utils.size).toInt()),
+                        ((bitmap!!.height * Utils.size).toInt()),
                         true
                     )
-                };
+                }
 
                 if (Utils.filter != null) {
                     bitmap = Utils.filter?.processFilter(
@@ -199,7 +199,7 @@ class GifCreatorActivity : AppCompatActivity() {
 //                Log.d("nathanx", "before  " + currentMilli + " " + Utils.frameFrequencyMilli);
 
                 currentMilli += Utils.frameFrequencyMilli
-                Log.d("nathanx", "after" + currentMilli + " " + stopThread);
+                Log.d("nathanx", "after" + currentMilli + " " + stopThread)
 
             }
 

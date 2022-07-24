@@ -25,16 +25,14 @@ import java.util.List;
  */
 public class PhotoGalleryAdapter extends RecyclerView.Adapter<PhotoGalleryAdapter.PhotoHolder> {
 
-    private static final String GALLERY = "GALLERY";
-
     private RecyclerView recyclerView;
     private List<String> dataSet;
     private ArrayList<String> imageCheckedMap = new ArrayList<>();
 
     class PhotoHolder extends RecyclerView.ViewHolder {
-        private ImageView imageView;
-        private ImageView checkBox;
-        private FrameLayout imageWrapper;
+        private final ImageView imageView;
+        private final ImageView checkBox;
+        private final FrameLayout imageWrapper;
         private String filePath;
 
         private boolean isChecked;
@@ -44,44 +42,39 @@ public class PhotoGalleryAdapter extends RecyclerView.Adapter<PhotoGalleryAdapte
             this.imageView = (ImageView) view.findViewById(R.id.iv_photo_cell);
             this.checkBox = (ImageView) view.findViewById(R.id.cb_photo_selection);
             this.imageWrapper = (FrameLayout) view.findViewById(R.id.fl_image_wrapper);
-            this.checkBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    isChecked = !isChecked;
-                    if (isChecked) {
-                        EventBus.getDefault().post(new ImageSelectedEvent(true));
-                        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT,
-                                FrameLayout.LayoutParams.WRAP_CONTENT
-                        );
-                        params.setMargins(8, 8, 8, 8);
-                        imageView.setLayoutParams(params);
-                        imageCheckedMap.add(filePath);
-                        checkBox.setImageResource(R.drawable.ic_checked);
-                        imageWrapper.setForeground(imageWrapper.getResources().getDrawable(R.drawable.image_overlay));
-                    } else {
-                        imageCheckedMap.remove(filePath);
-                        if (imageCheckedMap.isEmpty()) {
-                            EventBus.getDefault().post(new ImageSelectedEvent(false));
-                        }
-                        imageWrapper.setForeground(null);
-                        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT,
-                                FrameLayout.LayoutParams.WRAP_CONTENT
-                        );
-                        params.setMargins(0, 0, 0, 0);
-                        imageView.setLayoutParams(params);
-                        checkBox.setImageResource(R.drawable.ic_check);
+            this.checkBox.setOnClickListener(v -> {
+                isChecked = !isChecked;
+                if (isChecked) {
+                    EventBus.getDefault().post(new ImageSelectedEvent(true));
+                    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            FrameLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    params.setMargins(8, 8, 8, 8);
+                    imageView.setLayoutParams(params);
+                    imageCheckedMap.add(filePath);
+                    checkBox.setImageResource(R.drawable.ic_checked);
+                    imageWrapper.setForeground(imageWrapper.getResources().getDrawable(R.drawable.image_overlay));
+                } else {
+                    imageCheckedMap.remove(filePath);
+                    if (imageCheckedMap.isEmpty()) {
+                        EventBus.getDefault().post(new ImageSelectedEvent(false));
                     }
+                    imageWrapper.setForeground(null);
+                    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            FrameLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    params.setMargins(0, 0, 0, 0);
+                    imageView.setLayoutParams(params);
+                    checkBox.setImageResource(R.drawable.ic_check);
                 }
             });
-            this.imageView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent intent;
-                    intent = new Intent(recyclerView.getContext(), PhotoPagerActivity.class);
-                    intent.putExtra("path", filePath);
-                    recyclerView.getContext().startActivity(intent);
-                }
+            this.imageView.setOnClickListener(v -> {
+                Intent intent;
+                intent = new Intent(recyclerView.getContext(), PhotoPagerActivity.class);
+                intent.putExtra("path", filePath);
+                recyclerView.getContext().startActivity(intent);
             });
         }
     }

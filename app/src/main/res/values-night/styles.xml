@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
-
-    </style>
-
-    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.DayNight">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/secondaryColor</item>
-    </style>
-
-    <style name="MyMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="MyMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
     <style name="ad">
         <item name="android:layout_marginTop">16dp</item>
         <item name="android:layout_gravity">center_horizontal</item>
@@ -33,13 +17,7 @@
 <!--        <item name="android:paddingRight">8dp</item>-->
 <!--    </style>-->
 
-    <style name="AppTheme.ToggleButton" parent="Base.Widget.AppCompat.Button">
-        <item name="colorButtonNormal">@color/primaryColor</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="colorAccent">@color/secondaryColor</item>
-    </style>
-
-<!--    <style name="ChooserButton">-->
+    <!--    <style name="ChooserButton">-->
 <!--        <item name="android:layout_width">wrap_content</item>-->
 <!--        <item name="android:layout_height">wrap_content</item>-->
 <!--        <item name="android:layout_gravity">center_horizontal</item>-->
@@ -52,14 +30,4 @@
 <!--        <item name="android:fontFamily">@font/another_flight</item>-->
 <!--    </style>-->
 
-    <style name="cardStyle" parent="CardView">
-        <item name="cardCornerRadius">4dp</item>
-        <item name="cardElevation">3dp</item>
-        <item name="contentPadding">20dp</item>
-    </style>
-
-    <style name="slider" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Add attributes here -->
-        <item name="colorPrimary">@color/materialRed</item>
-    </style>
 </resources>

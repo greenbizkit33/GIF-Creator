@@ -29,7 +29,6 @@ internal class FilterAdapter(
     }
 
     private var lastSelected = 0
-    private lateinit var lastHolder: RecyclerView.ViewHolder
     private var originalSelected = 0
 
     @NonNull
@@ -64,7 +63,7 @@ internal class FilterAdapter(
             holder.image.setColorFilter(R.color.materialBlue, PorterDuff.Mode.SRC_OVER)
         }
         if (position == 0) {
-            holder.title.text = "No Filter"
+            holder.title.text = context.getString(R.string.no_filter)
             holder.image.setImageBitmap(
                 sample
             )

@@ -32,8 +32,6 @@ class GifCreatorApp : Application() {
         if (!path.exists()) {
             path.mkdirs()
         }
-        if (path == null) {
-        }
         return path
     }
 

@@ -51,7 +51,7 @@ class VideoFragment : Fragment() {
         videoView.setOnPreparedListener {
             it.setVolume(0f, 0f)
             val mediaController = MediaController(context)
-            mediaController.setPadding(0, 0, 0, 5);
+            mediaController.setPadding(0, 0, 0, 5)
             videoView.setMediaController(mediaController)
             mediaController.setAnchorView(videoView)
         }

@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.nathanhaze.gifcreator.R;
 
@@ -16,9 +15,6 @@ import com.nathanhaze.gifcreator.R;
  * A simple {@link Fragment} subclass.
  */
 public class PhotoGallery extends AppCompatActivity {
-
-    private RecyclerView recyclerview;
-    private PhotoGalleryAdapter adapter;
 
     public PhotoGallery() {
         // Required empty public constructor

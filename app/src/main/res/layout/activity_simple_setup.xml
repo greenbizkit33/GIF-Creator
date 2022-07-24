@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/frag_video"
             android:name="com.nathanhaze.gifcreator.fragment.VideoFragment"
             android:layout_width="match_parent"
@@ -40,7 +40,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:valueFrom="40"
                 android:valueTo="1000" />
         </LinearLayout>
@@ -55,8 +54,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="Set start and end time:" />
+            android:layout_marginStart="16dp"
+            android:text="@string/set_start_and_end_time" />
 
         <com.google.android.material.slider.RangeSlider
             android:id="@+id/range_time"
@@ -113,7 +112,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:value="100"
                 android:valueFrom="10"
                 android:valueTo="100" />
@@ -156,7 +154,6 @@
 
 
         <LinearLayout
-            android:id="@+id/ll_reverse_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -176,7 +173,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_double_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

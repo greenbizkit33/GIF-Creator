@@ -58,10 +58,6 @@ public class GalleryFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public GalleryFragment(String defaultImage) {
-        this.defaultImage = defaultImage;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -164,48 +160,45 @@ public class GalleryFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
-        trashButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog alertDialog = new AlertDialog.Builder(trashButton.getContext()).create();
-                alertDialog.setCancelable(true);
-                alertDialog.setMessage(getResources().getString(R.string.delete) + " " + adapter.getSelectedCount() + " " + getResources().getString(R.string.images).toLowerCase());
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ArrayList<String> images = adapter.getImagesSelected();
-                        for (String imagePath : images) {
-                            File file = null;
-                            try {
-                                file = new File(imagePath);
-                            } catch (IndexOutOfBoundsException ex) {
+        trashButton.setOnClickListener(v -> {
+            AlertDialog alertDialog = new AlertDialog.Builder(trashButton.getContext()).create();
+            alertDialog.setCancelable(true);
+            alertDialog.setMessage(getResources().getString(R.string.delete) + " " + adapter.getSelectedCount() + " " + getResources().getString(R.string.images).toLowerCase());
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ArrayList<String> images = adapter.getImagesSelected();
+                    for (String imagePath : images) {
+                        File file = null;
+                        try {
+                            file = new File(imagePath);
+                        } catch (IndexOutOfBoundsException ex) {
 
-                            }
-                            boolean deleted = file.delete();
-                            if (deleted) {
-                                trashButton.getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-                            }
                         }
-                        list = Arrays.asList(application.getListFiles());
-                        if (list.size() > 0) {
-                            adapter = new PhotoGalleryAdapter(list);
-                            recyclerview.setAdapter(adapter);
-                        } else {
-                            recyclerview.setVisibility(View.GONE);
-                            tvNoImages.setVisibility(View.VISIBLE);
-                            galleryControls.setVisibility(View.GONE);
-                            galleryControls.animate().translationY(-CONTROLS_DISTANCE);
+                        boolean deleted = file.delete();
+                        if (deleted) {
+                            trashButton.getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
                         }
                     }
-                });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        alertDialog.dismiss();
+                    list = Arrays.asList(application.getListFiles());
+                    if (list.size() > 0) {
+                        adapter = new PhotoGalleryAdapter(list);
+                        recyclerview.setAdapter(adapter);
+                    } else {
+                        recyclerview.setVisibility(View.GONE);
+                        tvNoImages.setVisibility(View.VISIBLE);
+                        galleryControls.setVisibility(View.GONE);
+                        galleryControls.animate().translationY(-CONTROLS_DISTANCE);
                     }
-                });
-                alertDialog.show();
-            }
+                }
+            });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    alertDialog.dismiss();
+                }
+            });
+            alertDialog.show();
         });
         EventBus.getDefault().
 
@@ -255,7 +248,9 @@ public class GalleryFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(getActivity());
+                if (getActivity() != null) {
+                    NavUtils.navigateUpFromSameTask(getActivity());
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);

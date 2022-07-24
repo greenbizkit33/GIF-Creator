@@ -3,6 +3,4 @@ package com.nathanhaze.gifcreator.event
 import java.io.File
 
 
-data class GifCreationEvent(val filePath: File?, val error: Boolean?) {
-
-}
+data class GifCreationEvent(val filePath: File?, val error: Boolean?)
