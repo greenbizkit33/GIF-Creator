@@ -58,6 +58,8 @@ public class PictureFragment extends Fragment {
         ImageView gifImageView = (ImageView) view.findViewById(R.id.tv_gif);
         Glide.with(this).asGif().load(currentimg).into(gifImageView);
 
+
+
         return view;
     }
 

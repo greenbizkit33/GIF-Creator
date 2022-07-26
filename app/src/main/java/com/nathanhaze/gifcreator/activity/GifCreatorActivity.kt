@@ -49,6 +49,8 @@ class GifCreatorActivity : AppCompatActivity() {
 
     lateinit var btnShare: FancyButton
     lateinit var btnStartOver: FancyButton
+    lateinit var btnExternalOpen: FancyButton
+
     lateinit var tvProgress: TextView
     var stopThread = false
     var totalFrames: Int = 0
@@ -67,9 +69,26 @@ class GifCreatorActivity : AppCompatActivity() {
         llSelection = findViewById(R.id.ll_selection)
         btnShare = findViewById(R.id.button_share)
         btnStartOver = findViewById(R.id.button_start_over)
+        btnExternalOpen = findViewById(R.id.button_open_external)
 
         tvProgress = findViewById(R.id.tv_progress)
 
+
+        btnExternalOpen.setOnClickListener {
+            val photoURI = gifFile?.absoluteFile?.let { it1 ->
+                FileProvider.getUriForFile(
+                    applicationContext,
+                    applicationContext.getPackageName() + ".GenericFileProvider",
+                    it1
+                )
+            }
+            intent = Intent()
+            intent.action = Intent.ACTION_VIEW
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) //must provide
+
+            intent.data = photoURI
+            startActivity(intent)
+        }
 
         btnShare.setOnClickListener {
             share()

@@ -45,4 +45,5 @@
     <string name="set_start_and_end_time">Set start and end time:</string>
     <string name="unselect">Unselect</string>
     <string name="gif">GIF</string>
+    <string name="open_external_app">Open in External App</string>
 </resources>

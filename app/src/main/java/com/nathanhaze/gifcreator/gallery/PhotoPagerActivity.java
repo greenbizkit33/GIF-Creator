@@ -31,6 +31,7 @@ public class PhotoPagerActivity extends FragmentActivity {
     static int index = 0;
     ViewPager2 viewPager;
     GifCreatorApp application;
+    private String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class PhotoPagerActivity extends FragmentActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        String path = "";
+        path = "";
         if (bundle != null) {
             path = bundle.getString("path");
         }
@@ -68,6 +69,21 @@ public class PhotoPagerActivity extends FragmentActivity {
 
         ImageView shareIcon = findViewById(R.id.iv_share);
         shareIcon.setOnClickListener(view -> share(fileList[viewPager.getCurrentItem()]));
+
+        ImageView ivOpen = findViewById(R.id.iv_open);
+        ivOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                File photo = new File(path);
+
+                Uri photoURI = FileProvider.getUriForFile(ivOpen.getContext(), ivOpen.getContext().getPackageName() + ".GenericFileProvider", photo);
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //must provide
+                intent.setData(photoURI);
+                startActivity(intent);
+            }
+        });
 
         FragmentActivity act = this;
         ImageView deleteIcon = findViewById(R.id.iv_delete);
