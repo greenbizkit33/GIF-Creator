@@ -31,7 +31,7 @@
 
 
     <string name="range_frequency">Seconds per frame:  %1$s seconds</string>
-    <string name="bitmap_size">Quality of the GIF (size):  %1$s!</string>
+    <string name="bitmap_size">Quality of the GIF (size):  %1$s</string>
 
     <string name="reverse_order">Reverse Image Order</string>
     <string name="forward_plus_reverse">Normal Plus Reverse</string>

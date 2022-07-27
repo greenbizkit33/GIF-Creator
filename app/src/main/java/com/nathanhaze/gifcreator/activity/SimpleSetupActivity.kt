@@ -67,10 +67,10 @@ class SimpleSetupActivity : AppCompatActivity() {
             df.roundingMode = RoundingMode.CEILING
             df.format(value).toString() + "%"
 
-            tvSize.text = resources.getString(R.string.bitmap_size, df.format(value))
+            tvSize.text = resources.getString(R.string.bitmap_size, df.format(value)) + "%"
 
         }
-        tvSize.text = resources.getString(R.string.bitmap_size, "70")
+        tvSize.text = resources.getString(R.string.bitmap_size, "70") + "%"
 
         sliderSize.value = 70f
         sliderSize.setLabelFormatter({ value ->
