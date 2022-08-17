@@ -51,11 +51,11 @@
             android:layout_marginRight="24dp"
             android:background="@color/secondaryDarkColor" />
 
-        <TextView
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/start_end_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/set_start_and_end_time" />
+            android:layout_marginStart="16dp" />
 
         <com.google.android.material.slider.RangeSlider
             android:id="@+id/range_time"

@@ -28,6 +28,10 @@
             android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
+            android:name=".playground.PlaygroundActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false" />
+        <activity
             android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>

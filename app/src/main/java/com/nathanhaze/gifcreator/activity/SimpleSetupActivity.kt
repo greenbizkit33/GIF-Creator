@@ -11,12 +11,26 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ComposeCompilerApi
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codemybrainsout.ratingdialog.RatingDialog
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.material.composethemeadapter.MdcTheme
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import com.nathanhaze.gifcreator.R
@@ -50,6 +64,13 @@ class SimpleSetupActivity : AppCompatActivity() {
         frequencyRange = findViewById<Slider>(R.id.frame_rate)
         rangeSlider = findViewById<RangeSlider>(R.id.range_time)
         ivWarning = findViewById<ImageView>(R.id.iv_warning)
+
+        val startEndTimeTitle = findViewById<ComposeView>(R.id.start_end_time)
+        startEndTimeTitle.setContent {
+            MdcTheme {
+
+            }
+        }
 
         val tvStart = findViewById<TextView>(R.id.tv_start_time)
         val tvEnd = findViewById<TextView>(R.id.tv_end_time)
@@ -273,6 +294,18 @@ class SimpleSetupActivity : AppCompatActivity() {
             ivWarning.visibility = View.INVISIBLE
         }
 
+    }
+
+    @Composable
+    private fun Greeting() {
+        Text(
+            text = stringResource(R.string.set_start_and_end_time),
+            style = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp)
+                .wrapContentWidth(Alignment.CenterHorizontally)
+        )
     }
 
 }
