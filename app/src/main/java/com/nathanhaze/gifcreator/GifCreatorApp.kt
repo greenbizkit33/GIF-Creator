@@ -35,13 +35,13 @@ class GifCreatorApp : Application() {
         return path
     }
 
-    fun getListFiles(): Array<String?>? {
+    fun getListFiles(): List<String?>? {
         val fileList: Array<File> = getParentFolder()?.listFiles()
-            ?: return arrayOfNulls(0)
+            ?: return emptyList()
         val length = fileList.size // null pointer
-        val stringList = arrayOfNulls<String>(length)
+        val stringList: MutableList<String> = mutableListOf()
         for (i in 0 until length) {
-            stringList[i] = fileList[i].absolutePath
+            stringList.add(fileList[i].absolutePath)
         }
         return stringList
     }

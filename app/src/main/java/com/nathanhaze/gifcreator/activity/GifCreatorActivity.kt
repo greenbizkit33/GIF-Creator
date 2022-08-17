@@ -78,7 +78,7 @@ class GifCreatorActivity : AppCompatActivity() {
             val photoURI = gifFile?.absoluteFile?.let { it1 ->
                 FileProvider.getUriForFile(
                     applicationContext,
-                    applicationContext.getPackageName() + ".GenericFileProvider",
+                    applicationContext.packageName + ".GenericFileProvider",
                     it1
                 )
             }

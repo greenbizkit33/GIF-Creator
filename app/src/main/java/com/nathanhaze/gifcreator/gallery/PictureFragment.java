@@ -42,7 +42,7 @@ public class PictureFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.picture, null);
-        parentView = (LinearLayout) view.findViewById(R.id.picture_layout);
+        parentView = view.findViewById(R.id.picture_layout);
 
         if (null == savedInstanceState) {
             // set you initial fragment object
@@ -55,7 +55,7 @@ public class PictureFragment extends Fragment {
 
         if (currentimg == null || !currentimg.exists()) return view;
 
-        ImageView gifImageView = (ImageView) view.findViewById(R.id.tv_gif);
+        ImageView gifImageView = view.findViewById(R.id.tv_gif);
         Glide.with(this).asGif().load(currentimg).into(gifImageView);
 
 

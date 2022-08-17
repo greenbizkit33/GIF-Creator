@@ -39,9 +39,9 @@ public class PhotoGalleryAdapter extends RecyclerView.Adapter<PhotoGalleryAdapte
 
         PhotoHolder(View view) {
             super(view);
-            this.imageView = (ImageView) view.findViewById(R.id.iv_photo_cell);
-            this.checkBox = (ImageView) view.findViewById(R.id.cb_photo_selection);
-            this.imageWrapper = (FrameLayout) view.findViewById(R.id.fl_image_wrapper);
+            this.imageView = view.findViewById(R.id.iv_photo_cell);
+            this.checkBox = view.findViewById(R.id.cb_photo_selection);
+            this.imageWrapper = view.findViewById(R.id.fl_image_wrapper);
             this.checkBox.setOnClickListener(v -> {
                 isChecked = !isChecked;
                 if (isChecked) {
