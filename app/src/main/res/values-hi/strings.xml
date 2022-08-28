@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+      
+  <!-- IDs -->
+      
+  <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2377934805759836/6301605656</string>
+      
+  <string name="admob_account" translatable="false">ca-app-pub-2377934805759836~9426462443</string>
+      
+  <string name="preference_purchased" translatable="false">key purchased</string>
+      
+  <string name="preference_app" translatable="false">project pref</string>
+      
+  <string name="preference_path" translatable="false">key path</string>
+      
+  <string name="app_name">जीआईएफ क्रिएटर</string>
+      
+  <string name="action_internal_folder">जीआईएफ गैलरी खोलें</string>
+      
+  <string name="create_gif">जीआईएफ बनाएं</string>
+      
+  <string name="start_over">दोबारा शुरू करें</string>
+      
+  <string name="no_image">आपके पास कोई और छवियां नहीं है, और छवियां निकालें</string>
+      
+  <string name="ok">ठीक है</string>
+      
+  <string name="images">छवियां</string>
+      
+  <string name="select_all">सभी का चयन करें</string>
+      
+  <string name="delete">मिटाएं</string>
+      
+  <string name="sorry_wrong">माफ़ करें, कुछ गड़बड़ी हुई है</string>
+      
+  <string name="no_photo_gallery_app">आपके पास फोटो गैलरी ऐप नहीं है जिसे मैं ढूंढ सकूं। इसे डाउनलोड करने की कोशिश करें और ऐप को रिस्टार्ट करें</string>
+      
+  <string name="cancel">रद्द करें</string>
+      
+  <string name="problem_deleting">फ़ाइल को मिटाने में दिक्कत हुई है।</string>
+      
+  <string name="share">शेयर करें</string>
+      
+  <string name="range_frequency">सेकंड प्रति फ़्रेम:  %1$s सेकंड</string>
+      
+  <string name="bitmap_size">जीआईएफ की गुणवत्ता (आकार):  %1$s</string>
+      
+  <string name="reverse_order">रिवर्स इमेज़ ऑर्डर</string>
+      
+  <string name="forward_plus_reverse">सामान्य प्लस रिवर्स</string>
+      
+  <string name="add_a_filter">एक फ़िल्टर जोड़ें</string>
+      
+  <string name="length">लंबाई</string>
+      
+  <string name="out_memory_title">मेमोरी खत्म हो गई है</string>
+      
+  <string name="out_memory_message">ऐप की मेमोरी खत्म हो गई है वो जीआईएफ बना रहा था। समय-सीमा, आवृत्ति या आकार देखने की कोशिश करें</string>
+      
+  <string name="no_filter">कोई फिल्टर नहीं है</string>
+      
+  <string name="set_start_and_end_time">शुरू और खत्म होने का समय सेट करें:</string>
+      
+  <string name="unselect">सभी को अचयनित करें</string>
+      
+  <string name="gif" translatable="false">GIF</string>
+      
+  <string name="open_external_app">बाहरी ऐप में खोलें</string>
+  
+</resources>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+      
+  <!-- IDs -->
+      
+  <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2377934805759836/6301605656</string>
+      
+  <string name="admob_account" translatable="false">ca-app-pub-2377934805759836~9426462443</string>
+      
+  <string name="preference_purchased" translatable="false">key purchased</string>
+      
+  <string name="preference_app" translatable="false">project pref</string>
+      
+  <string name="preference_path" translatable="false">key path</string>
+      
+  <string name="app_name">Создатель GIF</string>
+      
+  <string name="action_internal_folder">Открыть GIF-галерею</string>
+      
+  <string name="create_gif">Создать гифку</string>
+      
+  <string name="start_over">Начать сначала</string>
+      
+  <string name="no_image">У вас больше нет изображений. Извлеките больше изображений</string>
+      
+  <string name="ok">OK</string>
+      
+  <string name="images">КАРТИНКИ</string>
+      
+  <string name="select_all">Выбрать все</string>
+      
+  <string name="delete">Удалить</string>
+      
+  <string name="sorry_wrong">Извините, что-то пошло не так</string>
+      
+  <string name="no_photo_gallery_app">У вас нет приложения для фотогалереи, которое я могу найти. Попробуйте скачать такое приложение и перезапустить текущее приложение</string>
+      
+  <string name="cancel">Отмена</string>
+      
+  <string name="problem_deleting">Возникла проблема с удалением файла.</string>
+      
+  <string name="share">Поделиться</string>
+      
+  <string name="range_frequency">Секунд на кадр:  %1$s сек.</string>
+      
+  <string name="bitmap_size">Качество GIF (размер):  %1$s</string>
+      
+  <string name="reverse_order">Обратный порядок изображений</string>
+      
+  <string name="forward_plus_reverse">Обычный плюс реверс</string>
+      
+  <string name="add_a_filter">Добавить фильтр</string>
+      
+  <string name="length">Длина</string>
+      
+  <string name="out_memory_title">Недостаточно памяти</string>
+      
+  <string name="out_memory_message">Приложению не хватило памяти при создании GIF. Попробуйте пересмотреть временные рамки, частоту или размер</string>
+      
+  <string name="no_filter">Нет фильтра</string>
+      
+  <string name="set_start_and_end_time">Установите время начала и окончания:</string>
+      
+  <string name="unselect">Отменить выбор</string>
+      
+  <string name="gif" translatable="false">GIF</string>
+      
+  <string name="open_external_app">Открыть во внешнем приложении</string>
+  
+</resources>

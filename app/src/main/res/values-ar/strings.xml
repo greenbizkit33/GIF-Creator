@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+      
+  <!-- IDs -->
+      
+  <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2377934805759836/6301605656</string>
+      
+  <string name="admob_account" translatable="false">ca-app-pub-2377934805759836~9426462443</string>
+      
+  <string name="preference_purchased" translatable="false">key purchased</string>
+      
+  <string name="preference_app" translatable="false">project pref</string>
+      
+  <string name="preference_path" translatable="false">key path</string>
+      
+  <string name="app_name">منشئ GIF</string>
+      
+  <string name="action_internal_folder">افتح ستوديو GIF</string>
+      
+  <string name="create_gif">إنشاء GIF</string>
+      
+  <string name="start_over">بدء من جديد</string>
+      
+  <string name="no_image">لم يعد لديك المزيد من الصور، استخرج المزيد</string>
+      
+  <string name="ok">موافق</string>
+      
+  <string name="images">الصور</string>
+      
+  <string name="select_all">تحديد الكل</string>
+      
+  <string name="delete">حذف</string>
+      
+  <string name="sorry_wrong">عذراً، هناك خطأ ما</string>
+      
+  <string name="no_photo_gallery_app">ليس لديك تطبيق استوديو صور يمكنني العثور عليه. حاول تنزيل واحد وإعادة تشغيل التطبيق</string>
+      
+  <string name="cancel">إلغاء</string>
+      
+  <string name="problem_deleting">حدثت مشكلة في حذف الملف.</string>
+      
+  <string name="share">مشاركة</string>
+      
+  <string name="range_frequency">الثواني لكل إطار:  %1$s ثانية</string>
+      
+  <string name="bitmap_size">جودة (الحجم) GIF: %1$s</string>
+      
+  <string name="reverse_order">عكس ترتيب الصور</string>
+      
+  <string name="forward_plus_reverse">عكس إضافي عادي</string>
+      
+  <string name="add_a_filter">إضافة فلتر</string>
+      
+  <string name="length">الطول</string>
+      
+  <string name="out_memory_title">نفدت الذاكرة</string>
+      
+  <string name="out_memory_message">نفدت ذاكرة التطبيق أثناء إنشاء GIF. حاول البحث في الإطار الزمني، أو التردد، أو الحجم</string>
+      
+  <string name="no_filter">لا يوجد فلتر</string>
+      
+  <string name="set_start_and_end_time">تعيين وقت البدء والانتهاء:</string>
+      
+  <string name="unselect">إلغاء التحديد</string>
+      
+  <string name="gif" translatable="false">GIF</string>
+      
+  <string name="open_external_app">فتح في تطبيق خارجي</string>
+  
+</resources>
