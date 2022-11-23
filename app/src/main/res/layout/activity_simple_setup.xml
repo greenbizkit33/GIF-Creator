@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,109 +22,128 @@
             tools:layout="@layout/fragment_video"
             tools:layout_height="80dp" />
 
-        <!-- Frame Freq -->
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/tv_freq"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/range_frequency" />
-
-            <com.google.android.material.slider.Slider
-                android:id="@+id/frame_rate"
-                style="@style/Base.Sephiroth.Widget.RangeSeekBar"
+            android:layout_margin="10dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp"
+            app:cardMaxElevation="12dp"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true">
+            <!-- Frame Freq -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:valueFrom="40"
-                android:valueTo="1000" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:background="@color/secondaryDarkColor" />
+                <TextView
+                    android:id="@+id/tv_freq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/range_frequency" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/set_start_and_end_time" />
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/frame_rate"
+                    style="@style/Base.Sephiroth.Widget.RangeSeekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:valueFrom="40"
+                    android:valueTo="1000" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.slider.RangeSlider
-            android:id="@+id/range_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp" />
-
-        <!-- Start End Time -->
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="2dp">
+            android:layout_margin="10dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp"
+            app:cardMaxElevation="12dp"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true">
 
-            <TextView
-                android:id="@+id/tv_start_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="00:00" />
-
-            <TextView
-                android:id="@+id/tv_end_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="00:00" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:background="@color/secondaryDarkColor" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/tv_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/range_frequency" />
-
-            <com.google.android.material.slider.Slider
-                android:id="@+id/s_size"
-                style="@style/Base.Sephiroth.Widget.RangeSeekBar"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:value="100"
-                android:valueFrom="10"
-                android:valueTo="100" />
-        </LinearLayout>
+                android:orientation="vertical">
 
-        <View
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/set_start_and_end_time" />
+
+                <!-- Start End Time -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp">
+
+                    <TextView
+                        android:id="@+id/tv_start_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="00:00" />
+
+                    <TextView
+                        android:id="@+id/tv_end_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="00:00" />
+                </LinearLayout>
+
+
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/range_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:background="@color/secondaryDarkColor" />
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp"
+            app:cardMaxElevation="12dp"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/range_frequency" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/s_size"
+                    style="@style/Base.Sephiroth.Widget.RangeSeekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:value="100"
+                    android:valueFrom="10"
+                    android:valueTo="100" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -134,6 +154,7 @@
                 android:id="@+id/tv_add_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
                 android:text="@string/add_a_filter" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -144,33 +165,36 @@
 
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="24dp"
-            android:background="@color/secondaryDarkColor" />
-
-
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:layout_margin="10dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp"
+            app:cardMaxElevation="12dp"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/reverse_order" />
+                android:orientation="horizontal"
+                android:padding="16dp">
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch_reverse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/reverse_order" />
 
-        </LinearLayout>
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switch_reverse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -195,6 +219,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -210,7 +235,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:text="@string/create_gif" />
         </LinearLayout>
 
