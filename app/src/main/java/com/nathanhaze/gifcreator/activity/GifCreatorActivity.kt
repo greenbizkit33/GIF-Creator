@@ -11,7 +11,6 @@ import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -51,6 +50,7 @@ class GifCreatorActivity : AppCompatActivity() {
     lateinit var btnShare: FancyButton
     lateinit var btnStartOver: FancyButton
     lateinit var btnExternalOpen: FancyButton
+    lateinit var mAdView: AdView
 
     lateinit var tvProgress: TextView
     var stopThread = false
@@ -101,9 +101,13 @@ class GifCreatorActivity : AppCompatActivity() {
 
         stopThread = false
         extractPermission()
-        val mAdView = findViewById<View>(R.id.adView) as AdView
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
+
+        val mAdViewLoading = findViewById<View>(R.id.adView_loading) as AdView
+        val adRequestLoading = AdRequest.Builder().build()
+        mAdViewLoading.loadAd(adRequestLoading)
+
+
+        mAdView = findViewById<View>(R.id.adView) as AdView
     }
 
     override fun onResume() {
@@ -262,6 +266,9 @@ class GifCreatorActivity : AppCompatActivity() {
             llSelection.visibility = View.VISIBLE
             tvProgress.visibility = View.GONE
         }
+
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
     }
 
     private fun showDialog() {

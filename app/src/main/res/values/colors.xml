@@ -18,5 +18,8 @@
     <color name="midGray">#545454</color>
 
     <color name="background">#e2f8ff</color>
+    <color name="button_background">#69f0ae</color>
+    <color name="card_background">#ffffff</color>
+    <color name="card_text">#000000</color>
 
 </resources>

@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:background="@color/black"
         tools:context=".activity.GifCreatorActivity">
 
@@ -40,6 +40,17 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:visibility="gone" />
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView_loading"
+                style="@style/ad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/banner_ad_unit_id" />
+
         </LinearLayout>
 
         <pl.droidsonroids.gif.GifImageView
@@ -61,19 +72,22 @@
 
             <mehdi.sakout.fancybuttons.FancyButton
                 android:id="@+id/button_open_external"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="32dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:paddingLeft="40dp"
                 android:paddingTop="12dp"
                 android:paddingRight="40dp"
                 android:paddingBottom="12dp"
-                fancy:fb_defaultColor="@color/secondaryColor"
+                fancy:fb_defaultColor="@color/button_background"
                 fancy:fb_focusColor="#01303e"
+                fancy:fb_iconPaddingTop="2dp"
                 fancy:fb_iconPosition="left"
+                fancy:fb_iconResource="@drawable/ic_open_external"
                 fancy:fb_radius="24dp"
                 fancy:fb_text="@string/open_external_app"
                 fancy:fb_textColor="@color/secondaryTextColor"
@@ -81,19 +95,23 @@
 
             <mehdi.sakout.fancybuttons.FancyButton
                 android:id="@+id/button_share"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="40dp"
                 android:layout_marginTop="32dp"
+                android:layout_marginRight="40dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:paddingLeft="40dp"
                 android:paddingTop="12dp"
                 android:paddingRight="40dp"
                 android:paddingBottom="12dp"
-                fancy:fb_defaultColor="@color/secondaryColor"
+                fancy:fb_defaultColor="@color/button_background"
                 fancy:fb_focusColor="#01303e"
+                fancy:fb_iconPaddingTop="2dp"
                 fancy:fb_iconPosition="left"
+                fancy:fb_iconResource="@drawable/ic_share"
                 fancy:fb_radius="24dp"
                 fancy:fb_text="@string/share"
                 fancy:fb_textColor="@color/secondaryTextColor"
@@ -101,19 +119,23 @@
 
             <mehdi.sakout.fancybuttons.FancyButton
                 android:id="@+id/button_start_over"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="40dp"
                 android:layout_marginTop="32dp"
+                android:layout_marginRight="40dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:paddingLeft="40dp"
                 android:paddingTop="12dp"
                 android:paddingRight="40dp"
                 android:paddingBottom="12dp"
-                fancy:fb_defaultColor="@color/secondaryColor"
+                fancy:fb_defaultColor="@color/button_background"
                 fancy:fb_focusColor="#01303e"
+                fancy:fb_iconPaddingTop="2dp"
                 fancy:fb_iconPosition="left"
+                fancy:fb_iconResource="@drawable/ic_start_over"
                 fancy:fb_radius="24dp"
                 fancy:fb_text="@string/start_over"
                 fancy:fb_textColor="@color/secondaryTextColor"
