@@ -117,55 +117,59 @@ class GalleryFragment : Fragment() {
             adapter!!.notifyDataSetChanged()
         }
         trashButton?.setOnClickListener { _: View? ->
-            val alertDialog = AlertDialog.Builder(application?.baseContext).create()
-            alertDialog.setCancelable(true)
-            alertDialog.setMessage(
-                resources.getString(R.string.delete) + " " + adapter!!.selectedCount + " " + resources.getString(
-                    R.string.images
-                ).lowercase(
-                    Locale.getDefault()
-                )
-            )
-            alertDialog.setButton(
-                AlertDialog.BUTTON_POSITIVE,
-                resources.getString(R.string.ok)
-            ) { _, _ ->
-                val images = adapter!!.imagesSelected
-                for (imagePath in images) {
-                    var file: File? = null
-                    try {
-                        file = File(imagePath)
-                    } catch (ex: IndexOutOfBoundsException) {
-                    }
-                    val deleted = file!!.delete()
-                    if (deleted) {
-                        trashButton?.context?.sendBroadcast(
-                            Intent(
-                                Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-                                Uri.fromFile(file)
-                            )
-                        )
-                    }
-                }
-                list = application?.getListFiles()
-                if ((list as MutableList<String?>).size > 0) {
-                    adapter = PhotoGalleryAdapter(list)
-                    recyclerview?.adapter = adapter
-                } else {
-                    recyclerview?.visibility = View.GONE
-                    tvNoImages?.visibility = View.VISIBLE
-                    galleryControls?.visibility = View.GONE
-                    galleryControls?.animate()?.translationY(-CONTROLS_DISTANCE.toFloat())
-                }
-            }
-            alertDialog.setButton(
-                AlertDialog.BUTTON_NEGATIVE,
-                resources.getString(R.string.cancel)
-            ) { _, _ -> alertDialog.dismiss() }
-            alertDialog.show()
+            showPopup()
         }
         EventBus.getDefault().register(this)
         return view
+    }
+
+    fun showPopup() {
+        val alertDialog = AlertDialog.Builder(activity).create()
+        alertDialog.setCancelable(true)
+        alertDialog.setMessage(
+            resources.getString(R.string.delete) + " " + adapter!!.selectedCount + " " + resources.getString(
+                R.string.images
+            ).lowercase(
+                Locale.getDefault()
+            )
+        )
+        alertDialog.setButton(
+            AlertDialog.BUTTON_POSITIVE,
+            resources.getString(R.string.ok)
+        ) { _, _ ->
+            val images = adapter!!.imagesSelected
+            for (imagePath in images) {
+                var file: File? = null
+                try {
+                    file = File(imagePath)
+                } catch (ex: IndexOutOfBoundsException) {
+                }
+                val deleted = file!!.delete()
+                if (deleted) {
+                    trashButton?.context?.sendBroadcast(
+                        Intent(
+                            Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                            Uri.fromFile(file)
+                        )
+                    )
+                }
+            }
+            list = application?.getListFiles()
+            if ((list as MutableList<String?>).size > 0) {
+                adapter = PhotoGalleryAdapter(list)
+                recyclerview?.adapter = adapter
+            } else {
+                recyclerview?.visibility = View.GONE
+                tvNoImages?.visibility = View.VISIBLE
+                galleryControls?.visibility = View.GONE
+                galleryControls?.animate()?.translationY(-CONTROLS_DISTANCE.toFloat())
+            }
+        }
+        alertDialog.setButton(
+            AlertDialog.BUTTON_NEGATIVE,
+            resources.getString(R.string.cancel)
+        ) { _, _ -> alertDialog.dismiss() }
+        alertDialog.show()
     }
 
     override fun onResume() {

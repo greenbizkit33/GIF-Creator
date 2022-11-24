@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 ads:adSize="BANNER"
                 ads:adUnitId="@string/banner_ad_unit_id" />
 
@@ -85,7 +85,6 @@
                 android:paddingBottom="12dp"
                 fancy:fb_defaultColor="@color/button_background"
                 fancy:fb_focusColor="#01303e"
-                fancy:fb_iconPaddingTop="2dp"
                 fancy:fb_iconPosition="left"
                 fancy:fb_iconResource="@drawable/ic_open_external"
                 fancy:fb_radius="24dp"
@@ -109,7 +108,6 @@
                 android:paddingBottom="12dp"
                 fancy:fb_defaultColor="@color/button_background"
                 fancy:fb_focusColor="#01303e"
-                fancy:fb_iconPaddingTop="2dp"
                 fancy:fb_iconPosition="left"
                 fancy:fb_iconResource="@drawable/ic_share"
                 fancy:fb_radius="24dp"
@@ -133,7 +131,6 @@
                 android:paddingBottom="12dp"
                 fancy:fb_defaultColor="@color/button_background"
                 fancy:fb_focusColor="#01303e"
-                fancy:fb_iconPaddingTop="2dp"
                 fancy:fb_iconPosition="left"
                 fancy:fb_iconResource="@drawable/ic_start_over"
                 fancy:fb_radius="24dp"

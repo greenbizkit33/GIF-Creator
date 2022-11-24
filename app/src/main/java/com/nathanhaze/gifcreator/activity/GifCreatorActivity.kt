@@ -51,6 +51,7 @@ class GifCreatorActivity : AppCompatActivity() {
     lateinit var btnStartOver: FancyButton
     lateinit var btnExternalOpen: FancyButton
     lateinit var mAdView: AdView
+    lateinit var mAdViewLoading: AdView
 
     lateinit var tvProgress: TextView
     var stopThread = false
@@ -102,10 +103,9 @@ class GifCreatorActivity : AppCompatActivity() {
         stopThread = false
         extractPermission()
 
-        val mAdViewLoading = findViewById<View>(R.id.adView_loading) as AdView
-        val adRequestLoading = AdRequest.Builder().build()
-        mAdViewLoading.loadAd(adRequestLoading)
-
+        mAdViewLoading = findViewById<View>(R.id.adView_loading) as AdView
+//        val adRequestLoading = AdRequest.Builder().build()
+//        mAdViewLoading.loadAd(adRequestLoading)
 
         mAdView = findViewById<View>(R.id.adView) as AdView
     }
@@ -267,6 +267,7 @@ class GifCreatorActivity : AppCompatActivity() {
             tvProgress.visibility = View.GONE
         }
 
+      //  mAdViewLoading.visibility = View.GONE
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
     }

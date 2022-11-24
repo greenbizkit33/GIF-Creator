@@ -2,10 +2,11 @@
 <resources>
 
     <array name="funny_colors">
-        <item>@color/materialRed</item>
-        <item>@color/materialIndigo</item>
-        <item>@color/materialPink</item>
-        <item>@color/materialPurple</item>
+        <item>#8ecae6</item>
+        <item>#219ebc</item>
+        <item>#023047</item>
+        <item>#ffb703</item>
+        <item>#fb8500</item>
     </array>
 
 </resources>
