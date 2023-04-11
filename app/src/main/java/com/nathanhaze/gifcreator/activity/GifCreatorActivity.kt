@@ -291,19 +291,19 @@ class GifCreatorActivity : AppCompatActivity() {
     }
 
     private fun extractPermission() {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                PERMISSION_EXTRCT
-            )
-        } else {
+//        if (ContextCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE
+//            )
+//            != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            ActivityCompat.requestPermissions(
+//                this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+//                PERMISSION_EXTRCT
+//            )
+//        } else {
             getImages()
-        }
+     //   }
 
     }
 

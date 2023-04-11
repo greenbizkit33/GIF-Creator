@@ -1,7 +1,6 @@
 package com.nathanhaze.gifcreator.activity
 
 
-import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
@@ -11,7 +10,6 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.media.MediaMetadataRetriever
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
@@ -20,8 +18,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -130,23 +126,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun importVideo() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                    MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE
-                )
-            } else {
-                getImportedVideo()
-            }
-        } else {
-            getImportedVideo()
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (ContextCompat.checkSelfPermission(
+//                    this,
+//                    Manifest.permission.READ_EXTERNAL_STORAGE
+//                )
+//                != PackageManager.PERMISSION_GRANTED
+//            ) {
+//                ActivityCompat.requestPermissions(
+//                    this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+//                    MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE
+//                )
+//            } else {
+//                getImportedVideo()
+//            }
+//        } else {
+        getImportedVideo()
+//        }
     }
 
     private fun getImportedVideo() {

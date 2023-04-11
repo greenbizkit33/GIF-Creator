@@ -15,6 +15,7 @@ class PhotoGallery : AppCompatActivity() {
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.frame_main, GalleryFragment())
         ft.commit()
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
