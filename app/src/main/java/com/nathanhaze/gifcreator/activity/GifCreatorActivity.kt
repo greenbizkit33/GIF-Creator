@@ -87,8 +87,7 @@ class GifCreatorActivity : AppCompatActivity() {
             intent = Intent()
             intent.action = Intent.ACTION_VIEW
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) //must provide
-
-            intent.data = photoURI
+            intent.setDataAndType(photoURI, "image/*");
             startActivity(intent)
         }
 
