@@ -12,13 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:maxHeight="300dp"
+        android:maxHeight="350dp"
         tools:layout="@layout/fragment_video"
         tools:layout_height="80dp" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
         android:fillViewport="true">
 
         <LinearLayout

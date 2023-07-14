@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -24,7 +25,6 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.nathanhaze.gifcreator.R
 import com.nathanhaze.gifcreator.gallery.PhotoGallery
 import com.nathanhaze.gifcreator.manager.Utils
-import mehdi.sakout.fancybuttons.FancyButton
 import org.greenrobot.eventbus.EventBus
 
 
@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
     private val MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 0
     private val GALLERY_INTENT_CALLED = 1
 
-    var btnOpenFolder: FancyButton? = null
-    var btnOpenInternalFolder: FancyButton? = null
+    var btnOpenFolder: Button? = null
+    var btnOpenInternalFolder: Button? = null
 
     var removeAds: TextView? = null
 
@@ -49,10 +49,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val btnVideoPicker = findViewById<View>(R.id.button_pick_video) as LinearLayout
+        val btnVideoPicker = findViewById<View>(R.id.button_pick_video)
         btnVideoPicker.setOnClickListener { importVideo() }
 
-        btnOpenInternalFolder = findViewById<View>(R.id.button_internal) as FancyButton
+        btnOpenInternalFolder = findViewById<View>(R.id.button_internal) as Button
         btnOpenInternalFolder!!.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, PhotoGallery::class.java)
             startActivity(intent)

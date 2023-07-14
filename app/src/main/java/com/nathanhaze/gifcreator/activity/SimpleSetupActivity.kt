@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -19,11 +20,14 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.nathanhaze.gifcreator.R
 import com.nathanhaze.gifcreator.manager.Utils
 import com.nathanhaze.gifcreator.ui.FilterAdapter
 import com.zomato.photofilters.FilterPack
 import com.zomato.photofilters.imageprocessors.Filter
+import java.lang.Exception
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
@@ -101,7 +105,20 @@ class SimpleSetupActivity : AppCompatActivity() {
 
 
         val mediaRetriever = MediaMetadataRetriever()
-        mediaRetriever.setDataSource(Utils.getVideoPath(this))
+        try {
+            mediaRetriever.setDataSource(Utils.getVideoPath(this))
+        } catch (exception: Exception) {
+            val bundle = Bundle()
+            val value = Utils.getVideoPath(this)?.replace(" ", "_")
+            bundle.putString("path", value)
+            FirebaseAnalytics.getInstance(applicationContext).logEvent("error_source", bundle)
+            Toast.makeText(
+                applicationContext,
+                resources.getString(R.string.sorry_wrong),
+                Toast.LENGTH_LONG
+            ).show()
+            FirebaseCrashlytics.getInstance().recordException(exception)
+        }
 
         val extractionType = MediaMetadataRetriever.OPTION_CLOSEST_SYNC
 

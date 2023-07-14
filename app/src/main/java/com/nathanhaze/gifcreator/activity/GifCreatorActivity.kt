@@ -1,6 +1,5 @@
 package com.nathanhaze.gifcreator.activity
 
-import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,11 +8,10 @@ import android.media.MediaMetadataRetriever
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.Lifecycle
 import com.bumptech.glide.Glide
@@ -26,7 +24,6 @@ import com.nathanhaze.gifcreator.event.ProgressUpdateEvent
 import com.nathanhaze.gifcreator.manager.ImageUtil
 import com.nathanhaze.gifcreator.manager.Utils
 import com.nathanhaze.gifcreator.manager.Utils.isGettingImages
-import mehdi.sakout.fancybuttons.FancyButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import pl.droidsonroids.gif.GifImageView
@@ -47,9 +44,9 @@ class GifCreatorActivity : AppCompatActivity() {
     lateinit var gifImage: GifImageView
     lateinit var llSelection: LinearLayout
 
-    lateinit var btnShare: FancyButton
-    lateinit var btnStartOver: FancyButton
-    lateinit var btnExternalOpen: FancyButton
+    lateinit var btnShare: Button
+    lateinit var btnStartOver: Button
+    lateinit var btnExternalOpen: Button
     lateinit var mAdView: AdView
     lateinit var mAdViewLoading: AdView
 
@@ -266,7 +263,7 @@ class GifCreatorActivity : AppCompatActivity() {
             tvProgress.visibility = View.GONE
         }
 
-      //  mAdViewLoading.visibility = View.GONE
+        //  mAdViewLoading.visibility = View.GONE
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
     }
@@ -301,8 +298,8 @@ class GifCreatorActivity : AppCompatActivity() {
 //                PERMISSION_EXTRCT
 //            )
 //        } else {
-            getImages()
-     //   }
+        getImages()
+        //   }
 
     }
 

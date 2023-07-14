@@ -2,11 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
     android:fillViewport="true">
 
     <LinearLayout
@@ -51,7 +49,7 @@
             tools:context="com.tetley.backgroundremover.view.ChooserActivity">
 
 
-            <mehdi.sakout.fancybuttons.FancyButton
+            <Button
                 android:id="@+id/button_pick_video"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,21 +57,14 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:clickable="true"
+                android:drawableLeft="@drawable/ic_create"
                 android:focusable="true"
                 android:fontFamily="@font/opensans_semibold"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
-                fancy:fb_defaultColor="@color/button_background"
-                fancy:fb_focusColor="#01303e"
-                fancy:fb_iconPaddingRight="8dp"
-                fancy:fb_iconPosition="left"
-                fancy:fb_iconResource="@drawable/ic_create"
-                fancy:fb_radius="24dp"
-                fancy:fb_text="@string/create_gif"
-                fancy:fb_textColor="@color/secondaryTextColor"
-                fancy:fb_textSize="18sp" />
+                android:text="@string/create_gif" />
 
-            <mehdi.sakout.fancybuttons.FancyButton
+            <Button
                 android:id="@+id/button_internal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -82,19 +73,12 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginRight="40dp"
                 android:clickable="true"
+                android:drawableLeft="@drawable/ic_gallery"
                 android:focusable="true"
                 android:fontFamily="@font/opensans_semibold"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
-                fancy:fb_iconPaddingRight="8dp"
-                fancy:fb_defaultColor="@color/button_background"
-                fancy:fb_focusColor="#01303e"
-                fancy:fb_iconPosition="left"
-                fancy:fb_iconResource="@drawable/ic_gallery"
-                fancy:fb_radius="24dp"
-                fancy:fb_text="@string/action_internal_folder"
-                fancy:fb_textColor="@color/secondaryTextColor"
-                fancy:fb_textSize="18sp" />
+                android:text="@string/action_internal_folder" />
 
         </LinearLayout>
 

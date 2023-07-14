@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="secondaryColor">#2F6B4E</color>
-    <color name="secondaryDarkColor">#2bbd7e</color>
-    <color name="primaryTextColor">#FFFFFF</color>
-    <color name="secondaryTextColor">#FFFFFF</color>
-
     <color name="button_background">#3c162f</color>
-    <color name="background">#5c162e</color>
     <color name="card_background">#191528</color>
     <color name="card_text">#ffffff</color>
 
+    <color name="icon">#000000</color>
 
 </resources>
