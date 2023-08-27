@@ -111,14 +111,12 @@ class GifCreatorActivity : AppCompatActivity() {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
-        Log.d("nathanx", "onresume " + Utils.lastGifFilePath + " " + isGettingImages)
         if (Utils.lastGifFilePath != null && !isGettingImages) {
             if (Utils.outOfMemory) {
                 showDialog()
             } else {
                 Glide.with(this).asGif().load(Utils.lastGifFilePath).into(gifImage)
             }
-            Log.d("nathanx", "do your thing")
             progressbar.visibility = View.GONE
             llSelection.visibility = View.VISIBLE
             tvProgress.visibility = View.GONE
@@ -127,13 +125,11 @@ class GifCreatorActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        Log.d("nathanx", "unreg")
         //EventBus.getDefault().unregister(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("nathanx", "destory")
         //  service.shutdownNow()
         //  service.shutdown()
     }
@@ -141,7 +137,6 @@ class GifCreatorActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         stopThread = true
-        Log.d("nathanx", "back pressed")
     }
 
     private fun getImages() {
@@ -161,7 +156,6 @@ class GifCreatorActivity : AppCompatActivity() {
         totalFrames =
             ((Utils.endTimeMilli - Utils.startTimeMilli).div(Utils.frameFrequencyMilli.toFloat())).toInt()
         service.execute {
-            Log.d("nathanx", "starting thread")
             isGettingImages = true
             EventBus.getDefault().post(ProgressUpdateEvent("Starting up...", 0, false, false))
             var frameList = ArrayList<Bitmap>()
@@ -219,8 +213,6 @@ class GifCreatorActivity : AppCompatActivity() {
 //                Log.d("nathanx", "before  " + currentMilli + " " + Utils.frameFrequencyMilli);
 
                 currentMilli += Utils.frameFrequencyMilli
-                Log.d("nathanx", "after" + currentMilli + " " + stopThread)
-
             }
 
             if (!stopThread) {
@@ -246,7 +238,6 @@ class GifCreatorActivity : AppCompatActivity() {
 
     @Subscribe
     fun onEvent(event: GifCreationEvent) {
-        Log.d("nathanx", "got gif")
         isGettingImages = false
         if (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
             return
@@ -270,7 +261,6 @@ class GifCreatorActivity : AppCompatActivity() {
 
     private fun showDialog() {
         runOnUiThread {
-            Log.d("nathanx", "show dialog")
             val alertDialog = AlertDialog.Builder(this)
 
             alertDialog.apply {
@@ -324,7 +314,6 @@ class GifCreatorActivity : AppCompatActivity() {
 
     @Subscribe
     fun onEvent(event: ProgressUpdateEvent) {
-        Log.d("nathanx", "progress " + event.message)
         this.runOnUiThread {
             progressbar.max = 100
             if (event.creatingFrame) {
@@ -346,7 +335,6 @@ class GifCreatorActivity : AppCompatActivity() {
             } else {
                 tvProgress.text = event.message
             }
-            Log.d("nathanx", "get message " + tvProgress.text)
         }
     }
 

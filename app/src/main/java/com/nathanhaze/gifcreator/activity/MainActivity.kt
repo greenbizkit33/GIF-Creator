@@ -13,11 +13,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -196,8 +192,12 @@ class MainActivity : AppCompatActivity() {
             return false
         }
         val path = cursor.getString(columnIndex)
-        handleVideo(path)
-        return true
+        return if (path != null) {
+            handleVideo(path)
+            true
+        } else {
+            false
+        }
     }
 
     override fun onRequestPermissionsResult(

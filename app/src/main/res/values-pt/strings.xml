@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+      
+  <!-- IDs -->
+      
+  <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2377934805759836/6301605656</string>
+      
+  <string name="admob_account" translatable="false">ca-app-pub-2377934805759836~9426462443</string>
+      
+  <string name="preference_purchased" translatable="false">key purchased</string>
+      
+  <string name="preference_app" translatable="false">project pref</string>
+      
+  <string name="preference_path" translatable="false">key path</string>
+      
+  <string name="app_name">Criador de GIFs</string>
+      
+  <string name="action_internal_folder">Abra a galeria GIF</string>
+      
+  <string name="create_gif">Criar GIF</string>
+      
+  <string name="start_over">Recomeçar</string>
+      
+  <string name="no_image">Você não tem mais imagens, extraia mais imagens</string>
+      
+  <string name="ok">OK</string>
+      
+  <string name="images">IMAGENS</string>
+      
+  <string name="select_all">Selecionar tudo</string>
+      
+  <string name="delete">Excluir</string>
+      
+  <string name="sorry_wrong">Desculpe, algo deu errado</string>
+      
+  <string name="no_photo_gallery_app">Você não tem um aplicativo de galeria de fotos que eu possa encontrar. Tente baixar um e reinicie o aplicativo</string>
+      
+  <string name="cancel">Cancelar</string>
+      
+  <string name="problem_deleting">Ocorreu um problema ao excluir o arquivo.</string>
+      
+  <string name="share">Compartilhar</string>
+      
+  <string name="range_frequency">Segundos por frame:  %1$s segundos</string>
+      
+  <string name="bitmap_size">Qualidade do GIF (tamanho):  %1$s</string>
+      
+  <string name="reverse_order">Ordem reversa da imagem</string>
+      
+  <string name="forward_plus_reverse">Normal mais reverso</string>
+      
+  <string name="add_a_filter">Adicionar um filtro</string>
+      
+  <string name="length">Comprimento</string>
+      
+  <string name="out_memory_title">Fiquei sem memória</string>
+      
+  <string name="out_memory_message">O aplicativo ficou sem memória ao criar GIF. Tente observar o período, frequência ou tamanho</string>
+      
+  <string name="no_filter">Sem filtro</string>
+      
+  <string name="set_start_and_end_time">Definir horário de início e término:</string>
+      
+  <string name="unselect">Desmarcar</string>
+      
+  <string name="gif" translatable="false">GIF</string>
+      
+  <string name="open_external_app">Abrir em aplicativo externo</string>
+  
+</resources>

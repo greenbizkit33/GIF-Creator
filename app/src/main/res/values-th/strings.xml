@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+      
+  <!-- IDs -->
+      
+  <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2377934805759836/6301605656</string>
+      
+  <string name="admob_account" translatable="false">ca-app-pub-2377934805759836~9426462443</string>
+      
+  <string name="preference_purchased" translatable="false">key purchased</string>
+      
+  <string name="preference_app" translatable="false">project pref</string>
+      
+  <string name="preference_path" translatable="false">key path</string>
+      
+  <string name="app_name">ผู้สร้าง GIF</string>
+      
+  <string name="action_internal_folder">เปิดแกลเลอรี GIF</string>
+      
+  <string name="create_gif">สร้าง GIF</string>
+      
+  <string name="start_over">เริ่มต้นใหม่</string>
+      
+  <string name="no_image">คุณไม่มีภาพอีกต่อไป โปรดแยกภาพเพิ่มเติม</string>
+      
+  <string name="ok">ตกลง</string>
+      
+  <string name="images">รูปภาพ</string>
+      
+  <string name="select_all">เลือกทั้งหมด</string>
+      
+  <string name="delete">ลบ</string>
+      
+  <string name="sorry_wrong">ขอโทษมีบางอย่างผิดพลาด</string>
+      
+  <string name="no_photo_gallery_app">คุณไม่มีแอปแกลเลอรีรูปภาพที่ฉันหาได้ ลองดาวน์โหลดแล้วรีสตาร์ทแอป</string>
+      
+  <string name="cancel">ยกเลิก</string>
+      
+  <string name="problem_deleting">เกิดปัญหาในการลบไฟล์</string>
+      
+  <string name="share">แบ่งปัน</string>
+      
+  <string name="range_frequency">วินาทีต่อเฟรม:  %1$s วินาที</string>
+      
+  <string name="bitmap_size">คุณภาพของ GIF (ขนาด):  %1$s</string>
+      
+  <string name="reverse_order">ลำดับภาพย้อนกลับ</string>
+      
+  <string name="forward_plus_reverse">ปกติบวกย้อนกลับ</string>
+      
+  <string name="add_a_filter">เพิ่มตัวกรอง</string>
+      
+  <string name="length">ความยาว</string>
+      
+  <string name="out_memory_title">หน่วยความจำหมด</string>
+      
+  <string name="out_memory_message">หน่วยความจำในแอปไม่เพียงพอกำลังสร้าง GIF ลองค้นหากรอบเวลา ความถี่ หรือขนาดดู</string>
+      
+  <string name="no_filter">ไม่มีตัวกรอง</string>
+      
+  <string name="set_start_and_end_time">ตั้งเวลาเริ่มต้นและสิ้นสุด:</string>
+      
+  <string name="unselect">ยกเลิกการเลือก</string>
+      
+  <string name="gif" translatable="false">GIF</string>
+      
+  <string name="open_external_app">เปิดในแอปภายนอก</string>
+  
+</resources>
