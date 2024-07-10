@@ -74,10 +74,12 @@ internal class FilterAdapter(
                 try {
                     holder.image.setImageBitmap(
                         filter.processFilter(
-                            sample?.copy(
-                                sample?.config,
-                                true
-                            )
+                            sample?.config?.let {
+                                sample?.copy(
+                                    it,
+                                    true
+                                )
+                            }
                         )
                     )
                     holder.image.clearColorFilter()
