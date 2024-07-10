@@ -27,7 +27,6 @@ import com.nathanhaze.gifcreator.manager.Utils
 import com.nathanhaze.gifcreator.ui.FilterAdapter
 import com.zomato.photofilters.FilterPack
 import com.zomato.photofilters.imageprocessors.Filter
-import java.lang.Exception
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
@@ -38,10 +37,10 @@ class SimpleSetupActivity : AppCompatActivity() {
 
     private lateinit var filterAdapter: FilterAdapter
 
-    private lateinit var tvInfo: TextView
-    private lateinit var frequencyRange: Slider
-    private lateinit var rangeSlider: RangeSlider
-    private lateinit var ivWarning: ImageView
+    private var tvInfo: TextView? = null
+    private var frequencyRange: Slider? = null
+    private var rangeSlider: RangeSlider? = null
+    private var ivWarning: ImageView? = null
     private var videoLengthMilli: Float = 0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +63,7 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         Utils.size = 0.7f
 
-        sliderSize.addOnChangeListener { slider, value, fromUser ->
+        sliderSize?.addOnChangeListener { slider, value, fromUser ->
             Utils.size = value / 100
 
             val df = DecimalFormat("#.##")
@@ -74,17 +73,17 @@ class SimpleSetupActivity : AppCompatActivity() {
             tvSize.text = resources.getString(R.string.bitmap_size, df.format(value)) + "%"
 
         }
-        tvSize.text = resources.getString(R.string.bitmap_size, "70") + "%"
+        tvSize?.text = resources.getString(R.string.bitmap_size, "70") + "%"
 
-        sliderSize.value = 70f
-        sliderSize.setLabelFormatter({ value ->
+        sliderSize?.value = 50f
+        sliderSize?.setLabelFormatter({ value ->
             val df = DecimalFormat("#.##")
             df.roundingMode = RoundingMode.CEILING
             df.format(value).toString() + "%"
         })
 
 
-        frequencyRange.addOnChangeListener { slider, value, fromUser ->
+        frequencyRange?.addOnChangeListener { slider, value, fromUser ->
             val df = DecimalFormat("#.##")
             df.roundingMode = RoundingMode.CEILING
             df.format(value).toString() + "%"
@@ -93,15 +92,18 @@ class SimpleSetupActivity : AppCompatActivity() {
             updateInfo()
         }
 
-        frequencyRange.setLabelFormatter { value ->
+        frequencyRange?.setLabelFormatter { value ->
             val df = DecimalFormat("#.##")
             df.roundingMode = RoundingMode.CEILING
             df.format(value / 1000).toString()
         }
 
-        frequencyRange.value = 70F
-        tvFreq.text =
-            resources.getString(R.string.range_frequency, (frequencyRange.value / 1000).toString())
+        frequencyRange?.value = 70F
+        tvFreq?.text =
+            resources.getString(
+                R.string.range_frequency,
+                (frequencyRange?.value?.div(1000)).toString()
+            )
 
 
         val mediaRetriever = MediaMetadataRetriever()
@@ -126,7 +128,7 @@ class SimpleSetupActivity : AppCompatActivity() {
             mediaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
         videoLengthMilli = time?.toFloat() ?: 0F
 
-        rangeSlider.setLabelFormatter { value -> //It is just an example
+        rangeSlider?.setLabelFormatter { value -> //It is just an example
             val milli = value.times(videoLengthMilli).toLong()
 
             String.format(
@@ -136,72 +138,78 @@ class SimpleSetupActivity : AppCompatActivity() {
             )
         }
 
-        rangeSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
+        rangeSlider?.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: RangeSlider) {
 
             }
 
             override fun onStopTrackingTouch(slider: RangeSlider) {
-                val values = rangeSlider.values
+                val values = rangeSlider?.values
 
-                val startMilli = values[0].times(videoLengthMilli).toLong()
-                val start = String.format(
-                    "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(startMilli),
-                    TimeUnit.MILLISECONDS.toMinutes(startMilli) % TimeUnit.HOURS.toMinutes(1),
-                    TimeUnit.MILLISECONDS.toSeconds(startMilli) % TimeUnit.MINUTES.toSeconds(1)
-                )
+                val startMilli = values?.get(0)?.times(videoLengthMilli)?.toLong()
+                val endMilli = values?.get(1)?.times(videoLengthMilli)?.toLong()
 
-                val endMilli = values[1].times(videoLengthMilli).toLong()
+                if (startMilli != null && endMilli != null) {
+                    val start = String.format(
+                        "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(startMilli),
+                        TimeUnit.MILLISECONDS.toMinutes(startMilli) % TimeUnit.HOURS.toMinutes(1),
+                        TimeUnit.MILLISECONDS.toSeconds(startMilli) % TimeUnit.MINUTES.toSeconds(1)
+                    )
 
-                val end = String.format(
-                    "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(endMilli),
-                    TimeUnit.MILLISECONDS.toMinutes(endMilli) % TimeUnit.HOURS.toMinutes(1),
-                    TimeUnit.MILLISECONDS.toSeconds(endMilli) % TimeUnit.MINUTES.toSeconds(1)
-                )
-                tvStart.text = start
-                tvEnd.text = end
 
-                Utils.startTimeMilli = startMilli.toInt()
-                Utils.endTimeMilli = endMilli.toInt()
-                updateInfo()
+                    val end = String.format(
+                        "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(endMilli),
+                        TimeUnit.MILLISECONDS.toMinutes(endMilli) % TimeUnit.HOURS.toMinutes(1),
+                        TimeUnit.MILLISECONDS.toSeconds(endMilli) % TimeUnit.MINUTES.toSeconds(1)
+                    )
+                    tvStart.text = start
+                    tvEnd.text = end
+
+                    Utils.startTimeMilli = startMilli.toInt()
+                    Utils.endTimeMilli = endMilli.toInt()
+                    updateInfo()
+                }
             }
 
 
         })
 
 
-        rangeSlider.addOnChangeListener { slider, value, fromUser ->
+        rangeSlider?.addOnChangeListener { slider, value, fromUser ->
 
             if (!fromUser) {
-                val values = rangeSlider.values
+                val values = rangeSlider?.values
 
-                val startMilli = values[0].times(videoLengthMilli).toLong()
-                val start = String.format(
-                    "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(startMilli),
-                    TimeUnit.MILLISECONDS.toMinutes(startMilli) % TimeUnit.HOURS.toMinutes(1),
-                    TimeUnit.MILLISECONDS.toSeconds(startMilli) % TimeUnit.MINUTES.toSeconds(1)
-                )
+                val startMilli = values?.get(0)?.times(videoLengthMilli)?.toLong()
+                val endMilli = values?.get(1)?.times(videoLengthMilli)?.toLong()
 
-                val endMilli = values[1].times(videoLengthMilli).toLong()
+                if (startMilli != null && endMilli != null) {
+                    val start = String.format(
+                        "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(startMilli),
+                        TimeUnit.MILLISECONDS.toMinutes(startMilli) % TimeUnit.HOURS.toMinutes(1),
+                        TimeUnit.MILLISECONDS.toSeconds(startMilli) % TimeUnit.MINUTES.toSeconds(1)
+                    )
 
-                val end = String.format(
-                    "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(endMilli),
-                    TimeUnit.MILLISECONDS.toMinutes(endMilli) % TimeUnit.HOURS.toMinutes(1),
-                    TimeUnit.MILLISECONDS.toSeconds(endMilli) % TimeUnit.MINUTES.toSeconds(1)
-                )
-                tvStart.text = start
-                tvEnd.text = end
 
-                Utils.startTimeMilli = startMilli.toInt()
-                Utils.endTimeMilli = endMilli.toInt()
-                updateInfo()
+                    val end = String.format(
+                        "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(endMilli),
+                        TimeUnit.MILLISECONDS.toMinutes(endMilli) % TimeUnit.HOURS.toMinutes(1),
+                        TimeUnit.MILLISECONDS.toSeconds(endMilli) % TimeUnit.MINUTES.toSeconds(1)
+                    )
+                    tvStart.text = start
+                    tvEnd.text = end
+
+                    Utils.startTimeMilli = startMilli.toInt()
+                    Utils.endTimeMilli = endMilli.toInt()
+                    updateInfo()
+                }
             }
         }
 
         Utils.startTimeMilli = 0
         Utils.endTimeMilli = (videoLengthMilli * 0.6f).toInt()
 
-        rangeSlider.setValues(0.4f, 0.6f)
+        rangeSlider?.setValues(0.4f, 0.6f)
 
         var sample = mediaRetriever.getFrameAtTime(
             TimeUnit.SECONDS.toMicros(1000),
@@ -221,21 +229,21 @@ class SimpleSetupActivity : AppCompatActivity() {
         Handler().postDelayed({
             val layoutManager =
                 LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
-            rvFilter.layoutManager = layoutManager
-            rvFilter.itemAnimator = DefaultItemAnimator()
-            rvFilter.adapter = filterAdapter
+            rvFilter?.layoutManager = layoutManager
+            rvFilter?.itemAnimator = DefaultItemAnimator()
+            rvFilter?.adapter = filterAdapter
         }, 2000)
 
         val reverseSwitcher = findViewById<SwitchCompat>(R.id.switch_reverse)
         val doubleSwitcher = findViewById<SwitchCompat>(R.id.switch_double)
-        reverseSwitcher.setOnCheckedChangeListener { _, value ->
+        reverseSwitcher?.setOnCheckedChangeListener { _, value ->
             Utils.reverseOrder = value
             if (value) {
                 doubleSwitcher.isChecked = false
             }
         }
 
-        doubleSwitcher.setOnCheckedChangeListener { _, value ->
+        doubleSwitcher?.setOnCheckedChangeListener { _, value ->
             Utils.double = value
             if (value) {
                 reverseSwitcher.isChecked = false
@@ -243,8 +251,8 @@ class SimpleSetupActivity : AppCompatActivity() {
         }
         val createGifButton = findViewById<Button>(R.id.btn_create_gif)
 
-        createGifButton.setOnClickListener {
-            Utils.frameFrequencyMilli = frequencyRange.value.toInt()
+        createGifButton?.setOnClickListener {
+            Utils.frameFrequencyMilli = frequencyRange?.value?.toInt()!!
             startActivity(Intent(this, GifCreatorActivity::class.java))
         }
         updateInfo()
@@ -256,9 +264,9 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         ratingDialog.show()
 
-        val mAdView = findViewById<View>(R.id.adView) as AdView
+        val mAdView = findViewById<View>(R.id.adView) as AdView?
         val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
+        mAdView?.loadAd(adRequest)
     }
 
     override fun onResume() {
@@ -268,26 +276,25 @@ class SimpleSetupActivity : AppCompatActivity() {
     }
 
     fun updateInfo() {
-
-        if (rangeSlider.values.size < 2) {
+        if (rangeSlider == null || rangeSlider?.values?.size!! < 2) {
             return
         }
-        val freq = frequencyRange.value
-        val start = rangeSlider.values[0].times(videoLengthMilli).toLong()
-        val end = rangeSlider.values[1].times(videoLengthMilli).toLong()
+        val freq = frequencyRange?.value
+        val start = rangeSlider?.values!![0].times(videoLengthMilli).toLong()
+        val end = rangeSlider?.values!![1].times(videoLengthMilli).toLong()
 
-        val frames: Int = ((end - start) / freq).roundToInt()
+        val frames: Int = ((end - start) / freq!!).roundToInt()
 
         if (frames > 100) {
-            ivWarning.visibility = View.VISIBLE
+            ivWarning?.visibility = View.VISIBLE
             ("Too many frame: $frames Length: " + TimeUnit.MILLISECONDS.toSeconds(
                 end - start
-            ) + " seconds").also { tvInfo.text = it }
+            ) + " seconds").also { tvInfo?.text = it }
         } else {
             ("Number of frames $frames Length: " + TimeUnit.MILLISECONDS.toSeconds(
                 end - start
-            ) + " seconds").also { tvInfo.text = it }
-            ivWarning.visibility = View.INVISIBLE
+            ) + " seconds").also { tvInfo?.text = it }
+            ivWarning?.visibility = View.INVISIBLE
         }
 
     }

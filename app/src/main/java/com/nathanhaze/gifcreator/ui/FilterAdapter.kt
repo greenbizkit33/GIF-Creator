@@ -53,13 +53,13 @@ internal class FilterAdapter(
             originalSelected = -1
             this.notifyItemChanged(lastSelected)
             lastSelected = holder.absoluteAdapterPosition
-            holder.title.setTextColor(context.getColor(R.color.materialRed))
+            holder.title.setTextColor(context.getColor(R.color.materialBlue))
             holder.selected = true
             holder.image.setColorFilter(R.color.materialBlue, PorterDuff.Mode.SRC_OVER)
         }
         if (holder.selected || originalSelected == position) {
             holder.title.typeface = Typeface.DEFAULT_BOLD
-            holder.title.setTextColor(context.getColor(R.color.materialRed))
+            holder.title.setTextColor(context.getColor(R.color.materialBlue))
             holder.image.setColorFilter(R.color.materialBlue, PorterDuff.Mode.SRC_OVER)
         }
         if (position == 0) {

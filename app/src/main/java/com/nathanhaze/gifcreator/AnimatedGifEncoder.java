@@ -1246,7 +1246,6 @@ class LZWEncoder {
             return true;
         } catch (OutOfMemoryError ex) {
             Utils.INSTANCE.setOutOfMemory(true);
-            Log.d("nathanx", "out of memory");
             EventBus.getDefault().post(new ProgressUpdateEvent("Out of memory", 0, false, false));
             FirebaseCrashlytics.getInstance().recordException(ex);
             throw new OutOfMemoryError();
@@ -1313,8 +1312,6 @@ class LZWEncoder {
                 cur_accum >>= 8;
                 cur_bits -= 8;
             }
-
-            Log.d("nathanx", "here 1");
             return flush_char(outs);
         }
         return true;

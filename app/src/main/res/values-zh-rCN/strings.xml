@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+      
+  <!-- IDs -->
+      
+  <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2377934805759836/6301605656</string>
+      
+  <string name="admob_account" translatable="false">ca-app-pub-2377934805759836~9426462443</string>
+      
+  <string name="preference_purchased" translatable="false">key purchased</string>
+      
+  <string name="preference_app" translatable="false">project pref</string>
+      
+  <string name="preference_path" translatable="false">key path</string>
+      
+  <string name="app_name">动图创作者</string>
+      
+  <string name="action_internal_folder">打开 GIF 画廊</string>
+      
+  <string name="create_gif">创建 GIF</string>
+      
+  <string name="start_over">重来</string>
+      
+  <string name="no_image">您没有更多图像，请提取更多图像</string>
+      
+  <string name="ok">好的</string>
+      
+  <string name="images">图片</string>
+      
+  <string name="select_all">全选</string>
+      
+  <string name="delete">删除</string>
+      
+  <string name="sorry_wrong">抱歉，出了一些问题</string>
+      
+  <string name="no_photo_gallery_app">您没有我可以找到的照片库应用程序。尝试下载一个并重新启动应用程序</string>
+      
+  <string name="cancel">取消</string>
+      
+  <string name="problem_deleting">删除文件时出现问题。</string>
+      
+  <string name="share">分享</string>
+      
+  <string name="range_frequency">每帧秒数：%1$s 秒</string>
+      
+  <string name="bitmap_size">GIF 的质量（尺寸）：%1$s</string>
+      
+  <string name="reverse_order">反转图像顺序</string>
+      
+  <string name="forward_plus_reverse">正常加反向</string>
+      
+  <string name="add_a_filter">添加过滤器</string>
+      
+  <string name="length">长度</string>
+      
+  <string name="out_memory_title">内存不足</string>
+      
+  <string name="out_memory_message">该应用程序在创建 GIF 时内存不足。尝试查看时间范围、频率或规模</string>
+      
+  <string name="no_filter">没有过滤器</string>
+      
+  <string name="set_start_and_end_time">设置开始和结束时间：</string>
+      
+  <string name="unselect">取消选择</string>
+      
+  <string name="gif" translatable="false">GIF</string>
+      
+  <string name="open_external_app">在外部应用程序中打开</string>
+  
+</resources>

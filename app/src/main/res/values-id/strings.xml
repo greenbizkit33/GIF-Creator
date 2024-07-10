@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+      
+  <!-- IDs -->
+      
+  <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2377934805759836/6301605656</string>
+      
+  <string name="admob_account" translatable="false">ca-app-pub-2377934805759836~9426462443</string>
+      
+  <string name="preference_purchased" translatable="false">key purchased</string>
+      
+  <string name="preference_app" translatable="false">project pref</string>
+      
+  <string name="preference_path" translatable="false">key path</string>
+      
+  <string name="app_name">Pembuat GIF</string>
+      
+  <string name="action_internal_folder">Buka Galeri GIF</string>
+      
+  <string name="create_gif">Buat GIF</string>
+      
+  <string name="start_over">Mulai dari awal</string>
+      
+  <string name="no_image">Anda tidak memiliki gambar lagi, ekstrak lebih banyak gambar</string>
+      
+  <string name="ok">OKE</string>
+      
+  <string name="images">GAMBAR-GAMBAR</string>
+      
+  <string name="select_all">Pilih Semua</string>
+      
+  <string name="delete">Menghapus</string>
+      
+  <string name="sorry_wrong">Maaf, ada yang tidak beres</string>
+      
+  <string name="no_photo_gallery_app">Anda tidak memiliki aplikasi galeri foto yang dapat saya temukan. Coba unduh satu dan mulai ulang aplikasi</string>
+      
+  <string name="cancel">Membatalkan</string>
+      
+  <string name="problem_deleting">Terjadi masalah saat menghapus file.</string>
+      
+  <string name="share">Membagikan</string>
+      
+  <string name="range_frequency">Detik per frame:  %1$s detik</string>
+      
+  <string name="bitmap_size">Kualitas GIF (ukuran):  %1$s</string>
+      
+  <string name="reverse_order">Urutan Gambar Terbalik</string>
+      
+  <string name="forward_plus_reverse">Normal Ditambah Terbalik</string>
+      
+  <string name="add_a_filter">Tambahkan penyaring</string>
+      
+  <string name="length">Panjang</string>
+      
+  <string name="out_memory_title">Kehabisan Memori</string>
+      
+  <string name="out_memory_message">Aplikasi kehabisan memori dan membuat GIF. Coba cari kerangka waktu, frekuensi atau ukurannya</string>
+      
+  <string name="no_filter">Tanpa Filter</string>
+      
+  <string name="set_start_and_end_time">Tetapkan waktu mulai dan berakhir:</string>
+      
+  <string name="unselect">Batalkan pilihan</string>
+      
+  <string name="gif" translatable="false">GIF</string>
+      
+  <string name="open_external_app">Buka di Aplikasi Eksternal</string>
+  
+</resources>
