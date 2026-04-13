@@ -5,9 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
+    <!-- Item 12: pinch-to-zoom via PhotoView -->
+    <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/tv_gif"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center" />
+
 </LinearLayout>

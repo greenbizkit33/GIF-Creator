@@ -13,47 +13,62 @@
         android:layoutDirection="ltr" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/ll_pager_controls"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="12dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
+        android:background="#CC000000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
         <ImageView
             android:id="@+id/iv_share"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="24dp"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
             android:clickable="true"
             android:contentDescription="@string/share"
             android:focusable="true"
+            android:scaleType="center"
             android:src="@drawable/ic_share"
-            ads:layout_constraintEnd_toEndOf="parent"
-            ads:layout_constraintTop_toTopOf="parent" />
+            android:tint="#FFFFFFFF" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:background="#44FFFFFF" />
 
         <ImageView
             android:id="@+id/iv_delete"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="24dp"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
             android:clickable="true"
             android:contentDescription="@string/delete"
             android:focusable="true"
-            android:src="@drawable/ic_delete" />
+            android:scaleType="center"
+            android:src="@drawable/ic_delete"
+            android:tint="#FFFFFFFF" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:background="#44FFFFFF" />
 
         <ImageView
             android:id="@+id/iv_open"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="24dp"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
             android:clickable="true"
             android:contentDescription="@string/open_external_app"
             android:focusable="true"
-            android:src="@drawable/ic_open_file" />
+            android:scaleType="center"
+            android:src="@drawable/ic_open_file"
+            android:tint="#FFFFFFFF" />
+
     </LinearLayout>
 
 

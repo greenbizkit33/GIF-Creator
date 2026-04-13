@@ -7,14 +7,14 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.nathanhaze.gifcreator"
         minSdk 23
-        targetSdk 34
-        versionCode 19
-        versionName "1.9"
+        targetSdk 36
+        versionCode 20260412
+        versionName "20260412"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,7 +30,7 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     namespace 'com.nathanhaze.gifcreator'
 
@@ -42,47 +42,36 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.core:core-ktx:1.18.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
 
-    implementation "com.google.android.gms:play-services-ads:23.2.0"
-    implementation 'com.google.android.material:material:1.12.0'
+    implementation "com.google.android.gms:play-services-ads:25.1.0"
+    implementation 'com.google.android.material:material:1.13.0'
 
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-analytics'
-
-//    implementation 'com.google.firebase:firebase-analytics:22.0.2'
-//    implementation 'com.google.firebase:firebase-crashlytics:19.0.2'
-
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation 'com.github.bumptech.glide:glide:5.0.5'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'org.greenrobot:eventbus:3.3.1'
 
-    implementation 'com.facebook.fresco:fresco:3.1.3'
+    implementation 'com.facebook.fresco:fresco:3.6.0'
     implementation 'me.relex:photodraweeview:2.1.0'
 
-    implementation group: 'com.github.ogapants.playercontrolview', name: 'playercontrolview', version: '1.0.1'
     implementation 'com.codemybrainsout.rating:ratingdialog:2.0.0'
 
     implementation 'com.github.sephiroth74:RangeSeekBar:1.1.0'
 
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.19.1'
-    implementation 'com.google.android.exoplayer:exoplayer-dash:2.19.1'
-    implementation 'com.google.android.exoplayer:exoplayer-ui:2.19.1'
-
-    implementation 'info.androidhive:imagefilters:1.0.7'
-
     implementation 'com.github.Mursaat:AnimatedGradientTextView:v0.0.6'
 
     implementation 'com.github.antonKozyriatskyi:CircularProgressIndicator:1.3.0'
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.24'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.31'
+    // Item 12: pinch-to-zoom in gallery pager
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
-    implementation platform('com.google.firebase:firebase-bom:30.2.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:19.0.2'
+    implementation platform('com.google.firebase:firebase-bom:34.12.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
 
 }

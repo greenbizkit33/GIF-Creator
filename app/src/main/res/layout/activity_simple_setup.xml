@@ -15,6 +15,7 @@
         android:maxHeight="300dp"
         tools:layout="@layout/fragment_video"
         tools:layout_height="80dp" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,8 +26,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- Frame frequency -->
             <androidx.cardview.widget.CardView style="@style/cardview">
-                <!-- Frame Freq -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -51,8 +52,36 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Item 2: Playback speed -->
             <androidx.cardview.widget.CardView style="@style/cardview">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
+                    <TextView
+                        android:id="@+id/tv_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/playback_speed"
+                        android:textColor="@color/card_text" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/s_speed"
+                        style="@style/Base.Sephiroth.Widget.RangeSeekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:stepSize="1"
+                        android:value="4"
+                        android:valueFrom="1"
+                        android:valueTo="8" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Time range -->
+            <androidx.cardview.widget.CardView style="@style/cardview">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -72,7 +101,6 @@
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp" />
 
-                    <!-- Start End Time -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -98,8 +126,8 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Bitmap size -->
             <androidx.cardview.widget.CardView style="@style/cardview">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -110,7 +138,7 @@
                         android:id="@+id/tv_size"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/range_frequency"
+                        android:text="@string/bitmap_size"
                         android:textColor="@color/card_text" />
 
                     <com.google.android.material.slider.Slider
@@ -125,6 +153,61 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Item 4: Aspect ratio -->
+            <androidx.cardview.widget.CardView style="@style/cardview">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/aspect_ratio"
+                        android:textColor="@color/card_text" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cg_aspect_ratio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        ads:singleSelection="true"
+                        ads:selectionRequired="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_ar_original"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ar_original" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_ar_square"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ar_square" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_ar_four_three"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ar_four_three" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_ar_sixteen_nine"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ar_sixteen_nine" />
+                    </com.google.android.material.chip.ChipGroup>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Filter strip -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -146,8 +229,32 @@
 
             </RelativeLayout>
 
+            <!-- Item 7: Caption / text overlay -->
             <androidx.cardview.widget.CardView style="@style/cardview">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_caption">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_caption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Reverse order -->
+            <androidx.cardview.widget.CardView style="@style/cardview">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -169,6 +276,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Forward + Reverse (hidden by default) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -190,6 +298,70 @@
 
             </LinearLayout>
 
+            <!-- Item 8: Loop count -->
+            <androidx.cardview.widget.CardView style="@style/cardview">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/tv_loop_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/loop_count_infinite"
+                        android:textColor="@color/card_text" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/s_loop_count"
+                        style="@style/Base.Sephiroth.Widget.RangeSeekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:stepSize="1"
+                        android:value="0"
+                        android:valueFrom="0"
+                        android:valueTo="10" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Item 1: Frame preview strip -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_frame_preview_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/frame_preview"
+                    android:textColor="@color/card_text" />
+
+                <TextView
+                    android:id="@+id/tv_preview_loading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_frame_preview_label"
+                    android:text="@string/loading_preview"
+                    android:textColor="@color/card_text"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_frame_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_below="@id/tv_frame_preview_label"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="4dp"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <!-- Info + warning -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

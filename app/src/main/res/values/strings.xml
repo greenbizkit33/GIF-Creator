@@ -46,4 +46,62 @@
     <string name="unselect">Unselect</string>
     <string name="gif" translatable="false">GIF</string>
     <string name="open_external_app">Open in External App</string>
+
+    <!-- Speed control (item 2) -->
+    <string name="playback_speed">Playback speed: %1$s×</string>
+
+    <!-- Aspect ratio (item 4) -->
+    <string name="aspect_ratio">Crop to aspect ratio</string>
+    <string name="ar_original">Original</string>
+    <string name="ar_square">1:1</string>
+    <string name="ar_four_three">4:3</string>
+    <string name="ar_sixteen_nine">16:9</string>
+
+    <!-- Caption (item 7) -->
+    <string name="add_caption">Add a caption (optional)</string>
+
+    <!-- Loop count (item 8) -->
+    <string name="loop_count_infinite">Loop: ∞ (infinite)</string>
+    <string name="loop_count_n">Loop: %1$s×</string>
+    <string name="loop_count_label">Loop count</string>
+
+    <!-- Frame preview strip (item 1) -->
+    <string name="frame_preview">Frame preview</string>
+    <string name="loading_preview">Loading…</string>
+
+    <!-- Per-frame editing (item 6) -->
+    <string name="review_frames">Review frames — tap × to remove</string>
+    <string name="encode_selected">Encode GIF</string>
+
+    <!-- ETA (item 3) -->
+    <string name="time_remaining">~%1$s remaining</string>
+
+    <!-- GIF size estimate (item 5) -->
+    <string name="estimated_size">Est. size: ~%1$s</string>
+
+    <!-- MP4 export (item 14) -->
+    <string name="save_as_mp4">Save Clip as MP4</string>
+    <string name="mp4_saved">MP4 saved to gallery</string>
+    <string name="mp4_error">Failed to export MP4</string>
+
+    <!-- Progress messages -->
+    <string name="progress_starting">Starting up…</string>
+    <string name="progress_saving">Saving GIF</string>
+    <string name="progress_generating">Generating GIF</string>
+    <string name="progress_no_frames">No frames found</string>
+    <string name="progress_done">Done</string>
+    <string name="progress_adding_frame">Adding frame %1$d of %2$d</string>
+    <string name="progress_error">Something went wrong: %1$s</string>
+    <string name="frames_left">Frames left: %1$d</string>
+
+    <!-- Info / stats bar -->
+    <string name="info_frames">Frames: %1$d  Length: %2$ds%3$s%4$s</string>
+    <string name="info_too_many_frames">Too many frames: %1$d  Length: %2$ds%3$s%4$s</string>
+    <string name="info_est_size">  Est: %1$s</string>
+    <string name="info_order_forward"> → → →</string>
+    <string name="info_order_reverse"> ← ← ←</string>
+    <string name="info_order_bounce"> → ← →</string>
+
+    <!-- Frame thumb -->
+    <string name="remove_frame">Remove frame</string>
 </resources>

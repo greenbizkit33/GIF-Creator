@@ -9,7 +9,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:background="@color/black"
         tools:context=".activity.GifCreatorActivity">
 
         <LinearLayout
@@ -30,6 +29,18 @@
                 android:textColor="@color/primaryTextColor"
                 android:textSize="16sp"
                 tools:text="TEST" />
+
+            <!-- Item 3: ETA / time remaining -->
+            <TextView
+                android:id="@+id/tv_eta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="13sp"
+                android:visibility="gone"
+                tools:text="~12s remaining" />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progress_circular"
@@ -60,6 +71,47 @@
             tools:layout_height="500dp"
             tools:layout_width="400dp" />
 
+        <!-- Item 6: Per-frame editing -->
+        <LinearLayout
+            android:id="@+id/ll_frame_editing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_gif"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/review_frames"
+                android:textColor="@color/primaryTextColor" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_frame_editor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp" />
+
+            <Button
+                android:id="@+id/btn_encode_selected"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="40dp"
+                android:text="@string/encode_selected" />
+
+        </LinearLayout>
+
+        <!-- Results: share / open / start over / MP4 export -->
         <LinearLayout
             android:id="@+id/ll_selection"
             android:layout_width="match_parent"
@@ -102,6 +154,24 @@
                 android:paddingRight="40dp"
                 android:paddingBottom="12dp"
                 android:text="@string/share" />
+
+            <!-- Item 14: Export as MP4 -->
+            <Button
+                android:id="@+id/button_save_mp4"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="40dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingLeft="40dp"
+                android:paddingTop="12dp"
+                android:paddingRight="40dp"
+                android:paddingBottom="12dp"
+                android:text="@string/save_as_mp4" />
 
             <Button
                 android:id="@+id/button_start_over"

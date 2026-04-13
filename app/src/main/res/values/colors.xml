@@ -79,5 +79,7 @@
     <color name="card_text">#000000</color>
 
     <color name="icon">#ffffff</color>
+    <color name="primaryTextColor">#1A1C1E</color>
+    <color name="materialBlue">#2196F3</color>
 
 </resources>

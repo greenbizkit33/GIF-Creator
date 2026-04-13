@@ -86,22 +86,23 @@ object ImageUtil {
     fun saveGif(bitmaps: ArrayList<Bitmap>, context: Context?) {
         var filePath: File? = null
         try {
-            EventBus.getDefault()
-                .post(ProgressUpdateEvent("Saving GIF", Utils.endTimeMilli, false, false))
+            EventBus.getDefault().post(
+                ProgressUpdateEvent(
+                    context?.getString(com.nathanhaze.gifcreator.R.string.progress_saving) ?: "Saving GIF",
+                    Utils.endTimeMilli, false, false
+                )
+            )
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
             val file: File = File(getPath())
             if (!file.exists()) {
                 file.mkdir()
             }
 
-            filePath = File(
-                getPath(),
-                "GIF_$timeStamp.gif"
-            )
+            filePath = File(getPath(), "GIF_$timeStamp.gif")
 
             filePath.createNewFile()
             val outStream = FileOutputStream(filePath)
-            outStream.write(bitmaps.let { generateGIF(it) })
+            outStream.write(bitmaps.let { generateGIF(it, context) })
             outStream.close()
             val event = GifCreationEvent(filePath, false)
             Utils.lastGifFilePath = filePath
@@ -111,10 +112,9 @@ object ImageUtil {
             filePath?.delete()
             EventBus.getDefault().post(
                 ProgressUpdateEvent(
-                    "Something bad happen " + e.localizedMessage,
-                    Utils.endTimeMilli,
-                    false,
-                    false
+                    context?.getString(com.nathanhaze.gifcreator.R.string.progress_error, e.localizedMessage)
+                        ?: "Something went wrong: ${e.localizedMessage}",
+                    Utils.endTimeMilli, false, false
                 )
             )
             EventBus.getDefault().post(GifCreationEvent(null, true))
@@ -122,29 +122,34 @@ object ImageUtil {
         }
     }
 
-    fun generateGIF(bitmaps: ArrayList<Bitmap>): ByteArray? {
+    fun generateGIF(bitmaps: ArrayList<Bitmap>, context: Context? = null): ByteArray? {
         EventBus.getDefault().post(
             ProgressUpdateEvent(
-                "Have images generating GIF",
-                Utils.endTimeMilli - 100,
-                false,
-                false
+                context?.getString(com.nathanhaze.gifcreator.R.string.progress_generating) ?: "Generating GIF",
+                Utils.endTimeMilli - 100, false, false
             )
         )
         if (bitmaps.isEmpty()) {
             EventBus.getDefault().post(
                 ProgressUpdateEvent(
-                    "Images was empty",
-                    Utils.endTimeMilli - 200,
-                    false,
-                    false
+                    context?.getString(com.nathanhaze.gifcreator.R.string.progress_no_frames) ?: "No frames found",
+                    Utils.endTimeMilli - 200, false, false
                 )
             )
             return null
         }
         val bos = ByteArrayOutputStream()
         val encoder = AnimatedGifEncoder()
-        encoder.setDelay(Utils.frameFrequencyMilli)
+        // Item 2: playback speed multiplier scales the per-frame delay
+        val frameDelayMs = (Utils.frameFrequencyMilli / Utils.playbackSpeed).toInt().coerceAtLeast(20)
+        encoder.setDelay(frameDelayMs)
+        // Item 8: loop count (0=infinite, 1=play once via repeat=-1, n>=2 → repeat=n-1)
+        val repeat = when (Utils.loopCount) {
+            0 -> 0   // infinite
+            1 -> -1  // no Netscape extension = play once
+            else -> Utils.loopCount - 1
+        }
+        encoder.setRepeat(repeat)
         encoder.start(bos)
         var index = 0
         for (bitmap in bitmaps) {
@@ -155,18 +160,20 @@ object ImageUtil {
             index++
             EventBus.getDefault().post(
                 ProgressUpdateEvent(
-                    "Adding Image " + index + " of " + bitmaps.size + " to GIF",
-                    index,
-                    false,
-                    true
+                    context?.getString(com.nathanhaze.gifcreator.R.string.progress_adding_frame, index, bitmaps.size)
+                        ?: "Adding frame $index of ${bitmaps.size}",
+                    index, false, true
                 )
             )
-
             bitmap.recycle()
         }
         encoder.finish()
-        EventBus.getDefault()
-            .post(ProgressUpdateEvent("Done Generating GIF", Utils.endTimeMilli, false, false))
+        EventBus.getDefault().post(
+            ProgressUpdateEvent(
+                context?.getString(com.nathanhaze.gifcreator.R.string.progress_done) ?: "Done",
+                Utils.endTimeMilli, false, false
+            )
+        )
         return bos.toByteArray()
     }
 }

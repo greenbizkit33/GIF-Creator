@@ -13,10 +13,10 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.nathanhaze.gifcreator.R
 import com.nathanhaze.gifcreator.manager.Utils
-import com.zomato.photofilters.imageprocessors.Filter
+import com.nathanhaze.gifcreator.filter.BitmapFilter
 
 internal class FilterAdapter(
-    private var filterList: List<Filter>,
+    private var filterList: List<BitmapFilter>,
     private var sample: Bitmap?,
     private var context: Context
 ) :
@@ -69,7 +69,7 @@ internal class FilterAdapter(
             )
         } else {
             val filter = filterList[position - 1]
-            holder.title.text = filter.name
+            holder.title.text = ""
             if (filter != null && sample != null && sample?.height!! > 0) {
                 try {
                     holder.image.setImageBitmap(

@@ -8,7 +8,7 @@ import android.util.DisplayMetrics
 import com.google.android.gms.ads.AdSize
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.nathanhaze.gifcreator.R
-import com.zomato.photofilters.imageprocessors.Filter
+import com.nathanhaze.gifcreator.filter.BitmapFilter
 import java.io.File
 
 object Utils {
@@ -19,18 +19,33 @@ object Utils {
     var startTimeMilli = 0
     var size = 100F
     var endTimeMilli = 0
-    var filter: Filter? = null
+    var filter: BitmapFilter? = null
     var reverseOrder = false
     var double = false
     var outOfMemory = false
     var isGettingImages = false
     var lastGifFilePath: File? = null
 
+    // Item 2 – playback speed multiplier (affects GIF frame delay, not extraction)
+    var playbackSpeed: Float = 1.0f
+
+    // Item 4 – crop aspect ratio (0=original, 1=1:1, 2=4:3, 3=16:9)
+    var aspectRatioIndex: Int = 0
+
+    // Item 7 – text caption drawn on every frame
+    var captionText: String = ""
+
+    // Item 8 – loop count (0=infinite, 1=play once / no loop, 2+=loop n times)
+    var loopCount: Int = 0
+
     fun resetValues() {
         filter = null
         reverseOrder = false
         double = false
-
+        playbackSpeed = 1.0f
+        aspectRatioIndex = 0
+        captionText = ""
+        loopCount = 0
     }
 
     fun getPurchased(activity: Activity): Boolean {

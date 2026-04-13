@@ -10,6 +10,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.NavUtils
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
@@ -54,6 +56,11 @@ class GalleryFragment : Fragment() {
         application = requireActivity().application as GifCreatorApp
         val layout = GridLayoutManager(application!!.applicationContext, 2)
         recyclerview = view.findViewById(R.id.rv_gallery)
+        ViewCompat.setOnApplyWindowInsetsListener(recyclerview!!) { v, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, bars.bottom)
+            insets
+        }
         galleryControls = view.findViewById(R.id.ll_gallery_controls)
         galleryControls?.translationX = -CONTROLS_DISTANCE.toFloat()
         trashButton = view.findViewById(R.id.iv_delete)

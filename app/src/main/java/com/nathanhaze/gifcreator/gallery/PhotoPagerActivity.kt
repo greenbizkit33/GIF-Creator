@@ -6,8 +6,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.core.content.FileProvider
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -26,8 +30,16 @@ class PhotoPagerActivity : FragmentActivity() {
     private var path: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_photo_pager)
         viewPager = findViewById(R.id.view_pager)
+        // Only lift the bottom controls above the nav bar; the pager fills the full screen
+        val bottomBar = findViewById<LinearLayout>(R.id.ll_pager_controls)
+        ViewCompat.setOnApplyWindowInsetsListener(bottomBar) { v, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(0, v.paddingTop, 0, bars.bottom)
+            insets
+        }
         application = getApplication() as GifCreatorApp
         val intent = intent
         val bundle = intent.extras

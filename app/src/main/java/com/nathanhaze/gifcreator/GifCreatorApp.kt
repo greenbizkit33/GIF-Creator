@@ -38,11 +38,8 @@ class GifCreatorApp : Application() {
     fun getListFiles(): List<String?>? {
         val fileList: Array<File> = getParentFolder()?.listFiles()
             ?: return emptyList()
-        val length = fileList.size // null pointer
-        val stringList: MutableList<String> = mutableListOf()
-        for (i in 0 until length) {
-            stringList.add(fileList[i].absolutePath)
-        }
-        return stringList
+        // Item 11: sort newest first
+        return fileList.sortedByDescending { it.lastModified() }
+            .map { it.absolutePath }
     }
 }
