@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Preview -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="#000000">
+
+                <View
+                    android:id="@+id/caption_bg_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_gravity="bottom"
+                    android:background="#99000000"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_caption_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="Your caption"
+                    android:textColor="#FFFFFF"
+                    android:textSize="22sp" />
+
+            </FrameLayout>
+
+            <!-- Caption text -->
+            <androidx.cardview.widget.CardView style="@style/cardview">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_caption">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_caption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Position -->
+            <androidx.cardview.widget.CardView style="@style/cardview">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/caption_position"
+                        android:textColor="@color/card_text" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cg_position"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        ads:singleSelection="true"
+                        ads:selectionRequired="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_pos_bottom"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/caption_pos_bottom" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_pos_center"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/caption_pos_center" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_pos_top"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/caption_pos_top" />
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Style -->
+            <androidx.cardview.widget.CardView style="@style/cardview">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/caption_style"
+                        android:textColor="@color/card_text" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cg_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        ads:singleSelection="true"
+                        ads:selectionRequired="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_style_normal"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/caption_style_normal" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_style_bold"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/caption_style_bold" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_style_outline"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/caption_style_outline" />
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Color -->
+            <androidx.cardview.widget.CardView style="@style/cardview">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/caption_color"
+                        android:textColor="@color/card_text" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_colors"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!-- Swatch buttons added programmatically -->
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Size -->
+            <androidx.cardview.widget.CardView style="@style/cardview">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/tv_size_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/caption_size"
+                        android:textColor="@color/card_text" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/slider_caption_size"
+                        style="@style/Base.Sephiroth.Widget.RangeSeekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:valueFrom="4"
+                        android:valueTo="15" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Background bar -->
+            <androidx.cardview.widget.CardView style="@style/cardview">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/caption_background"
+                        android:textColor="@color/card_text" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_caption_bg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_apply_caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        android:text="@string/caption_apply" />
+
+</LinearLayout>

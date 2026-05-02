@@ -58,15 +58,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, PhotoGallery::class.java)
             startActivity(intent)
         })
-        val setting = findViewById<View>(R.id.iv_setting) as ImageView
-        setting.setOnClickListener {
-//            startActivity(
-//                Intent(
-//                    applicationContext,
-//                    SettingActivity::class.java
-//                )
-//            )
-        }
         pd = ProgressDialog(this)
         pd!!.setCancelable(false)
         pd!!.setCanceledOnTouchOutside(false)
@@ -119,11 +110,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun getVideoLength(path: String): Long {
         val retriever = MediaMetadataRetriever()
-        retriever.setDataSource(path)
-        val time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-        val timeInMillisec = time!!.toLong()
-        retriever.release()
-        return timeInMillisec
+        return try {
+            retriever.setDataSource(path)
+            retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong() ?: 0L
+        } finally {
+            retriever.release()
+        }
     }
 
     private fun importVideo() {
@@ -170,7 +162,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (null == data || resultCode != RESULT_OK || null == data) {
+        if (null == data || resultCode != RESULT_OK) {
             return
         }
         val selectedImage = data.data
@@ -179,30 +171,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleUri(selectedImage: Uri?): Boolean {
         val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-        var cursor: Cursor? = null
-        cursor = try {
-            contentResolver.query(
-                selectedImage!!,
-                filePathColumn, null, null, null
-            )
+        val cursor = try {
+            contentResolver.query(selectedImage!!, filePathColumn, null, null, null)
         } catch (ex: Exception) {
             return false
         }
-        if (cursor == null || cursor.count < 1) {
-            return false // no cursor or no record. DO YOUR ERROR HANDLING
-        }
-        cursor.moveToFirst()
-        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-        if (columnIndex < 0) { // no column index
-            return false
-        }
-        val path = cursor.getString(columnIndex)
-        return if (path != null) {
+        cursor?.use {
+            if (it.count < 1) return false
+            it.moveToFirst()
+            val columnIndex = it.getColumnIndex(filePathColumn[0])
+            if (columnIndex < 0) return false
+            val path = it.getString(columnIndex) ?: return false
             handleVideo(path)
-            true
-        } else {
-            false
+            return true
         }
+        return false
     }
 
     override fun onRequestPermissionsResult(

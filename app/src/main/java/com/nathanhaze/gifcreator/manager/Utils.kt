@@ -3,6 +3,7 @@ package com.nathanhaze.gifcreator.manager
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.DisplayMetrics
 import com.google.android.gms.ads.AdSize
@@ -34,9 +35,17 @@ object Utils {
 
     // Item 7 – text caption drawn on every frame
     var captionText: String = ""
+    var captionColor: Int = Color.WHITE
+    var captionSizeMultiplier: Float = 0.07f   // fraction of frame height
+    var captionPosition: Int = 0               // 0=bottom, 1=center, 2=top
+    var captionBackground: Boolean = false     // draw semi-transparent bar behind text
+    var captionStyle: Int = 0                  // 0=normal, 1=bold, 2=outline
 
     // Item 8 – loop count (0=infinite, 1=play once / no loop, 2+=loop n times)
     var loopCount: Int = 0
+
+    // Skip the review-frames step and go straight to encoding
+    var skipFrameReview: Boolean = false
 
     fun resetValues() {
         filter = null
@@ -45,6 +54,11 @@ object Utils {
         playbackSpeed = 1.0f
         aspectRatioIndex = 0
         captionText = ""
+        captionColor = Color.WHITE
+        captionSizeMultiplier = 0.07f
+        captionPosition = 0
+        captionBackground = false
+        captionStyle = 0
         loopCount = 0
     }
 

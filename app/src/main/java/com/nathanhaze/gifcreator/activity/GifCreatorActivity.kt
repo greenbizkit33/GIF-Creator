@@ -162,6 +162,13 @@ class GifCreatorActivity : AppCompatActivity() {
         mAdView = findViewById<View>(R.id.adView) as AdView
     }
 
+    override fun onPause() {
+        super.onPause()
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         if (!EventBus.getDefault().isRegistered(this)) {
@@ -204,44 +211,50 @@ class GifCreatorActivity : AppCompatActivity() {
 
             val frameList = ArrayList<Bitmap>()
             val mediaRetriever = MediaMetadataRetriever()
-            mediaRetriever.setDataSource(filePath)
+            try {
+                mediaRetriever.setDataSource(filePath)
 
-            var currentMilli = Utils.startTimeMilli
-            val endMilli = Utils.endTimeMilli
+                var currentMilli = Utils.startTimeMilli
+                val endMilli = Utils.endTimeMilli
 
-            while (currentMilli < endMilli && !stopThread) {
-                EventBus.getDefault().post(ProgressUpdateEvent("", currentMilli, true, false))
+                while (currentMilli < endMilli && !stopThread) {
+                    EventBus.getDefault().post(ProgressUpdateEvent("", currentMilli, true, false))
 
-                var bitmap = mediaRetriever.getFrameAtTime(
-                    TimeUnit.MILLISECONDS.toMicros(currentMilli.toLong()),
-                    MediaMetadataRetriever.OPTION_CLOSEST
-                )
-
-                // Scale
-                bitmap = bitmap?.let {
-                    Bitmap.createScaledBitmap(
-                        it,
-                        (it.width * Utils.size).toInt().coerceAtLeast(1),
-                        (it.height * Utils.size).toInt().coerceAtLeast(1),
-                        true
+                    val raw = mediaRetriever.getFrameAtTime(
+                        TimeUnit.MILLISECONDS.toMicros(currentMilli.toLong()),
+                        MediaMetadataRetriever.OPTION_CLOSEST
                     )
+
+                    // Scale
+                    var bitmap = raw?.let { src ->
+                        val scaled = Bitmap.createScaledBitmap(
+                            src,
+                            (src.width * Utils.size).toInt().coerceAtLeast(1),
+                            (src.height * Utils.size).toInt().coerceAtLeast(1),
+                            true
+                        )
+                        if (scaled != src) src.recycle()
+                        scaled
+                    }
+
+                    // Item 4: Crop to aspect ratio
+                    bitmap = bitmap?.let { cropToAspectRatio(it) }
+
+                    // Filter
+                    if (Utils.filter != null) {
+                        bitmap = Utils.filter?.processFilter(bitmap)
+                    }
+
+                    // Item 7: Caption overlay
+                    if (bitmap != null && Utils.captionText.isNotBlank()) {
+                        bitmap = drawCaption(bitmap, Utils.captionText)
+                    }
+
+                    bitmap?.let { frameList.add(it) }
+                    currentMilli += Utils.frameFrequencyMilli
                 }
-
-                // Item 4: Crop to aspect ratio
-                bitmap = bitmap?.let { cropToAspectRatio(it) }
-
-                // Filter
-                if (Utils.filter != null) {
-                    bitmap = Utils.filter?.processFilter(bitmap)
-                }
-
-                // Item 7: Caption overlay
-                if (bitmap != null && Utils.captionText.isNotBlank()) {
-                    bitmap = drawCaption(bitmap, Utils.captionText)
-                }
-
-                bitmap?.let { frameList.add(it) }
-                currentMilli += Utils.frameFrequencyMilli
+            } finally {
+                mediaRetriever.release()
             }
 
             if (!stopThread) {
@@ -260,10 +273,14 @@ class GifCreatorActivity : AppCompatActivity() {
         }
     }
 
-    // Item 6: Show frame editing UI after extraction
+    // Item 6: Show frame editing UI after extraction (or skip straight to encoding)
     @Subscribe
     fun onEvent(event: FramesExtractedEvent) {
         numberFrames = event.frames.size
+        if (Utils.skipFrameReview) {
+            encodeFrames(event.frames)
+            return
+        }
         runOnUiThread {
             progressbar.visibility = View.GONE
             tvProgress.visibility = View.GONE
@@ -435,20 +452,70 @@ class GifCreatorActivity : AppCompatActivity() {
         }
     }
 
-    // ── Item 7: Draw caption text at the bottom of the frame ─────────────────
+    // ── Item 7: Draw caption text on the frame ───────────────────────────────
     private fun drawCaption(src: Bitmap, text: String): Bitmap {
         val result = src.copy(src.config ?: Bitmap.Config.ARGB_8888, true)
         val canvas = Canvas(result)
-        val textSize = (src.height * 0.07f).coerceIn(14f, 48f)
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.WHITE
-            this.textSize = textSize
-            setShadowLayer(3f, 1f, 1f, Color.BLACK)
-            textAlign = Paint.Align.CENTER
-        }
+        val textSize = (src.height * Utils.captionSizeMultiplier).coerceIn(12f, 120f)
+
         val x = src.width / 2f
-        val y = src.height - textSize * 0.5f
-        canvas.drawText(text, x, y, paint)
+        val y = when (Utils.captionPosition) {
+            2 -> textSize * 1.2f                      // top
+            1 -> src.height / 2f + textSize / 3f      // center
+            else -> src.height - textSize * 0.4f       // bottom
+        }
+
+        if (Utils.captionBackground) {
+            val barPaint = Paint().apply { color = Color.argb(160, 0, 0, 0) }
+            canvas.drawRect(0f, y - textSize * 1.1f, src.width.toFloat(), y + textSize * 0.4f, barPaint)
+        }
+
+        when (Utils.captionStyle) {
+            1 -> { // Bold
+                val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    color = Utils.captionColor
+                    this.textSize = textSize
+                    typeface = android.graphics.Typeface.DEFAULT_BOLD
+                    setShadowLayer(4f, 1f, 1f, Color.BLACK)
+                    textAlign = Paint.Align.CENTER
+                }
+                canvas.drawText(text, x, y, paint)
+            }
+            2 -> { // Outline: stroke pass first, then fill pass
+                val strokeColor = Color.rgb(
+                    255 - Color.red(Utils.captionColor),
+                    255 - Color.green(Utils.captionColor),
+                    255 - Color.blue(Utils.captionColor)
+                )
+                val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    color = strokeColor
+                    this.textSize = textSize
+                    typeface = android.graphics.Typeface.DEFAULT_BOLD
+                    style = Paint.Style.STROKE
+                    strokeWidth = textSize * 0.08f
+                    textAlign = Paint.Align.CENTER
+                }
+                val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    color = Utils.captionColor
+                    this.textSize = textSize
+                    typeface = android.graphics.Typeface.DEFAULT_BOLD
+                    style = Paint.Style.FILL
+                    textAlign = Paint.Align.CENTER
+                }
+                canvas.drawText(text, x, y, strokePaint)
+                canvas.drawText(text, x, y, fillPaint)
+            }
+            else -> { // Normal
+                val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    color = Utils.captionColor
+                    this.textSize = textSize
+                    setShadowLayer(4f, 1f, 1f, Color.BLACK)
+                    textAlign = Paint.Align.CENTER
+                }
+                canvas.drawText(text, x, y, paint)
+            }
+        }
+
         return result
     }
 }

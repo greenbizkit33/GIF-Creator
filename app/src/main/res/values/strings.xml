@@ -59,6 +59,20 @@
 
     <!-- Caption (item 7) -->
     <string name="add_caption">Add a caption (optional)</string>
+    <string name="caption_button_empty">Caption: none</string>
+    <string name="caption_button_set">Caption: "%1$s"</string>
+    <string name="caption_position">Position</string>
+    <string name="caption_pos_bottom">Bottom</string>
+    <string name="caption_pos_center">Center</string>
+    <string name="caption_pos_top">Top</string>
+    <string name="caption_color">Text color</string>
+    <string name="caption_size">Text size</string>
+    <string name="caption_background">Background bar</string>
+    <string name="caption_apply">Apply</string>
+    <string name="caption_style">Style</string>
+    <string name="caption_style_normal">Normal</string>
+    <string name="caption_style_bold">Bold</string>
+    <string name="caption_style_outline">Outline</string>
 
     <!-- Loop count (item 8) -->
     <string name="loop_count_infinite">Loop: ∞ (infinite)</string>
@@ -72,6 +86,7 @@
     <!-- Per-frame editing (item 6) -->
     <string name="review_frames">Review frames — tap × to remove</string>
     <string name="encode_selected">Encode GIF</string>
+    <string name="review_frames_toggle">Review frames before encoding</string>
 
     <!-- ETA (item 3) -->
     <string name="time_remaining">~%1$s remaining</string>
@@ -95,12 +110,9 @@
     <string name="frames_left">Frames left: %1$d</string>
 
     <!-- Info / stats bar -->
-    <string name="info_frames">Frames: %1$d  Length: %2$ds%3$s%4$s</string>
-    <string name="info_too_many_frames">Too many frames: %1$d  Length: %2$ds%3$s%4$s</string>
-    <string name="info_est_size">  Est: %1$s</string>
-    <string name="info_order_forward"> → → →</string>
-    <string name="info_order_reverse"> ← ← ←</string>
-    <string name="info_order_bounce"> → ← →</string>
+    <string name="info_frames">%1$d frames · %2$ds%3$s</string>
+    <string name="info_too_many_frames">%1$d frames (a lot!) · %2$ds%3$s</string>
+    <string name="info_est_size"> · Est. %1$s</string>
 
     <!-- Frame thumb -->
     <string name="remove_frame">Remove frame</string>

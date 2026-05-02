@@ -35,7 +35,7 @@ class FramePreviewAdapter(
             holder.removeBtn.visibility = View.VISIBLE
             holder.removeBtn.setOnClickListener {
                 val pos = holder.absoluteAdapterPosition
-                if (pos != RecyclerView.NO_ID.toInt()) {
+                if (pos != RecyclerView.NO_POSITION) {
                     frames.removeAt(pos)
                     notifyItemRemoved(pos)
                     notifyItemRangeChanged(pos, frames.size)

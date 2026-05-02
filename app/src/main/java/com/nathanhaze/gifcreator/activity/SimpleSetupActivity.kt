@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.ViewCompat
@@ -26,18 +27,14 @@ import com.google.android.gms.ads.AdView
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
-import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.nathanhaze.gifcreator.R
 import com.nathanhaze.gifcreator.filter.BitmapFilters
 import com.nathanhaze.gifcreator.manager.Utils
 import com.nathanhaze.gifcreator.ui.FilterAdapter
-import com.nathanhaze.gifcreator.ui.FramePreviewAdapter
 import java.math.RoundingMode
 import java.text.DecimalFormat
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
@@ -51,12 +48,15 @@ class SimpleSetupActivity : AppCompatActivity() {
     private var videoLengthMilli: Float = 0F
     private var videoWidth: Int = 0
     private var videoHeight: Int = 0
+    private var btnCaption: Button? = null
+    private var filterHandler: Handler? = null
+    private var filterRunnable: Runnable? = null
 
-    // Item 1: frame preview strip
-    private var previewAdapter: FramePreviewAdapter? = null
-    private var previewExecutor: ExecutorService? = null
-    private val previewHandler = Handler(Looper.getMainLooper())
-    private var previewRunnable: Runnable? = null
+    private val captionLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) updateCaptionButton()
+    }
 
     // Item 9: prefs
     private val PREF_NAME = "setup_prefs"
@@ -64,6 +64,7 @@ class SimpleSetupActivity : AppCompatActivity() {
     private val PREF_SIZE = "size"
     private val PREF_SPEED = "speed"
     private val PREF_LOOP = "loop"
+    private val PREF_REVIEW_FRAMES = "review_frames"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,7 +126,11 @@ class SimpleSetupActivity : AppCompatActivity() {
         chipGroup.check(R.id.chip_ar_original)
 
         // ── Item 7: Caption ──────────────────────────────────────────────────
-        val etCaption = findViewById<TextInputEditText>(R.id.et_caption)
+        btnCaption = findViewById(R.id.btn_caption)
+        updateCaptionButton()
+        btnCaption?.setOnClickListener {
+            captionLauncher.launch(Intent(this, CaptionActivity::class.java))
+        }
 
         // ── Size slider ──────────────────────────────────────────────────────
         sliderSize?.addOnChangeListener { _, value, _ ->
@@ -139,7 +144,6 @@ class SimpleSetupActivity : AppCompatActivity() {
         frequencyRange?.addOnChangeListener { _, value, _ ->
             tvFreq.text = getString(R.string.range_frequency, df.format(value / 1000))
             updateInfo()
-            schedulePreviewUpdate()
             savePrefs()
         }
 
@@ -197,7 +201,6 @@ class SimpleSetupActivity : AppCompatActivity() {
                 Utils.endTimeMilli = endMilli.toInt()
 
                 updateInfo()
-                schedulePreviewUpdate()
             }
         }
 
@@ -219,7 +222,6 @@ class SimpleSetupActivity : AppCompatActivity() {
         sliderSize?.value = prefs.getFloat(PREF_SIZE, 70f).coerceIn(10f, 100f)
         sliderSpeed.value = prefs.getFloat(PREF_SPEED, 4f).coerceIn(1f, 8f)
         sliderLoop.value = prefs.getFloat(PREF_LOOP, 0f).coerceIn(0f, 10f)
-
         // Sync labels after restoring prefs
         frequencyRange?.value?.let { tvFreq.text = getString(R.string.range_frequency, df.format(it / 1000)) }
         sliderSize?.value?.let { v ->
@@ -244,23 +246,18 @@ class SimpleSetupActivity : AppCompatActivity() {
             MediaMetadataRetriever.OPTION_CLOSEST_SYNC
         )
         sample = sample?.let { Bitmap.createScaledBitmap(it, 128, 128, true) }
+        mediaRetriever.release()
 
         val filters = BitmapFilters.getFilterPack()
         filterAdapter = FilterAdapter(filters, sample, applicationContext)
-        Handler(Looper.getMainLooper()).postDelayed({
+        filterHandler = Handler(Looper.getMainLooper())
+        filterRunnable = Runnable {
             val layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
             rvFilter?.layoutManager = layoutManager
             rvFilter?.itemAnimator = DefaultItemAnimator()
             rvFilter?.adapter = filterAdapter
-        }, 2000)
-
-        // ── Item 1: Frame preview strip ──────────────────────────────────────
-        val rvPreview = findViewById<RecyclerView>(R.id.rv_frame_preview)
-        val tvPreviewLoading = findViewById<TextView>(R.id.tv_preview_loading)
-        previewAdapter = FramePreviewAdapter(mutableListOf())
-        rvPreview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        rvPreview.adapter = previewAdapter
-        schedulePreviewUpdate()
+        }
+        filterHandler?.postDelayed(filterRunnable!!, 2000)
 
         // ── Reverse / double switches ────────────────────────────────────────
         val reverseSwitcher = findViewById<SwitchCompat>(R.id.switch_reverse)
@@ -276,11 +273,20 @@ class SimpleSetupActivity : AppCompatActivity() {
             updateInfo()
         }
 
+        // ── Review frames toggle ─────────────────────────────────────────────
+        val switchReviewFrames = findViewById<SwitchCompat>(R.id.switch_review_frames)
+        val reviewFrames = prefs.getBoolean(PREF_REVIEW_FRAMES, true)
+        switchReviewFrames?.isChecked = reviewFrames
+        Utils.skipFrameReview = !reviewFrames
+        switchReviewFrames?.setOnCheckedChangeListener { _, value ->
+            Utils.skipFrameReview = !value
+            savePrefs()
+        }
+
         // ── Create GIF button ────────────────────────────────────────────────
         val createGifButton = findViewById<Button>(R.id.btn_create_gif)
         createGifButton?.setOnClickListener {
             Utils.frameFrequencyMilli = frequencyRange?.value?.toInt() ?: 70
-            Utils.captionText = etCaption.text?.toString()?.trim() ?: ""
             val bundle = Bundle().apply {
                 putInt("frame_freq_ms", Utils.frameFrequencyMilli)
                 putInt("size_pct", (Utils.size * 100).toInt())
@@ -313,56 +319,7 @@ class SimpleSetupActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        previewExecutor?.shutdownNow()
-        previewRunnable?.let { previewHandler.removeCallbacks(it) }
-    }
-
-    // ── Item 1: Schedule debounced frame preview reload ──────────────────────
-    private fun schedulePreviewUpdate() {
-        previewRunnable?.let { previewHandler.removeCallbacks(it) }
-        previewRunnable = Runnable { loadFramePreviews() }
-        previewHandler.postDelayed(previewRunnable!!, 600)
-    }
-
-    private fun loadFramePreviews() {
-        val path = Utils.getVideoPath(this) ?: return
-        val start = Utils.startTimeMilli.toLong()
-        val end = Utils.endTimeMilli.toLong()
-        if (end <= start) return
-
-        val rvPreview = findViewById<RecyclerView>(R.id.rv_frame_preview)
-        val tvPreviewLoading = findViewById<TextView>(R.id.tv_preview_loading)
-        tvPreviewLoading?.visibility = View.VISIBLE
-        rvPreview?.visibility = View.GONE
-
-        previewExecutor?.shutdownNow()
-        previewExecutor = Executors.newSingleThreadExecutor()
-        previewExecutor?.execute {
-            val count = 5
-            val interval = (end - start) / count
-            val retriever = MediaMetadataRetriever()
-            val thumbs = mutableListOf<Bitmap>()
-            try {
-                retriever.setDataSource(path)
-                for (i in 0 until count) {
-                    val timeUs = TimeUnit.MILLISECONDS.toMicros(start + interval * i)
-                    retriever.getFrameAtTime(timeUs, MediaMetadataRetriever.OPTION_CLOSEST)
-                        ?.let { bmp ->
-                            thumbs.add(Bitmap.createScaledBitmap(bmp, 160, 160, true))
-                        }
-                }
-            } catch (_: Exception) {
-            } finally {
-                retriever.release()
-            }
-            previewHandler.post {
-                if (thumbs.isNotEmpty()) {
-                    previewAdapter?.updateFrames(thumbs)
-                    rvPreview?.visibility = View.VISIBLE
-                }
-                tvPreviewLoading?.visibility = View.GONE
-            }
-        }
+        filterRunnable?.let { filterHandler?.removeCallbacks(it) }
     }
 
     // ── Item 9: Save slider prefs ────────────────────────────────────────────
@@ -372,11 +329,19 @@ class SimpleSetupActivity : AppCompatActivity() {
             putFloat(PREF_SIZE, (Utils.size * 100))
             putFloat(PREF_SPEED, Utils.playbackSpeed / 0.5f)
             putFloat(PREF_LOOP, Utils.loopCount.toFloat())
+            putBoolean(PREF_REVIEW_FRAMES, !Utils.skipFrameReview)
             apply()
         }
     }
 
-    // ── Item 5 + 13: Info text with size estimate and frame order arrows ──────
+    private fun updateCaptionButton() {
+        btnCaption?.text = if (Utils.captionText.isBlank())
+            getString(R.string.caption_button_empty)
+        else
+            getString(R.string.caption_button_set, Utils.captionText)
+    }
+
+    // ── Item 5: Info text with size estimate ────────────────────────────────
     fun updateInfo() {
         if (rangeSlider == null || rangeSlider?.values?.size!! < 2) return
         val freq = frequencyRange?.value ?: return
@@ -384,14 +349,6 @@ class SimpleSetupActivity : AppCompatActivity() {
         val end = rangeSlider?.values!![1].times(videoLengthMilli).toLong()
         val frames: Int = ((end - start) / freq).roundToInt()
 
-        // Item 13: frame order indicator
-        val orderArrow = when {
-            Utils.reverseOrder -> getString(R.string.info_order_reverse)
-            Utils.double -> getString(R.string.info_order_bounce)
-            else -> getString(R.string.info_order_forward)
-        }
-
-        // Item 5: rough GIF size estimate
         val frameW = (videoWidth * Utils.size).toInt().coerceAtLeast(1)
         val frameH = (videoHeight * Utils.size).toInt().coerceAtLeast(1)
         val estBytes = frames.toLong() * frameW * frameH * 1L  // 1 byte/pixel for 8-bit GIF
@@ -404,10 +361,10 @@ class SimpleSetupActivity : AppCompatActivity() {
 
         if (frames > 100) {
             ivWarning?.visibility = View.VISIBLE
-            tvInfo?.text = getString(R.string.info_too_many_frames, frames, lengthSec, sizeNote, orderArrow)
+            tvInfo?.text = getString(R.string.info_too_many_frames, frames, lengthSec, sizeNote)
         } else {
             ivWarning?.visibility = View.INVISIBLE
-            tvInfo?.text = getString(R.string.info_frames, frames, lengthSec, sizeNote, orderArrow)
+            tvInfo?.text = getString(R.string.info_frames, frames, lengthSec, sizeNote)
         }
     }
 }

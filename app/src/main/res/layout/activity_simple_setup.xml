@@ -237,18 +237,12 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <Button
+                        android:id="@+id/btn_caption"
+                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/add_caption">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_caption"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="text"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                        android:text="@string/caption_button_empty" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -326,40 +320,28 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Item 1: Frame preview strip -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/tv_frame_preview_label"
+            <!-- Review frames toggle -->
+            <androidx.cardview.widget.CardView style="@style/cardview">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:text="@string/frame_preview"
-                    android:textColor="@color/card_text" />
-
-                <TextView
-                    android:id="@+id/tv_preview_loading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_frame_preview_label"
-                    android:text="@string/loading_preview"
-                    android:textColor="@color/card_text"
-                    android:visibility="gone" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_frame_preview"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_below="@id/tv_frame_preview_label"
-                    android:clipToPadding="false"
                     android:orientation="horizontal"
-                    android:paddingStart="4dp"
-                    android:visibility="gone" />
+                    android:padding="16dp">
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/review_frames_toggle"
+                        android:textColor="@color/card_text" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_review_frames"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <!-- Info + warning -->
             <LinearLayout
